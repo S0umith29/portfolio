@@ -1,7 +1,8 @@
 import AIChatbot from "@/components/AIChatbot";
 import SkillIcon from "@/components/SkillIcon";
-import DinoGame from "@/components/DinoGame";
 import BackgroundAnimation from "@/components/BackgroundAnimation";
+import Image from "next/image";
+import { PROFILE_IMAGE_URL } from "@/lib/config";
 
 export default function Home() {
   return (
@@ -85,7 +86,15 @@ export default function Home() {
             </div>
           </div>
           <div className="hidden md:flex items-center justify-center">
-            <DinoGame />
+            <div className="relative w-64 h-64 md:w-80 md:h-80">
+              <Image
+                src={PROFILE_IMAGE_URL}
+                alt="Sowmith Kuppa"
+                fill
+                className="rounded-full object-cover border-4 border-foreground"
+                unoptimized
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -245,26 +254,173 @@ export default function Home() {
           <div className="w-24 h-1 bg-foreground mb-4" />
           <p className="text-muted mb-12">Featured Work</p>
           
-          <div className="border border-border rounded-lg p-8 hover:border-foreground transition-colors">
-            <div className="mb-4">
-              <span className="bg-foreground text-background px-2 py-1 rounded text-sm">Active</span>
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* MedSim */}
+            <div className="border border-border rounded-lg p-8 hover:border-foreground transition-colors">
+              <div className="mb-4">
+                <span className="bg-foreground text-background px-2 py-1 rounded text-sm">Active</span>
+              </div>
+              <h3 className="text-3xl font-semibold mb-2">MedSim</h3>
+              <p className="text-muted mb-2">Virtual Patient Simulator | Jan 2025 – Present</p>
+              <p className="text-muted mb-6">
+                Comprehensive medical simulation platform with AI-powered evaluation capabilities. 
+                Re-architected into microservices with Hybrid RAG pipeline on GCP.
+              </p>
+              <ul className="space-y-2 text-muted mb-6">
+                <li>• Microservices architecture with React.js & FastAPI</li>
+                <li>• Hybrid RAG pipeline using Vertex AI Vector Search & Gemini 2.5 Pro</li>
+                <li>• Automated OSCE-style evaluation engine for real-time clinical performance analysis</li>
+                <li>• Containerized deployment on Google Cloud Run with optimized cold-start</li>
+              </ul>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {["React.js", "FastAPI", "GCP", "Vertex AI", "RAG", "Docker", "Cloud Run"].map((tech) => (
+                  <span key={tech} className="px-3 py-1 bg-border rounded text-sm">{tech}</span>
+                ))}
+              </div>
             </div>
-            <h3 className="text-3xl font-semibold mb-2">MedSim</h3>
-            <p className="text-muted mb-2">Virtual Patient Simulator | Jan 2025 – Present</p>
-            <p className="text-muted mb-6">
-              Comprehensive medical simulation platform with AI-powered evaluation capabilities. 
-              Re-architected into microservices with Hybrid RAG pipeline on GCP.
-            </p>
-            <ul className="space-y-2 text-muted mb-6">
-              <li>• Microservices architecture with React.js & FastAPI</li>
-              <li>• Hybrid RAG pipeline using Vertex AI Vector Search & Gemini 2.5 Pro</li>
-              <li>• Automated OSCE-style evaluation engine for real-time clinical performance analysis</li>
-              <li>• Containerized deployment on Google Cloud Run with optimized cold-start</li>
-            </ul>
-            <div className="flex flex-wrap gap-2">
-              {["React.js", "FastAPI", "GCP", "Vertex AI", "RAG", "Docker", "Cloud Run"].map((tech) => (
-                <span key={tech} className="px-3 py-1 bg-border rounded text-sm">{tech}</span>
-              ))}
+
+            {/* Clinical-Copilot */}
+            <div className="border border-border rounded-lg p-8 hover:border-foreground transition-colors">
+              <div className="mb-4">
+                <span className="bg-foreground text-background px-2 py-1 rounded text-sm">AI/ML</span>
+              </div>
+              <h3 className="text-3xl font-semibold mb-2">Clinical-Copilot</h3>
+              <p className="text-muted mb-2">AI-Powered Clinical Assistant | Oct 2025</p>
+              <p className="text-muted mb-6">
+                Advanced AI system designed to assist healthcare professionals with clinical decision-making 
+                and medical knowledge retrieval.
+              </p>
+              <ul className="space-y-2 text-muted mb-6">
+                <li>• AI-powered clinical assistance and decision support</li>
+                <li>• Medical knowledge retrieval and processing</li>
+                <li>• Python-based implementation</li>
+              </ul>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {["Python", "AI", "ML", "Healthcare"].map((tech) => (
+                  <span key={tech} className="px-3 py-1 bg-border rounded text-sm">{tech}</span>
+                ))}
+              </div>
+              <a
+                href="https://github.com/s0umith29/Clinical-Copilot"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground hover:underline inline-flex items-center gap-2"
+              >
+                View on GitHub
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+              </a>
+            </div>
+
+            {/* Manuscript */}
+            <div className="border border-border rounded-lg p-8 hover:border-foreground transition-colors">
+              <div className="mb-4">
+                <span className="bg-foreground text-background px-2 py-1 rounded text-sm">AI Agent</span>
+              </div>
+              <h3 className="text-3xl font-semibold mb-2">Manuscript</h3>
+              <p className="text-muted mb-2">AI Agent for Documentation | Sep 2025</p>
+              <p className="text-muted mb-6">
+                An AI-agent for internal documentation and querying. Streamlines knowledge management 
+                and enables intelligent document search and retrieval.
+              </p>
+              <ul className="space-y-2 text-muted mb-6">
+                <li>• AI-powered document querying and retrieval</li>
+                <li>• Internal documentation management system</li>
+                <li>• Intelligent search and knowledge extraction</li>
+              </ul>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {["AI", "Documentation", "NLP", "Search"].map((tech) => (
+                  <span key={tech} className="px-3 py-1 bg-border rounded text-sm">{tech}</span>
+                ))}
+              </div>
+              <a
+                href="https://github.com/s0umith29/Manuscript"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground hover:underline inline-flex items-center gap-2"
+              >
+                View on GitHub
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+              </a>
+            </div>
+
+            {/* AI-monitoring */}
+            <div className="border border-border rounded-lg p-8 hover:border-foreground transition-colors">
+              <div className="mb-4">
+                <span className="bg-foreground text-background px-2 py-1 rounded text-sm">MLOps</span>
+              </div>
+              <h3 className="text-3xl font-semibold mb-2">AI-monitoring</h3>
+              <p className="text-muted mb-2">MLOps Infrastructure | Feb 2025</p>
+              <p className="text-muted mb-6">
+                Learning MLOps with Kubeflow and DevOps principles. Comprehensive monitoring and 
+                management solution for machine learning workflows in production.
+              </p>
+              <ul className="space-y-2 text-muted mb-6">
+                <li>• Kubeflow-based MLOps pipeline</li>
+                <li>• DevOps principles for ML lifecycle management</li>
+                <li>• Production-ready monitoring and orchestration</li>
+              </ul>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {["Kubeflow", "MLOps", "Kubernetes", "DevOps"].map((tech) => (
+                  <span key={tech} className="px-3 py-1 bg-border rounded text-sm">{tech}</span>
+                ))}
+              </div>
+              <a
+                href="https://github.com/s0umith29/AI-monitoring"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground hover:underline inline-flex items-center gap-2"
+              >
+                View on GitHub
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+              </a>
+            </div>
+
+            {/* Transgaurd */}
+            <div className="border border-border rounded-lg p-8 hover:border-foreground transition-colors">
+              <div className="mb-4">
+                <span className="bg-foreground text-background px-2 py-1 rounded text-sm">AI/ML</span>
+              </div>
+              <h3 className="text-3xl font-semibold mb-2">Transgaurd</h3>
+              <p className="text-muted mb-2">Fraud Detection AI Model | Jun 2022</p>
+              <p className="text-muted mb-6">
+                An artificial intelligence model detecting if a transaction is fraudulent or not using 
+                transaction details. Machine learning-based fraud detection system.
+              </p>
+              <ul className="space-y-2 text-muted mb-6">
+                <li>• AI-powered fraud detection using transaction data</li>
+                <li>• Machine learning classification model</li>
+                <li>• Real-time transaction analysis</li>
+              </ul>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {["Python", "Machine Learning", "AI", "Fraud Detection"].map((tech) => (
+                  <span key={tech} className="px-3 py-1 bg-border rounded text-sm">{tech}</span>
+                ))}
+              </div>
+              <a
+                href="https://github.com/s0umith29/Transgaurd"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground hover:underline inline-flex items-center gap-2"
+              >
+                View on GitHub
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+              </a>
             </div>
           </div>
         </div>
