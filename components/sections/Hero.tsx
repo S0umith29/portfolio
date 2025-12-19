@@ -36,7 +36,7 @@ export default function Hero() {
           >
             <span className="text-muted-foreground">const</span>{" "}
             <span className="text-accent">greeting</span> ={" "}
-            <span className="text-yellow-400">"Hello, I'm"</span>;
+            <span className="text-yellow-400">&quot;Hello, I&apos;m&quot;</span>;
           </motion.div>
 
           {/* Name */}

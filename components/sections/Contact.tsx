@@ -48,8 +48,8 @@ export default function Contact() {
           </h2>
           <div className="w-24 h-1 bg-primary mx-auto mb-6" />
           <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
-            I'm always open to discussing new opportunities, interesting projects, or
-            collaborating on AI/ML initiatives. Let's build something amazing together.
+            I&apos;m always open to discussing new opportunities, interesting projects, or
+            collaborating on AI/ML initiatives. Let&apos;s build something amazing together.
           </p>
         </motion.div>
 
