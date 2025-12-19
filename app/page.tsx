@@ -1,3 +1,5 @@
+import AIChatbot from "@/components/AIChatbot";
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-background">
@@ -5,8 +7,9 @@ export default function Home() {
       <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-sm border-b border-border z-50">
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="text-xl font-semibold">Sowmith Kuppa</div>
-          <div className="flex gap-8">
+          <div className="hidden md:flex gap-8">
             <a href="#about" className="hover:text-foreground transition-colors text-muted">About</a>
+            <a href="#skills" className="hover:text-foreground transition-colors text-muted">Skills</a>
             <a href="#experience" className="hover:text-foreground transition-colors text-muted">Experience</a>
             <a href="#projects" className="hover:text-foreground transition-colors text-muted">Projects</a>
             <a href="#contact" className="hover:text-foreground transition-colors text-muted">Contact</a>
@@ -16,26 +19,96 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="min-h-screen flex items-center justify-center px-6 pt-20">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            AI/ML Engineer
-          </h1>
-          <p className="text-xl md:text-2xl text-muted mb-8">
-            Building reliable AI systems, scalable ML pipelines, and production-grade infrastructure
-          </p>
-          <div className="flex gap-4 justify-center">
-            <a
-              href="#contact"
-              className="px-6 py-3 bg-foreground text-background rounded hover:opacity-90 transition-opacity"
-            >
-              Get In Touch
-            </a>
-            <a
-              href="#projects"
-              className="px-6 py-3 border border-border rounded hover:bg-border transition-colors"
-            >
-              View Projects
-            </a>
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <p className="text-muted mb-4">Hello, I&apos;m</p>
+            <h1 className="text-5xl md:text-7xl font-bold mb-4">
+              <span className="block">SOWMITH</span>
+              <span className="block">KUPPA</span>
+            </h1>
+            <p className="text-xl text-muted mb-2">Machine Learning | AI | LLMs</p>
+            <p className="text-lg text-muted mb-8">
+              AI Research Intern | Sr. IT Consultant @Systems Group, Old Dominion University | MS. Computer Science
+            </p>
+            <p className="text-muted mb-8">
+              I&apos;m an M.Sc. in Computer Science graduate from Old Dominion University, where my focus lies in machine learning, MLOps, and reliable AI systems. I&apos;ve built and deployed deep learning models in PyTorch and TensorFlow, designed Retrieval-Augmented Generation (RAG) pipelines, and developed data-driven experiments that improved model performance and research outcomes.
+            </p>
+            <div className="flex gap-4 flex-wrap">
+              <a
+                href="https://github.com/s0umith29"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 border border-border rounded-lg hover:bg-border transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+                  <path d="M9 18c-4.51 2-5-2-7-2" />
+                </svg>
+                GitHub
+              </a>
+              <a
+                href="https://linkedin.com/in/soumith29"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 border border-border rounded-lg hover:bg-border transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                  <rect width="4" height="12" x="2" y="9" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg>
+                LinkedIn
+              </a>
+              <a
+                href="mailto:soumith.odu@gmail.com"
+                className="flex items-center gap-2 px-4 py-2 border border-border rounded-lg hover:bg-border transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect width="20" height="16" x="2" y="4" rx="2" />
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                </svg>
+                Email
+              </a>
+              <a
+                href="/assets/Profile.pdf"
+                download
+                className="flex items-center gap-2 px-4 py-2 bg-foreground text-background rounded-lg hover:opacity-90 transition-opacity"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Resume
+              </a>
+            </div>
+          </div>
+          <div className="hidden md:block">
+            <div className="bg-border rounded-lg p-8 border border-border">
+              <div className="text-sm text-muted mb-4">#AI #ML #MLOps</div>
+              <div className="space-y-2 font-mono text-sm">
+                <div>
+                  <span className="text-muted">const</span>{" "}
+                  <span className="text-foreground">portfolio</span> ={" "}
+                  <span className="text-muted">{"{"}</span>
+                </div>
+                <div className="pl-4">
+                  <span className="text-muted">role:</span>{" "}
+                  <span className="text-foreground">&apos;AI Research Intern&apos;</span>,
+                </div>
+                <div className="pl-4">
+                  <span className="text-muted">skills:</span>{" "}
+                  <span className="text-foreground">[&apos;ML&apos;, &apos;MLOps&apos;, &apos;Cloud&apos;]</span>,
+                </div>
+                <div className="pl-4">
+                  <span className="text-muted">location:</span>{" "}
+                  <span className="text-foreground">&apos;Norfolk, VA&apos;</span>
+                </div>
+                <div>
+                  <span className="text-muted">{"}"}</span>;
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -43,34 +116,63 @@ export default function Home() {
       {/* About Section */}
       <section id="about" className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold mb-8">About</h2>
+          <h2 className="text-4xl font-bold mb-4">About</h2>
+          <div className="w-24 h-1 bg-foreground mb-8" />
           <div className="space-y-6 text-muted">
             <p>
-              I&apos;m a Master&apos;s student in Computer Science at Old Dominion University, 
-              currently working as an AI Research Intern. My work focuses on building reliable 
-              AI systems, implementing RAG pipelines, and developing scalable machine learning solutions.
+              Hi there! I&apos;m Sowmith Kuppa, an M.Sc. in Computer Science graduate from Old Dominion University, where my focus lies in machine learning, MLOps, and reliable AI systems.
             </p>
             <p>
-              I specialize in the full ML lifecycle - from model development and training to 
-              deployment and monitoring. I&apos;m passionate about MLOps, cloud infrastructure, 
-              and automation, always looking for ways to make systems more efficient and maintainable.
+              I&apos;ve built and deployed deep learning models in PyTorch and TensorFlow, designed Retrieval-Augmented Generation (RAG) pipelines, and developed data-driven experiments that improved model performance and research outcomes. My recent work combines AI reliability, cloud automation, and data engineering, turning complex research ideas into scalable, production-ready systems.
+            </p>
+            <p>
+              Before diving into AI, I worked in IT consulting and systems administration, where I managed large-scale Windows and Linux environments, automated infrastructure with Ansible and Terraform, and led CI/CD initiatives using Jenkins and Kubernetes. That background gives me a strong understanding of real-world system reliability and the importance of clean, automated deployment pipelines.
+            </p>
+            <p>
+              I&apos;m passionate about building responsible, reproducible AI solutions, from data preprocessing to monitoring and model refinement and I&apos;m always looking for ways to bridge research, automation, and practical impact.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <section id="skills" className="py-20 px-6 bg-background">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold mb-4">Skills</h2>
+          <div className="w-24 h-1 bg-foreground mb-4" />
+          <p className="text-muted mb-12">Technical Expertise</p>
           
-          <div className="mt-12 p-6 border border-border rounded-lg">
-            <h3 className="text-2xl font-semibold mb-4">Education</h3>
-            <div>
-              <h4 className="text-xl font-medium mb-2">M.Sc. in Computer Science</h4>
-              <p className="text-muted mb-2">Old Dominion University, Norfolk, VA</p>
-              <p className="text-muted mb-4">Aug 2023 – May 2025 | GPA: 3.84/4.0</p>
-              <div>
-                <p className="font-medium mb-2">Relevant Coursework:</p>
-                <ul className="list-disc list-inside text-muted space-y-1">
-                  <li>MLOps for Generative AI</li>
-                  <li>Natural Language Processing</li>
-                  <li>Intro to Data Science and Analytics</li>
-                  <li>Cybersecurity Fundamentals</li>
-                </ul>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-12">
+            {["PyTorch", "TensorFlow", "RAG", "Scikit-learn", "Kubernetes", "Docker", "Terraform", "Ansible", "Jenkins", "GCP", "AWS", "Python", "Go", "SQL", "JavaScript", "Prometheus", "Grafana", "PostgreSQL", "MySQL"].map((skill) => (
+              <div key={skill} className="bg-border border border-border rounded-lg p-4 text-center hover:border-foreground transition-colors">
+                <div className="text-sm font-medium">{skill}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="bg-border border border-border rounded-lg p-6">
+              <h3 className="text-xl font-semibold mb-4">AI/ML</h3>
+              <div className="flex flex-wrap gap-2">
+                {["PyTorch", "TensorFlow", "RAG", "Agentic AI", "Scikit-learn", "Model Deployment", "Apache Spark"].map((skill) => (
+                  <span key={skill} className="px-3 py-1 bg-background rounded text-sm">{skill}</span>
+                ))}
+              </div>
+            </div>
+            <div className="bg-border border border-border rounded-lg p-6">
+              <h3 className="text-xl font-semibold mb-4">MLOps & Cloud</h3>
+              <div className="flex flex-wrap gap-2">
+                {["Kubernetes (CKA)", "Docker", "Terraform", "Ansible", "Jenkins", "ArgoCD", "Helm", "GCP", "AWS"].map((skill) => (
+                  <span key={skill} className="px-3 py-1 bg-background rounded text-sm">{skill}</span>
+                ))}
+              </div>
+            </div>
+            <div className="bg-border border border-border rounded-lg p-6">
+              <h3 className="text-xl font-semibold mb-4">Programming</h3>
+              <div className="flex flex-wrap gap-2">
+                {["Python", "Go", "SQL", "Bash", "PowerShell", "C++", "Java", "JavaScript"].map((skill) => (
+                  <span key={skill} className="px-3 py-1 bg-background rounded text-sm">{skill}</span>
+                ))}
               </div>
             </div>
           </div>
@@ -78,63 +180,77 @@ export default function Home() {
       </section>
 
       {/* Experience Section */}
-      <section id="experience" className="py-20 px-6 bg-background">
+      <section id="experience" className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12">Experience</h2>
+          <h2 className="text-4xl font-bold mb-4">Experience</h2>
+          <div className="w-24 h-1 bg-foreground mb-4" />
+          <p className="text-muted mb-12">Professional Journey</p>
           
           <div className="space-y-12">
-            {/* Job 1 */}
-            <div className="border-l-2 border-foreground pl-6">
+            <div className="border-l-2 border-foreground pl-6 relative">
+              <div className="absolute -left-2 top-0 w-4 h-4 bg-foreground rounded-full" />
               <div className="mb-2">
                 <span className="bg-foreground text-background px-2 py-1 rounded text-sm">Current</span>
               </div>
               <h3 className="text-2xl font-semibold mb-2">AI Research Intern</h3>
-              <p className="text-muted mb-4">Old Dominion University, Norfolk, VA | Jan 2025 – Present</p>
+              <p className="text-muted mb-2">Old Dominion University</p>
+              <p className="text-muted mb-4">January 2025 - Present (1 year)</p>
+              <p className="text-muted mb-4">Norfolk, Virginia, United States</p>
               <ul className="space-y-2 text-muted">
-                <li>• Designed ML models using PyTorch for reliable AI systems</li>
-                <li>• Integrated RAG pipelines, improving model accuracy by 20%</li>
-                <li>• Conducted A/B testing and controlled experiments with statistical analysis</li>
-                <li>• Created data mining and drift detection algorithms with actionable visual reports</li>
-                <li>• Performed iterative model refinement leading to measurable performance improvements</li>
+                <li>• Designed and implemented machine learning models using PyTorch to support research on reliable AI systems, focusing on model robustness and performance evaluation.</li>
+                <li>• Developed and integrated Retrieval-Augmented Generation (RAG) pipelines to enhance dataset quality and context relevance, improving model accuracy and research insights by 20%.</li>
+                <li>• Created data mining and drift detection algorithms to analyze large datasets, generating actionable visual reports to monitor and explain model behavior over time.</li>
+                <li>• Performed iterative model refinement and testing, leading to measurable improvements in performance and contributing to findings on reliable and scalable AI techniques.</li>
               </ul>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <span className="px-3 py-1 bg-border rounded text-sm">PyTorch</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">RAG</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">A/B Testing</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">Data Mining</span>
+            </div>
+
+            <div className="border-l-2 border-border pl-6 relative">
+              <div className="absolute -left-2 top-0 w-4 h-4 bg-border rounded-full" />
+              <h3 className="text-2xl font-semibold mb-2">Graduate Research Assistant</h3>
+              <p className="text-muted mb-2">Old Dominion University</p>
+              <p className="text-muted mb-4">October 2023 - May 2025 (1 year 8 months)</p>
+              <p className="text-muted mb-4">Norfolk, Virginia, United States</p>
+              <div className="space-y-4 text-muted">
+                <div>
+                  <p className="font-medium mb-2">Key Responsibilities:</p>
+                  <ul className="space-y-1 list-disc list-inside">
+                    <li>Kubernetes: Hands-on experience with Jenkins job configurations, pipelines, and plugins</li>
+                    <li>Infrastructure as Code: Terraform for provisioning VMs and managing multi-provider environments</li>
+                    <li>Containerization: Docker, Container Orchestration, Debugging Docker logs</li>
+                    <li>Configuration Management: Ansible and Ansible-Lint for orchestration and automation</li>
+                    <li>Monitoring: Zabbix, Graylog, Prometheus & Grafana for Cluster Monitoring</li>
+                    <li>Windows/Windows Server: Active Directory, GPO Configurations, DNS & DHCP, SCCM</li>
+                    <li>Resolved 100+ tickets related to computer networks, configurations and hardware troubleshooting</li>
+                  </ul>
+                </div>
               </div>
             </div>
 
-            {/* Job 2 */}
-            <div className="border-l-2 border-border pl-6">
-              <h3 className="text-2xl font-semibold mb-2">Graduate Research Assistant</h3>
-              <p className="text-muted mb-4">Old Dominion University, Norfolk, VA | Aug 2023 – May 2025</p>
+            <div className="border-l-2 border-border pl-6 relative">
+              <div className="absolute -left-2 top-0 w-4 h-4 bg-border rounded-full" />
+              <h3 className="text-2xl font-semibold mb-2">DevOps Engineer Intern</h3>
+              <p className="text-muted mb-2">Campaign Innovations</p>
+              <p className="text-muted mb-4">July 2022 - September 2022 (3 months)</p>
               <ul className="space-y-2 text-muted">
-                <li>• Deployed infrastructure with Ansible/Terraform, reducing provisioning time by 40%</li>
-                <li>• Automated CI/CD pipelines with Jenkins, shortening deployment cycles by 30%</li>
-                <li>• Engineered monitoring solutions maintaining 99.9% uptime</li>
-                <li>• Resolved 100+ hardware and software issues across Windows, Linux, and MacOS</li>
-                <li>• Conducted routine system checks, patching, and updates for compliance</li>
+                <li>• Developed CI/CD pipelines integrating Docker, Kubernetes, and GitLab CI, improving deployment consistency and scalability.</li>
+                <li>• Automated configuration management processes using Ansible, reducing manual intervention and errors.</li>
+                <li>• Conducted vulnerability assessments and implemented security patches to ensure robust system reliability.</li>
+                <li>• Optimized cloud infrastructure costs by 15% through efficient resource utilization and scaling policies.</li>
               </ul>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <span className="px-3 py-1 bg-border rounded text-sm">Ansible</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">Terraform</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">Jenkins</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">Prometheus</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">Grafana</span>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 px-6">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12">Projects</h2>
+      <section id="projects" className="py-20 px-6 bg-background">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold mb-4">Projects</h2>
+          <div className="w-24 h-1 bg-foreground mb-4" />
+          <p className="text-muted mb-12">Featured Work</p>
           
           <div className="border border-border rounded-lg p-8 hover:border-foreground transition-colors">
-            <div className="mb-2">
+            <div className="mb-4">
               <span className="bg-foreground text-background px-2 py-1 rounded text-sm">Active</span>
             </div>
             <h3 className="text-3xl font-semibold mb-2">MedSim</h3>
@@ -150,64 +266,61 @@ export default function Home() {
               <li>• Containerized deployment on Google Cloud Run with optimized cold-start</li>
             </ul>
             <div className="flex flex-wrap gap-2">
-              <span className="px-3 py-1 bg-border rounded text-sm">React.js</span>
-              <span className="px-3 py-1 bg-border rounded text-sm">FastAPI</span>
-              <span className="px-3 py-1 bg-border rounded text-sm">GCP</span>
-              <span className="px-3 py-1 bg-border rounded text-sm">Vertex AI</span>
-              <span className="px-3 py-1 bg-border rounded text-sm">RAG</span>
-              <span className="px-3 py-1 bg-border rounded text-sm">Docker</span>
-              <span className="px-3 py-1 bg-border rounded text-sm">Cloud Run</span>
+              {["React.js", "FastAPI", "GCP", "Vertex AI", "RAG", "Docker", "Cloud Run"].map((tech) => (
+                <span key={tech} className="px-3 py-1 bg-border rounded text-sm">{tech}</span>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Skills Section */}
-      <section id="skills" className="py-20 px-6 bg-background">
+      {/* Education Section */}
+      <section id="education" className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12">Skills</h2>
+          <h2 className="text-4xl font-bold mb-4">Education</h2>
+          <div className="w-24 h-1 bg-foreground mb-4" />
+          <p className="text-muted mb-12">Academic Journey</p>
           
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-2xl font-semibold mb-4">AI/ML</h3>
-              <div className="flex flex-wrap gap-2">
-                <span className="px-3 py-1 bg-border rounded text-sm">PyTorch</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">TensorFlow</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">RAG</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">Scikit-learn</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">Agentic AI</span>
-              </div>
+          <div className="space-y-8">
+            <div className="border-l-2 border-foreground pl-6 relative">
+              <div className="absolute -left-2 top-0 w-4 h-4 bg-foreground rounded-full" />
+              <div className="text-sm text-muted mb-2">2023 - 2025</div>
+              <h3 className="text-2xl font-semibold mb-2">Master of Science - MS, Computer Science</h3>
+              <p className="text-muted mb-2">Old Dominion University</p>
+              <p className="text-muted">August 2023 - May 2025</p>
             </div>
-            
-            <div>
-              <h3 className="text-2xl font-semibold mb-4">MLOps & Cloud</h3>
-              <div className="flex flex-wrap gap-2">
-                <span className="px-3 py-1 bg-border rounded text-sm">Kubernetes (CKA)</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">Docker</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">Terraform</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">GCP</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">Jenkins</span>
-              </div>
+
+            <div className="border-l-2 border-border pl-6 relative">
+              <div className="absolute -left-2 top-0 w-4 h-4 bg-border rounded-full" />
+              <div className="text-sm text-muted mb-2">2019 - 2023</div>
+              <h3 className="text-2xl font-semibold mb-2">Bachelor of Technology - BTech, Computer Science</h3>
+              <p className="text-muted mb-2">National Institute of Technology Puducherry</p>
+              <p className="text-muted">August 2019 - May 2023</p>
             </div>
-            
-            <div>
-              <h3 className="text-2xl font-semibold mb-4">Programming</h3>
-              <div className="flex flex-wrap gap-2">
-                <span className="px-3 py-1 bg-border rounded text-sm">Python</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">Go</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">SQL</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">JavaScript</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">Bash</span>
-              </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Certifications Section */}
+      <section id="certifications" className="py-20 px-6 bg-background">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold mb-4">Certifications</h2>
+          <div className="w-24 h-1 bg-foreground mb-4" />
+          <p className="text-muted mb-12">Professional Achievements</p>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="bg-border border border-border rounded-lg p-6 hover:border-foreground transition-colors">
+              <h3 className="text-xl font-semibold mb-2">CKA: Certified Kubernetes Administrator</h3>
+              <p className="text-muted mb-2">The Linux Foundation</p>
+              <p className="text-sm text-muted">April 2025</p>
             </div>
-            
-            <div>
-              <h3 className="text-2xl font-semibold mb-4">Observability</h3>
-              <div className="flex flex-wrap gap-2">
-                <span className="px-3 py-1 bg-border rounded text-sm">Prometheus</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">Grafana</span>
-                <span className="px-3 py-1 bg-border rounded text-sm">Datadog</span>
-              </div>
+            <div className="bg-border border border-border rounded-lg p-6 hover:border-foreground transition-colors">
+              <h3 className="text-xl font-semibold mb-2">Networking Essentials</h3>
+              <p className="text-muted mb-2">Professional Certification</p>
+            </div>
+            <div className="bg-border border border-border rounded-lg p-6 hover:border-foreground transition-colors">
+              <h3 className="text-xl font-semibold mb-2">Introduction to Cybersecurity Tools & Cyber Attacks</h3>
+              <p className="text-muted mb-2">Professional Certification</p>
             </div>
           </div>
         </div>
@@ -216,58 +329,163 @@ export default function Home() {
       {/* Contact Section */}
       <section id="contact" className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold mb-8">Get In Touch</h2>
-          <p className="text-muted mb-12 text-lg">
-            I&apos;m always open to discussing new opportunities, interesting projects, 
-            or collaborating on AI/ML initiatives. Let&apos;s build something amazing together.
-          </p>
+          <h2 className="text-4xl font-bold mb-4">Get in touch</h2>
+          <div className="w-24 h-1 bg-foreground mb-4" />
+          <p className="text-muted mb-12">Let&apos;s Connect</p>
           
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-6 mb-12">
             <a
               href="mailto:soumith.odu@gmail.com"
-              className="p-6 border border-border rounded-lg hover:border-foreground transition-colors"
+              className="p-6 border border-border rounded-lg hover:border-foreground transition-colors flex items-center gap-4"
             >
-              <h3 className="text-xl font-semibold mb-2">Email</h3>
-              <p className="text-muted">soumith.odu@gmail.com</p>
-            </a>
-            
-            <a
-              href="tel:+17577989998"
-              className="p-6 border border-border rounded-lg hover:border-foreground transition-colors"
-            >
-              <h3 className="text-xl font-semibold mb-2">Phone</h3>
-              <p className="text-muted">+1 (757) 798-9998</p>
+              <div className="w-12 h-12 bg-border rounded-lg flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect width="20" height="16" x="2" y="4" rx="2" />
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-1">Email</h3>
+                <p className="text-muted">soumith.odu@gmail.com</p>
+              </div>
             </a>
             
             <a
               href="https://linkedin.com/in/soumith29"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-6 border border-border rounded-lg hover:border-foreground transition-colors"
+              className="p-6 border border-border rounded-lg hover:border-foreground transition-colors flex items-center gap-4"
             >
-              <h3 className="text-xl font-semibold mb-2">LinkedIn</h3>
-              <p className="text-muted">linkedin.com/in/soumith29</p>
+              <div className="w-12 h-12 bg-border rounded-lg flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                  <rect width="4" height="12" x="2" y="9" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-1">LinkedIn</h3>
+                <p className="text-muted">Connect with me professionally</p>
+              </div>
             </a>
             
             <a
               href="https://github.com/s0umith29"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-6 border border-border rounded-lg hover:border-foreground transition-colors"
+              className="p-6 border border-border rounded-lg hover:border-foreground transition-colors flex items-center gap-4"
             >
-              <h3 className="text-xl font-semibold mb-2">GitHub</h3>
-              <p className="text-muted">github.com/s0umith29</p>
+              <div className="w-12 h-12 bg-border rounded-lg flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+                  <path d="M9 18c-4.51 2-5-2-7-2" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-1">GitHub</h3>
+                <p className="text-muted">Check out my code repositories</p>
+              </div>
             </a>
+            
+            <a
+              href="tel:+17577989998"
+              className="p-6 border border-border rounded-lg hover:border-foreground transition-colors flex items-center gap-4"
+            >
+              <div className="w-12 h-12 bg-border rounded-lg flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-1">Phone</h3>
+                <p className="text-muted">+1 (757) 798-9998</p>
+              </div>
+            </a>
+          </div>
+
+          {/* Contact Form */}
+          <div className="border border-border rounded-lg p-8">
+            <h3 className="text-2xl font-semibold mb-2">Send a Message</h3>
+            <p className="text-muted mb-6">Have a project in mind? Let&apos;s discuss it</p>
+            <form className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Name *</label>
+                <input
+                  type="text"
+                  placeholder="Your full name"
+                  className="w-full bg-border border border-border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-foreground"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Email *</label>
+                <input
+                  type="email"
+                  placeholder="your.email@example.com"
+                  className="w-full bg-border border border-border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-foreground"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Message *</label>
+                <textarea
+                  rows={5}
+                  placeholder="Tell me about your project or just say hello..."
+                  className="w-full bg-border border border-border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-foreground"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-foreground text-background rounded-lg px-6 py-3 hover:opacity-90 transition-opacity"
+              >
+                Send Message
+              </button>
+            </form>
           </div>
         </div>
       </section>
 
       {/* Footer */}
       <footer className="py-8 px-6 border-t border-border">
-        <div className="max-w-4xl mx-auto text-center text-muted">
-          <p>&copy; 2025 Sowmith Kuppa. All rights reserved.</p>
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="flex justify-center gap-6 mb-4">
+            <a
+              href="https://linkedin.com/in/soumith29"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted hover:text-foreground transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                <rect width="4" height="12" x="2" y="9" />
+                <circle cx="4" cy="4" r="2" />
+              </svg>
+            </a>
+            <a
+              href="https://github.com/s0umith29"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted hover:text-foreground transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+                <path d="M9 18c-4.51 2-5-2-7-2" />
+              </svg>
+            </a>
+            <a
+              href="mailto:soumith.odu@gmail.com"
+              className="text-muted hover:text-foreground transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+            </a>
+          </div>
+          <p className="text-muted">&copy; 2025 Sowmith Kuppa. All rights reserved.</p>
         </div>
       </footer>
+
+      {/* AI Chatbot */}
+      <AIChatbot />
     </main>
   );
 }
