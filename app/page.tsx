@@ -85,13 +85,14 @@ export default function Home() {
               </a>
             </div>
           </div>
-          <div className="hidden md:flex items-center justify-center mt-8">
+          <div className="hidden md:flex items-center justify-center mt-20">
             <div className="relative w-64 h-64 md:w-80 md:h-80">
               <Image
                 src="/portfolio/assets/Picture.jpeg"
                 alt="Sowmith Kuppa"
                 fill
                 className="rounded-full object-cover border-4 border-foreground"
+                style={{ transform: "scale(0.85)" }}
                 unoptimized
                 priority
               />
