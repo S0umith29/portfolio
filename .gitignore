@@ -35,6 +35,7 @@ yarn-error.log*
 *.tsbuildinfo
 
 # assets
-assets/*
+assets/Sowmith_K_Resume.pdf
+assets/Profile.pdf
 public/Profile.pdf
 # Note: public/assets/Picture.jpeg is committed for the portfolio
