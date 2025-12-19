@@ -17,12 +17,14 @@ export default function DinoGame() {
   const [obstacles, setObstacles] = useState<Obstacle[]>([]);
   const [gameSpeed, setGameSpeed] = useState(2);
   const [gameStartTime, setGameStartTime] = useState(0);
+  const [skyOffset, setSkyOffset] = useState(0);
   
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number | undefined>(undefined);
   const lastObstacleTimeRef = useRef<number>(0);
   const isJumpingRef = useRef(false);
   const currentDinoYRef = useRef(0);
+  const jumpRequestedRef = useRef(false);
 
   const GRAVITY = 0.6;
   const JUMP_STRENGTH = -12;
@@ -34,13 +36,12 @@ export default function DinoGame() {
   const GAME_START_DELAY = 5000; // 5 seconds
 
   const jump = useCallback(() => {
-    if (currentDinoYRef.current === 0 && !isJumpingRef.current) {
-      setDinoVelocity(JUMP_STRENGTH);
-      isJumpingRef.current = true;
+    if (isPlaying && !gameOver && currentDinoYRef.current === 0 && !isJumpingRef.current) {
+      jumpRequestedRef.current = true;
     }
-  }, []);
+  }, [isPlaying, gameOver]);
 
-  const startGame = () => {
+  const startGame = useCallback(() => {
     setIsPlaying(true);
     setGameOver(false);
     setScore(0);
@@ -49,12 +50,14 @@ export default function DinoGame() {
     setObstacles([]);
     setGameSpeed(2);
     setGameStartTime(performance.now());
+    setSkyOffset(0);
     lastObstacleTimeRef.current = 0;
     isJumpingRef.current = false;
     currentDinoYRef.current = 0;
-  };
+    jumpRequestedRef.current = false;
+  }, []);
 
-  const resetGame = () => {
+  const resetGame = useCallback(() => {
     setIsPlaying(false);
     setGameOver(false);
     setScore(0);
@@ -62,10 +65,12 @@ export default function DinoGame() {
     setDinoVelocity(0);
     setObstacles([]);
     setGameSpeed(2);
+    setSkyOffset(0);
     lastObstacleTimeRef.current = 0;
     isJumpingRef.current = false;
     currentDinoYRef.current = 0;
-  };
+    jumpRequestedRef.current = false;
+  }, []);
 
   useEffect(() => {
     if (!isPlaying || gameOver) return;
@@ -81,6 +86,7 @@ export default function DinoGame() {
     let currentObstacles = [...obstacles];
     let currentScore = score;
     let currentSpeed = gameSpeed;
+    let currentSkyOffset = skyOffset;
     let lastTime = performance.now();
     let lastObstacleTime = lastObstacleTimeRef.current || 0;
 
@@ -94,6 +100,20 @@ export default function DinoGame() {
 
       const deltaTime = Math.min((currentTime - lastTime) / 16, 2); // Cap delta time
       lastTime = currentTime;
+
+      // Update sky offset for parallax effect
+      currentSkyOffset += currentSpeed * 0.5;
+      if (currentSkyOffset > 320) {
+        currentSkyOffset = 0;
+      }
+      setSkyOffset(currentSkyOffset);
+
+      // Handle jump request
+      if (jumpRequestedRef.current && currentDinoY === 0 && !isJumpingRef.current) {
+        currentDinoVelocity = JUMP_STRENGTH;
+        isJumpingRef.current = true;
+        jumpRequestedRef.current = false;
+      }
 
       // Update dino physics
       if (currentDinoY > 0 || currentDinoVelocity < 0) {
@@ -164,7 +184,7 @@ export default function DinoGame() {
       // Draw
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Draw sky with dots (clouds/stars)
+      // Draw sky with moving dots (parallax effect)
       ctx.fillStyle = "#f7f7f7";
       const dotPositions = [
         { x: 50, y: 30 },
@@ -179,10 +199,25 @@ export default function DinoGame() {
         { x: 110, y: 65 },
         { x: 200, y: 75 },
         { x: 270, y: 68 },
+        // Duplicate set for seamless scrolling
+        { x: 370, y: 30 },
+        { x: 440, y: 25 },
+        { x: 500, y: 35 },
+        { x: 570, y: 28 },
+        { x: 400, y: 50 },
+        { x: 470, y: 55 },
+        { x: 540, y: 48 },
+        { x: 600, y: 52 },
+        { x: 360, y: 70 },
+        { x: 430, y: 65 },
+        { x: 520, y: 75 },
+        { x: 590, y: 68 },
       ];
       dotPositions.forEach((dot) => {
+        const x = (dot.x - currentSkyOffset) % (canvas.width + 100);
+        const adjustedX = x < 0 ? x + canvas.width + 100 : x;
         ctx.beginPath();
-        ctx.arc(dot.x, dot.y, 2, 0, Math.PI * 2);
+        ctx.arc(adjustedX, dot.y, 2, 0, Math.PI * 2);
         ctx.fill();
       });
 
@@ -247,11 +282,11 @@ export default function DinoGame() {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [isPlaying, gameOver, gameStartTime]);
+  }, [isPlaying, gameOver, gameStartTime, skyOffset]);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.code === "Space" || e.key === "ArrowUp") {
+      if (e.code === "Space" || e.key === "ArrowUp" || e.key === "w" || e.key === "W") {
         e.preventDefault();
         if (gameOver) {
           resetGame();
@@ -266,9 +301,9 @@ export default function DinoGame() {
 
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [isPlaying, gameOver, jump]);
+  }, [isPlaying, gameOver, jump, startGame, resetGame]);
 
-  const handleCanvasClick = () => {
+  const handleCanvasClick = useCallback(() => {
     if (gameOver) {
       resetGame();
       startGame();
@@ -277,7 +312,7 @@ export default function DinoGame() {
     } else {
       jump();
     }
-  };
+  }, [gameOver, isPlaying, jump, startGame, resetGame]);
 
   return (
     <div className="flex flex-col items-center">
