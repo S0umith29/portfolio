@@ -1,6 +1,7 @@
 import AIChatbot from "@/components/AIChatbot";
 import SkillIcon from "@/components/SkillIcon";
 import BackgroundAnimation from "@/components/BackgroundAnimation";
+import Marquee from "@/components/Marquee";
 import Image from "next/image";
 
 export default function Home() {
@@ -85,12 +86,13 @@ export default function Home() {
             </div>
           </div>
           <div className="hidden md:flex items-center justify-center">
-            <div className="relative w-64 h-64 md:w-80 md:h-80">
+            <div className="relative w-56 h-56 md:w-72 md:h-72">
               <Image
                 src="/portfolio/assets/Picture.jpeg"
                 alt="Sowmith Kuppa"
                 fill
                 className="rounded-full object-cover border-4 border-foreground"
+                style={{ objectPosition: "center", transform: "scale(0.9)" }}
                 unoptimized
                 priority
               />
@@ -128,127 +130,145 @@ export default function Home() {
           <div className="w-24 h-1 bg-foreground mb-4" />
           <p className="text-muted mb-12">Technical Expertise</p>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-12">
-            {["PyTorch", "TensorFlow", "Kubernetes", "Docker", "Terraform", "Ansible", "Jenkins", "GCP", "AWS", "Python", "Go", "PostgreSQL", "MySQL", "Prometheus", "Grafana", "ArgoCD", "Helm", "Java", "GitLab"].map((skill) => (
-              <div key={skill} className="bg-border border border-border rounded-lg p-4 flex flex-col items-center justify-center gap-2 hover:border-foreground transition-colors">
-                <SkillIcon name={skill} size={32} />
-                <div className="text-sm font-medium">{skill}</div>
-              </div>
-            ))}
+          <div className="mb-12">
+            <Marquee speed={60} className="py-4">
+              {["PyTorch", "TensorFlow", "Kubernetes", "Docker", "Terraform", "Ansible", "Jenkins", "GCP", "AWS", "Python", "Go", "PostgreSQL", "MySQL", "Prometheus", "Grafana", "ArgoCD", "Helm", "Java", "GitLab"].map((skill) => (
+                <div key={skill} className="bg-border border border-border rounded-lg p-4 flex flex-col items-center justify-center gap-2 hover:border-foreground transition-colors shrink-0 w-32">
+                  <SkillIcon name={skill} size={32} />
+                  <div className="text-sm font-medium">{skill}</div>
+                </div>
+              ))}
+            </Marquee>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="space-y-8">
             <div className="bg-border border border-border rounded-lg p-6">
               <h3 className="text-xl font-semibold mb-4">Machine Learning & AI</h3>
-              <div className="flex flex-wrap gap-3">
-                {["PyTorch", "TensorFlow", "Scikit-learn"].map((skill) => (
-                  <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded">
-                    <SkillIcon name={skill} size={20} />
-                    <span className="text-sm">{skill}</span>
-                  </div>
-                ))}
-                {["RAG", "Agentic AI", "Model Deployment", "Hyperparameter Tuning", "ML Pipeline Automation", "Apache Spark"].map((skill) => (
-                  <span key={skill} className="px-3 py-2 bg-background rounded text-sm">{skill}</span>
-                ))}
-              </div>
+              <Marquee speed={40}>
+                {["PyTorch", "TensorFlow", "Scikit-learn", "RAG", "Agentic AI", "Model Deployment", "Hyperparameter Tuning", "ML Pipeline Automation", "Apache Spark"].map((skill) => {
+                  const hasIcon = ["PyTorch", "TensorFlow", "Scikit-learn"].includes(skill);
+                  return hasIcon ? (
+                    <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded shrink-0">
+                      <SkillIcon name={skill} size={20} />
+                      <span className="text-sm">{skill}</span>
+                    </div>
+                  ) : (
+                    <span key={skill} className="px-3 py-2 bg-background rounded text-sm shrink-0">{skill}</span>
+                  );
+                })}
+              </Marquee>
             </div>
             <div className="bg-border border border-border rounded-lg p-6">
               <h3 className="text-xl font-semibold mb-4">Data Science & Analytics</h3>
-              <div className="flex flex-wrap gap-3">
-                {["Python", "Pandas", "NumPy"].map((skill) => (
-                  <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded">
-                    <SkillIcon name={skill} size={20} />
-                    <span className="text-sm">{skill}</span>
-                  </div>
-                ))}
-                {["Data Preprocessing", "Statistical Analysis", "Data Visualization"].map((skill) => (
-                  <span key={skill} className="px-3 py-2 bg-background rounded text-sm">{skill}</span>
-                ))}
-              </div>
+              <Marquee speed={40}>
+                {["Python", "Pandas", "NumPy", "Data Preprocessing", "Statistical Analysis", "Data Visualization"].map((skill) => {
+                  const hasIcon = ["Python", "Pandas", "NumPy"].includes(skill);
+                  return hasIcon ? (
+                    <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded shrink-0">
+                      <SkillIcon name={skill} size={20} />
+                      <span className="text-sm">{skill}</span>
+                    </div>
+                  ) : (
+                    <span key={skill} className="px-3 py-2 bg-background rounded text-sm shrink-0">{skill}</span>
+                  );
+                })}
+              </Marquee>
             </div>
             <div className="bg-border border border-border rounded-lg p-6">
               <h3 className="text-xl font-semibold mb-4">MLOps & Automation</h3>
-              <div className="flex flex-wrap gap-3">
-                {["Kubernetes", "Docker", "Terraform", "Ansible", "Jenkins", "ArgoCD", "Helm", "GitLab"].map((skill) => (
-                  <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded">
-                    <SkillIcon name={skill} size={20} />
-                    <span className="text-sm">{skill}</span>
-                  </div>
-                ))}
-                {["GitLab CI/CD", "Canary/Blue-Green Deployments"].map((skill) => (
-                  <span key={skill} className="px-3 py-2 bg-background rounded text-sm">{skill}</span>
-                ))}
-              </div>
+              <Marquee speed={40}>
+                {["Kubernetes", "Docker", "Terraform", "Ansible", "Jenkins", "ArgoCD", "Helm", "GitLab", "GitLab CI/CD", "Canary/Blue-Green Deployments"].map((skill) => {
+                  const hasIcon = ["Kubernetes", "Docker", "Terraform", "Ansible", "Jenkins", "ArgoCD", "Helm", "GitLab"].includes(skill);
+                  return hasIcon ? (
+                    <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded shrink-0">
+                      <SkillIcon name={skill} size={20} />
+                      <span className="text-sm">{skill}</span>
+                    </div>
+                  ) : (
+                    <span key={skill} className="px-3 py-2 bg-background rounded text-sm shrink-0">{skill}</span>
+                  );
+                })}
+              </Marquee>
             </div>
             <div className="bg-border border border-border rounded-lg p-6">
               <h3 className="text-xl font-semibold mb-4">Cloud & Containerization</h3>
-              <div className="flex flex-wrap gap-3">
-                {["GCP", "AWS", "Kubernetes", "Docker"].map((skill) => (
-                  <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded">
-                    <SkillIcon name={skill} size={20} />
-                    <span className="text-sm">{skill}</span>
-                  </div>
-                ))}
-                {["Cloud Run", "Cloud Storage", "Vertex AI", "Vector Search", "GKE"].map((skill) => (
-                  <span key={skill} className="px-3 py-2 bg-background rounded text-sm">{skill}</span>
-                ))}
-              </div>
+              <Marquee speed={40}>
+                {["GCP", "AWS", "Kubernetes", "Docker", "Cloud Run", "Cloud Storage", "Vertex AI", "Vector Search", "GKE"].map((skill) => {
+                  const hasIcon = ["GCP", "AWS", "Kubernetes", "Docker"].includes(skill);
+                  return hasIcon ? (
+                    <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded shrink-0">
+                      <SkillIcon name={skill} size={20} />
+                      <span className="text-sm">{skill}</span>
+                    </div>
+                  ) : (
+                    <span key={skill} className="px-3 py-2 bg-background rounded text-sm shrink-0">{skill}</span>
+                  );
+                })}
+              </Marquee>
             </div>
             <div className="bg-border border border-border rounded-lg p-6">
               <h3 className="text-xl font-semibold mb-4">Databases</h3>
-              <div className="flex flex-wrap gap-3">
-                {["PostgreSQL", "MySQL"].map((skill) => (
-                  <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded">
-                    <SkillIcon name={skill} size={20} />
-                    <span className="text-sm">{skill}</span>
-                  </div>
-                ))}
-                {["Google Cloud Storage"].map((skill) => (
-                  <span key={skill} className="px-3 py-2 bg-background rounded text-sm">{skill}</span>
-                ))}
-              </div>
+              <Marquee speed={40}>
+                {["PostgreSQL", "MySQL", "Google Cloud Storage"].map((skill) => {
+                  const hasIcon = ["PostgreSQL", "MySQL"].includes(skill);
+                  return hasIcon ? (
+                    <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded shrink-0">
+                      <SkillIcon name={skill} size={20} />
+                      <span className="text-sm">{skill}</span>
+                    </div>
+                  ) : (
+                    <span key={skill} className="px-3 py-2 bg-background rounded text-sm shrink-0">{skill}</span>
+                  );
+                })}
+              </Marquee>
             </div>
             <div className="bg-border border border-border rounded-lg p-6">
               <h3 className="text-xl font-semibold mb-4">Programming Languages</h3>
-              <div className="flex flex-wrap gap-3">
-                {["Python", "Go", "Java", "JavaScript", "HTML", "CSS", "Bash", "C++"].map((skill) => (
-                  <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded">
-                    <SkillIcon name={skill} size={20} />
-                    <span className="text-sm">{skill}</span>
-                  </div>
-                ))}
-                {["SQL", "PowerShell"].map((skill) => (
-                  <span key={skill} className="px-3 py-2 bg-background rounded text-sm">{skill}</span>
-                ))}
-              </div>
+              <Marquee speed={40}>
+                {["Python", "Go", "Java", "JavaScript", "HTML", "CSS", "Bash", "C++", "SQL", "PowerShell"].map((skill) => {
+                  const hasIcon = ["Python", "Go", "Java", "JavaScript", "HTML", "CSS", "Bash", "C++"].includes(skill);
+                  return hasIcon ? (
+                    <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded shrink-0">
+                      <SkillIcon name={skill} size={20} />
+                      <span className="text-sm">{skill}</span>
+                    </div>
+                  ) : (
+                    <span key={skill} className="px-3 py-2 bg-background rounded text-sm shrink-0">{skill}</span>
+                  );
+                })}
+              </Marquee>
             </div>
             <div className="bg-border border border-border rounded-lg p-6">
               <h3 className="text-xl font-semibold mb-4">Observability & Monitoring</h3>
-              <div className="flex flex-wrap gap-3">
-                {["Prometheus", "Grafana"].map((skill) => (
-                  <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded">
-                    <SkillIcon name={skill} size={20} />
-                    <span className="text-sm">{skill}</span>
-                  </div>
-                ))}
-                {["ML Monitoring", "Datadog"].map((skill) => (
-                  <span key={skill} className="px-3 py-2 bg-background rounded text-sm">{skill}</span>
-                ))}
-              </div>
+              <Marquee speed={40}>
+                {["Prometheus", "Grafana", "ML Monitoring", "Datadog"].map((skill) => {
+                  const hasIcon = ["Prometheus", "Grafana"].includes(skill);
+                  return hasIcon ? (
+                    <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded shrink-0">
+                      <SkillIcon name={skill} size={20} />
+                      <span className="text-sm">{skill}</span>
+                    </div>
+                  ) : (
+                    <span key={skill} className="px-3 py-2 bg-background rounded text-sm shrink-0">{skill}</span>
+                  );
+                })}
+              </Marquee>
             </div>
             <div className="bg-border border border-border rounded-lg p-6">
               <h3 className="text-xl font-semibold mb-4">Collaboration & Workflow Tools</h3>
-              <div className="flex flex-wrap gap-3">
-                {["JIRA"].map((skill) => (
-                  <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded">
-                    <SkillIcon name={skill} size={20} />
-                    <span className="text-sm">{skill}</span>
-                  </div>
-                ))}
-                {["ServiceNow", "SharePoint"].map((skill) => (
-                  <span key={skill} className="px-3 py-2 bg-background rounded text-sm">{skill}</span>
-                ))}
-              </div>
+              <Marquee speed={40}>
+                {["JIRA", "ServiceNow", "SharePoint"].map((skill) => {
+                  const hasIcon = ["JIRA"].includes(skill);
+                  return hasIcon ? (
+                    <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded shrink-0">
+                      <SkillIcon name={skill} size={20} />
+                      <span className="text-sm">{skill}</span>
+                    </div>
+                  ) : (
+                    <span key={skill} className="px-3 py-2 bg-background rounded text-sm shrink-0">{skill}</span>
+                  );
+                })}
+              </Marquee>
             </div>
           </div>
         </div>
