@@ -36,8 +36,11 @@ export default function DinoGame() {
   const GAME_START_DELAY = 5000; // 5 seconds
 
   const jump = useCallback(() => {
-    if (isPlaying && !gameOver && currentDinoYRef.current === 0 && !isJumpingRef.current) {
-      jumpRequestedRef.current = true;
+    if (isPlaying && !gameOver) {
+      // Check if dino is on ground
+      if (currentDinoYRef.current === 0 && !isJumpingRef.current) {
+        jumpRequestedRef.current = true;
+      }
     }
   }, [isPlaying, gameOver]);
 
@@ -81,7 +84,7 @@ export default function DinoGame() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let currentDinoY = dinoY;
+    let currentDinoY = currentDinoYRef.current;
     let currentDinoVelocity = dinoVelocity;
     let currentObstacles = [...obstacles];
     let currentScore = score;
@@ -101,6 +104,9 @@ export default function DinoGame() {
       const deltaTime = Math.min((currentTime - lastTime) / 16, 2); // Cap delta time
       lastTime = currentTime;
 
+      // Sync currentDinoY with ref at start of each frame
+      currentDinoY = currentDinoYRef.current;
+
       // Update sky offset for parallax effect
       currentSkyOffset += currentSpeed * 0.5;
       if (currentSkyOffset > 320) {
@@ -108,14 +114,23 @@ export default function DinoGame() {
       }
       setSkyOffset(currentSkyOffset);
 
-      // Handle jump request
-      if (jumpRequestedRef.current && currentDinoY === 0 && !isJumpingRef.current) {
-        currentDinoVelocity = JUMP_STRENGTH;
-        isJumpingRef.current = true;
-        jumpRequestedRef.current = false;
+      // Handle jump request - check ref directly
+      if (jumpRequestedRef.current) {
+        if (currentDinoYRef.current === 0 && !isJumpingRef.current) {
+          currentDinoVelocity = JUMP_STRENGTH;
+          currentDinoY = 0.1; // Small value to start the jump
+          isJumpingRef.current = true;
+          jumpRequestedRef.current = false;
+          // Immediately update ref and state
+          currentDinoYRef.current = currentDinoY;
+          setDinoY(currentDinoY);
+          setDinoVelocity(currentDinoVelocity);
+        } else {
+          jumpRequestedRef.current = false; // Clear if can't jump
+        }
       }
 
-      // Update dino physics
+      // Update dino physics (always check, even if velocity was just set)
       if (currentDinoY > 0 || currentDinoVelocity < 0) {
         currentDinoVelocity += GRAVITY;
         currentDinoY += currentDinoVelocity;
@@ -127,6 +142,9 @@ export default function DinoGame() {
         currentDinoYRef.current = currentDinoY;
         setDinoY(currentDinoY);
         setDinoVelocity(currentDinoVelocity);
+      } else {
+        // Keep ref in sync even when not jumping
+        currentDinoYRef.current = currentDinoY;
       }
 
       // Update obstacles

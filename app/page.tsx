@@ -23,13 +23,13 @@ export default function Home() {
       <section className="min-h-screen flex items-center justify-center px-6 pt-20">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <p className="text-muted mb-4">Hello, I&apos;m</p>
+            <p className="text-2xl md:text-3xl font-bold mb-4 text-white">Hello, I&apos;m</p>
             <h1 className="text-5xl md:text-7xl font-bold mb-8">
               <span className="block">SOWMITH</span>
               <span className="block">KUPPA</span>
             </h1>
-            <p className="text-muted mb-8">
-              I&apos;m an M.Sc. in Computer Science graduate from Old Dominion University, where my focus lies in machine learning, MLOps, and reliable AI systems. I&apos;ve built and deployed deep learning models in PyTorch and TensorFlow, designed Retrieval-Augmented Generation (RAG) pipelines, and developed data-driven experiments that improved model performance and research outcomes.
+            <p className="text-white mb-8 text-lg">
+              Building reliable AI and RAG systems with scalable MLOps infrastructure.
             </p>
             <div className="flex gap-4 flex-wrap">
               <a
