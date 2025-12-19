@@ -1,4 +1,6 @@
 import AIChatbot from "@/components/AIChatbot";
+import SkillIcon from "@/components/SkillIcon";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -22,14 +24,10 @@ export default function Home() {
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div>
             <p className="text-muted mb-4">Hello, I&apos;m</p>
-            <h1 className="text-5xl md:text-7xl font-bold mb-4">
+            <h1 className="text-5xl md:text-7xl font-bold mb-8">
               <span className="block">SOWMITH</span>
               <span className="block">KUPPA</span>
             </h1>
-            <p className="text-xl text-muted mb-2">Machine Learning | AI | LLMs</p>
-            <p className="text-lg text-muted mb-8">
-              AI Research Intern | Sr. IT Consultant @Systems Group, Old Dominion University | MS. Computer Science
-            </p>
             <p className="text-muted mb-8">
               I&apos;m an M.Sc. in Computer Science graduate from Old Dominion University, where my focus lies in machine learning, MLOps, and reliable AI systems. I&apos;ve built and deployed deep learning models in PyTorch and TensorFlow, designed Retrieval-Augmented Generation (RAG) pipelines, and developed data-driven experiments that improved model performance and research outcomes.
             </p>
@@ -70,7 +68,7 @@ export default function Home() {
                 Email
               </a>
               <a
-                href="/assets/Profile.pdf"
+                href="/Profile.pdf"
                 download
                 className="flex items-center gap-2 px-4 py-2 bg-foreground text-background rounded-lg hover:opacity-90 transition-opacity"
               >
@@ -83,31 +81,15 @@ export default function Home() {
               </a>
             </div>
           </div>
-          <div className="hidden md:block">
-            <div className="bg-border rounded-lg p-8 border border-border">
-              <div className="text-sm text-muted mb-4">#AI #ML #MLOps</div>
-              <div className="space-y-2 font-mono text-sm">
-                <div>
-                  <span className="text-muted">const</span>{" "}
-                  <span className="text-foreground">portfolio</span> ={" "}
-                  <span className="text-muted">{"{"}</span>
-                </div>
-                <div className="pl-4">
-                  <span className="text-muted">role:</span>{" "}
-                  <span className="text-foreground">&apos;AI Research Intern&apos;</span>,
-                </div>
-                <div className="pl-4">
-                  <span className="text-muted">skills:</span>{" "}
-                  <span className="text-foreground">[&apos;ML&apos;, &apos;MLOps&apos;, &apos;Cloud&apos;]</span>,
-                </div>
-                <div className="pl-4">
-                  <span className="text-muted">location:</span>{" "}
-                  <span className="text-foreground">&apos;Norfolk, VA&apos;</span>
-                </div>
-                <div>
-                  <span className="text-muted">{"}"}</span>;
-                </div>
-              </div>
+          <div className="hidden md:flex items-center justify-center">
+            <div className="relative w-80 h-80 rounded-full overflow-hidden border-4 border-border">
+              <Image
+                src="/Picture.jpeg"
+                alt="Sowmith Kuppa"
+                fill
+                className="object-cover"
+                priority
+              />
             </div>
           </div>
         </div>
@@ -143,8 +125,9 @@ export default function Home() {
           <p className="text-muted mb-12">Technical Expertise</p>
           
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-12">
-            {["PyTorch", "TensorFlow", "RAG", "Scikit-learn", "Kubernetes", "Docker", "Terraform", "Ansible", "Jenkins", "GCP", "AWS", "Python", "Go", "SQL", "JavaScript", "Prometheus", "Grafana", "PostgreSQL", "MySQL"].map((skill) => (
-              <div key={skill} className="bg-border border border-border rounded-lg p-4 text-center hover:border-foreground transition-colors">
+            {["PyTorch", "TensorFlow", "Kubernetes", "Docker", "Terraform", "Ansible", "Jenkins", "GCP", "AWS", "Python", "Go", "PostgreSQL", "MySQL", "Prometheus", "Grafana"].map((skill) => (
+              <div key={skill} className="bg-border border border-border rounded-lg p-4 flex flex-col items-center justify-center gap-2 hover:border-foreground transition-colors">
+                <SkillIcon name={skill} size={32} />
                 <div className="text-sm font-medium">{skill}</div>
               </div>
             ))}
@@ -153,25 +136,43 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="bg-border border border-border rounded-lg p-6">
               <h3 className="text-xl font-semibold mb-4">AI/ML</h3>
-              <div className="flex flex-wrap gap-2">
-                {["PyTorch", "TensorFlow", "RAG", "Agentic AI", "Scikit-learn", "Model Deployment", "Apache Spark"].map((skill) => (
-                  <span key={skill} className="px-3 py-1 bg-background rounded text-sm">{skill}</span>
+              <div className="flex flex-wrap gap-3">
+                {["PyTorch", "TensorFlow"].map((skill) => (
+                  <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded">
+                    <SkillIcon name={skill} size={20} />
+                    <span className="text-sm">{skill}</span>
+                  </div>
+                ))}
+                {["RAG", "Agentic AI", "Scikit-learn", "Model Deployment", "Apache Spark"].map((skill) => (
+                  <span key={skill} className="px-3 py-2 bg-background rounded text-sm">{skill}</span>
                 ))}
               </div>
             </div>
             <div className="bg-border border border-border rounded-lg p-6">
               <h3 className="text-xl font-semibold mb-4">MLOps & Cloud</h3>
-              <div className="flex flex-wrap gap-2">
-                {["Kubernetes (CKA)", "Docker", "Terraform", "Ansible", "Jenkins", "ArgoCD", "Helm", "GCP", "AWS"].map((skill) => (
-                  <span key={skill} className="px-3 py-1 bg-background rounded text-sm">{skill}</span>
+              <div className="flex flex-wrap gap-3">
+                {["Kubernetes", "Docker", "Terraform", "Ansible", "Jenkins", "GCP", "AWS"].map((skill) => (
+                  <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded">
+                    <SkillIcon name={skill} size={20} />
+                    <span className="text-sm">{skill}</span>
+                  </div>
+                ))}
+                {["ArgoCD", "Helm"].map((skill) => (
+                  <span key={skill} className="px-3 py-2 bg-background rounded text-sm">{skill}</span>
                 ))}
               </div>
             </div>
             <div className="bg-border border border-border rounded-lg p-6">
               <h3 className="text-xl font-semibold mb-4">Programming</h3>
-              <div className="flex flex-wrap gap-2">
-                {["Python", "Go", "SQL", "Bash", "PowerShell", "C++", "Java", "JavaScript"].map((skill) => (
-                  <span key={skill} className="px-3 py-1 bg-background rounded text-sm">{skill}</span>
+              <div className="flex flex-wrap gap-3">
+                {["Python", "Go"].map((skill) => (
+                  <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded">
+                    <SkillIcon name={skill} size={20} />
+                    <span className="text-sm">{skill}</span>
+                  </div>
+                ))}
+                {["SQL", "Bash", "PowerShell", "C++", "Java", "JavaScript"].map((skill) => (
+                  <span key={skill} className="px-3 py-2 bg-background rounded text-sm">{skill}</span>
                 ))}
               </div>
             </div>
