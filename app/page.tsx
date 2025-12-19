@@ -92,6 +92,7 @@ export default function Home() {
                 fill
                 className="rounded-full object-cover border-4 border-foreground"
                 unoptimized
+                priority
               />
             </div>
           </div>
