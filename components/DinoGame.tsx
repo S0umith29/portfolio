@@ -16,6 +16,7 @@ export default function DinoGame() {
   const [dinoVelocity, setDinoVelocity] = useState(0);
   const [obstacles, setObstacles] = useState<Obstacle[]>([]);
   const [gameSpeed, setGameSpeed] = useState(2);
+  const [gameStartTime, setGameStartTime] = useState(0);
   
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number | undefined>(undefined);
@@ -27,7 +28,10 @@ export default function DinoGame() {
   const JUMP_STRENGTH = -12;
   const GROUND_Y = 150;
   const DINO_SIZE = 30;
+  const DINO_WIDTH = 30;
+  const DINO_HEIGHT = 30;
   const OBSTACLE_MIN_GAP = 150;
+  const GAME_START_DELAY = 5000; // 5 seconds
 
   const jump = useCallback(() => {
     if (currentDinoYRef.current === 0 && !isJumpingRef.current) {
@@ -44,6 +48,7 @@ export default function DinoGame() {
     setDinoVelocity(0);
     setObstacles([]);
     setGameSpeed(2);
+    setGameStartTime(performance.now());
     lastObstacleTimeRef.current = 0;
     isJumpingRef.current = false;
     currentDinoYRef.current = 0;
@@ -109,8 +114,9 @@ export default function DinoGame() {
         .map((obs) => ({ ...obs, x: obs.x - currentSpeed }))
         .filter((obs) => obs.x > -obs.width);
 
-      // Add new obstacles
-      if (currentTime - lastObstacleTime > OBSTACLE_MIN_GAP * (1000 / currentSpeed)) {
+      // Add new obstacles (only after 5 seconds)
+      const timeSinceStart = currentTime - gameStartTime;
+      if (timeSinceStart >= GAME_START_DELAY && currentTime - lastObstacleTime > OBSTACLE_MIN_GAP * (1000 / currentSpeed)) {
         const obstacleHeight = 20 + Math.random() * 15;
         currentObstacles.push({
           x: canvas.width,
@@ -158,13 +164,57 @@ export default function DinoGame() {
       // Draw
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+      // Draw sky with dots (clouds/stars)
+      ctx.fillStyle = "#f7f7f7";
+      const dotPositions = [
+        { x: 50, y: 30 },
+        { x: 120, y: 25 },
+        { x: 180, y: 35 },
+        { x: 250, y: 28 },
+        { x: 80, y: 50 },
+        { x: 150, y: 55 },
+        { x: 220, y: 48 },
+        { x: 280, y: 52 },
+        { x: 40, y: 70 },
+        { x: 110, y: 65 },
+        { x: 200, y: 75 },
+        { x: 270, y: 68 },
+      ];
+      dotPositions.forEach((dot) => {
+        ctx.beginPath();
+        ctx.arc(dot.x, dot.y, 2, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
       // Draw ground
       ctx.fillStyle = "#535353";
       ctx.fillRect(0, GROUND_Y, canvas.width, 5);
 
-      // Draw dino
+      // Draw dino (proper dino shape)
+      const dinoXPos = dinoX;
+      const dinoYPos = GROUND_Y - DINO_HEIGHT - currentDinoY;
+      
       ctx.fillStyle = "#535353";
-      ctx.fillRect(dinoX, GROUND_Y - DINO_SIZE - currentDinoY, DINO_SIZE, DINO_SIZE);
+      
+      // Dino body (main rectangle)
+      ctx.fillRect(dinoXPos + 5, dinoYPos + 10, DINO_WIDTH - 10, DINO_HEIGHT - 15);
+      
+      // Dino head
+      ctx.fillRect(dinoXPos + 15, dinoYPos, 12, 12);
+      
+      // Dino eye
+      ctx.fillStyle = "#0a0a0a";
+      ctx.fillRect(dinoXPos + 18, dinoYPos + 3, 3, 3);
+      
+      // Dino leg (front)
+      ctx.fillStyle = "#535353";
+      ctx.fillRect(dinoXPos + 8, dinoYPos + DINO_HEIGHT - 10, 6, 8);
+      
+      // Dino leg (back)
+      ctx.fillRect(dinoXPos + 18, dinoYPos + DINO_HEIGHT - 10, 6, 8);
+      
+      // Dino tail
+      ctx.fillRect(dinoXPos, dinoYPos + 15, 5, 8);
 
       // Draw obstacles
       ctx.fillStyle = "#535353";
@@ -176,6 +226,16 @@ export default function DinoGame() {
       ctx.fillStyle = "#535353";
       ctx.font = "16px monospace";
       ctx.fillText(`Score: ${Math.floor(currentScore / 10)}`, 10, 20);
+      
+      // Show countdown if obstacles haven't started
+      if (timeSinceStart < GAME_START_DELAY) {
+        const remaining = Math.ceil((GAME_START_DELAY - timeSinceStart) / 1000);
+        ctx.fillStyle = "#535353";
+        ctx.font = "20px monospace";
+        ctx.textAlign = "center";
+        ctx.fillText(`Get ready... ${remaining}`, canvas.width / 2, canvas.height / 2);
+        ctx.textAlign = "left";
+      }
 
       animationFrameRef.current = requestAnimationFrame(gameLoop);
     };
@@ -187,7 +247,7 @@ export default function DinoGame() {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [isPlaying, gameOver]);
+  }, [isPlaying, gameOver, gameStartTime]);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
