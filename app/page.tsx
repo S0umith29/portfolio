@@ -1,7 +1,6 @@
 import AIChatbot from "@/components/AIChatbot";
 import SkillIcon from "@/components/SkillIcon";
-import Image from "next/image";
-import { PROFILE_IMAGE_URL } from "@/lib/config";
+import DinoGame from "@/components/DinoGame";
 
 export default function Home() {
   return (
@@ -84,16 +83,7 @@ export default function Home() {
             </div>
           </div>
           <div className="hidden md:flex items-center justify-center">
-            <div className="relative w-80 h-80 rounded-full overflow-hidden border-4 border-border animate-jump">
-              <Image
-                src={PROFILE_IMAGE_URL}
-                alt="Sowmith Kuppa"
-                fill
-                className="object-cover"
-                priority
-                unoptimized
-              />
-            </div>
+            <DinoGame />
           </div>
         </div>
       </section>
