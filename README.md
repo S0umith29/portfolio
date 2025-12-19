@@ -1,13 +1,11 @@
-# Portfolio - Next.js 15
+# Portfolio - Simple Dark Theme
 
-A modern, terminal-inspired portfolio website built with Next.js 15, Tailwind CSS, and Framer Motion, configured for GitHub Pages deployment.
+A clean and simple portfolio website built with Next.js 15 and Tailwind CSS, configured for GitHub Pages deployment.
 
 ## 🚀 Tech Stack
 
 - **Framework:** Next.js 15 (App Router)
-- **Styling:** Tailwind CSS (Dark Mode: #0a0a0a)
-- **Animations:** Framer Motion
-- **UI Components:** Shadcn/UI + Lucide React icons
+- **Styling:** Tailwind CSS
 - **Deployment:** GitHub Pages (Static Export)
 
 ## 📋 Prerequisites
@@ -40,97 +38,49 @@ This will generate a static export in the `out/` directory, ready for GitHub Pag
 
 ## 📦 Deploy to GitHub Pages
 
-### Option 1: Using GitHub Actions (Recommended)
+### Using GitHub Actions (Recommended)
 
-1. Create `.github/workflows/deploy.yml`:
-```yaml
-name: Deploy to GitHub Pages
+The repository includes a GitHub Actions workflow that automatically deploys on push to `main`:
 
-on:
-  push:
-    branches: [ main ]
+1. **Enable GitHub Pages:**
+   - Go to your repository on GitHub
+   - Navigate to **Settings** → **Pages**
+   - Under **Source**, select **GitHub Actions**
 
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - run: npm install
-      - run: npm run build
-      - uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out
-```
+2. **Push to main branch:**
+   ```bash
+   git push origin main
+   ```
 
-2. Push to your repository - GitHub Actions will automatically deploy.
+3. The workflow will automatically build and deploy your site.
 
-### Option 2: Manual Deployment
+### Manual Deployment
 
 1. **Build the static site:**
 ```bash
-npm run export
+npm run build
 ```
 
-2. **Create `.nojekyll` file** (prevents Jekyll processing):
+2. **Create `.nojekyll` file:**
 ```bash
 touch out/.nojekyll
 ```
 
 3. **Deploy to `gh-pages` branch:**
-
-For a repository named `s0umith29.github.io` (user/organization page):
 ```bash
-# First time setup
-git subtree push --prefix out origin gh-pages
-
-# Subsequent deployments
-npm run deploy
-```
-
-For a project repository (e.g., `portfolio`):
-```bash
-# Update next.config.mjs basePath
-basePath: '/portfolio',
-assetPrefix: '/portfolio',
-
-# Then deploy
-npm run export
-touch out/.nojekyll
 git subtree push --prefix out origin gh-pages
 ```
-
-### Option 3: Using GitHub Pages Settings
-
-1. Go to your repository **Settings** → **Pages**
-2. Under **Source**, select **GitHub Actions**
-3. The workflow will automatically deploy on push to `main`
 
 ## 🔧 Configuration
 
 ### GitHub Pages Base Path
 
-If deploying to a project repository (not user/organization page), update `next.config.mjs`:
+The portfolio is configured for deployment to `/portfolio` subdirectory. If deploying to a different path, update `next.config.mjs`:
 
 ```javascript
-const nextConfig = {
-  output: 'export',
-  images: {
-    unoptimized: true,
-  },
-  basePath: '/your-repo-name',  // Add this
-  assetPrefix: '/your-repo-name', // Add this
-  trailingSlash: true,
-};
+basePath: '/your-repo-name',
+assetPrefix: '/your-repo-name',
 ```
-
-### Custom Domain
-
-1. Add a `CNAME` file in the `public/` directory with your domain
-2. Configure DNS settings as per GitHub Pages documentation
 
 ## 📁 Project Structure
 
@@ -138,64 +88,12 @@ const nextConfig = {
 portfolio/
 ├── app/
 │   ├── layout.tsx          # Root layout
-│   ├── page.tsx            # Home page
+│   ├── page.tsx            # Main page
 │   └── globals.css         # Global styles
-├── components/
-│   ├── Navigation.tsx      # Navigation component
-│   ├── sections/           # Section components
-│   │   ├── Hero.tsx
-│   │   ├── Experience.tsx
-│   │   ├── Projects.tsx
-│   │   ├── Skills.tsx
-│   │   └── Contact.tsx
-│   └── ui/                 # Shadcn/UI components
-├── lib/
-│   └── utils.ts            # Utility functions
 ├── next.config.mjs         # Next.js configuration
 ├── tailwind.config.ts      # Tailwind configuration
 └── package.json
 ```
-
-## 🎨 Customization
-
-### Colors
-
-Edit `tailwind.config.ts` to customize the color scheme:
-
-```typescript
-colors: {
-  background: "#0a0a0a",  // Main background
-  primary: "#39ff14",      // Terminal green
-  secondary: "#00ffff",    // Cyan
-  // ...
-}
-```
-
-### Content
-
-Update the data in component files:
-- `components/sections/Hero.tsx` - Hero section
-- `components/sections/Experience.tsx` - Experience data
-- `components/sections/Projects.tsx` - Projects data
-- `components/sections/Skills.tsx` - Skills data
-
-## 🐛 Troubleshooting
-
-### Images not loading on GitHub Pages
-
-Ensure `images: { unoptimized: true }` is set in `next.config.mjs`.
-
-### 404 errors on GitHub Pages
-
-- Ensure `trailingSlash: true` is set in `next.config.mjs`
-- Check that `basePath` is correctly configured for project repositories
-- Verify `.nojekyll` file exists in the `out/` directory
-
-### Build errors
-
-- Clear `.next` and `out` directories: `rm -rf .next out`
-- Reinstall dependencies: `rm -rf node_modules && npm install`
-- Check Node.js version: `node --version` (should be 18+)
 
 ## 📝 License
 
@@ -210,4 +108,4 @@ This project is open source and available under the MIT License.
 
 ---
 
-Built with ❤️ using Next.js 15, Tailwind CSS, and Framer Motion
+Built with ❤️ using Next.js 15 and Tailwind CSS
