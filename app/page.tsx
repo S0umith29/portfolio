@@ -85,7 +85,7 @@ export default function Home() {
               </a>
             </div>
           </div>
-          <div className="hidden md:flex items-center justify-center">
+          <div className="hidden md:flex items-center justify-center mt-8">
             <div className="relative w-64 h-64 md:w-80 md:h-80">
               <Image
                 src="/portfolio/assets/Picture.jpeg"
@@ -126,8 +126,7 @@ export default function Home() {
       <section id="skills" className="py-20 px-6 bg-background relative z-10">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold mb-4">Skills</h2>
-          <div className="w-24 h-1 bg-foreground mb-4" />
-          <p className="text-white mb-12">Technical Expertise</p>
+          <div className="w-24 h-1 bg-foreground mb-12" />
           
           <div className="mb-12">
             <Marquee speed={60} className="py-4">
@@ -261,8 +260,7 @@ export default function Home() {
       <section id="experience" className="py-20 px-6 relative z-10">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold mb-4">Experience</h2>
-          <div className="w-24 h-1 bg-foreground mb-4" />
-          <p className="text-white mb-12">Professional Journey</p>
+          <div className="w-24 h-1 bg-foreground mb-12" />
           
           <div className="space-y-12">
             <div className="border-l-2 border-foreground pl-6 relative">
@@ -324,8 +322,7 @@ export default function Home() {
       <section id="projects" className="py-20 px-6 bg-background relative z-10">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold mb-4">Projects</h2>
-          <div className="w-24 h-1 bg-foreground mb-4" />
-          <p className="text-white mb-12">Featured Work</p>
+          <div className="w-24 h-1 bg-foreground mb-12" />
           
           <div className="grid md:grid-cols-2 gap-6">
             {/* MedSim */}
@@ -503,8 +500,7 @@ export default function Home() {
       <section id="education" className="py-20 px-6 relative z-10">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold mb-4">Education</h2>
-          <div className="w-24 h-1 bg-foreground mb-4" />
-          <p className="text-white mb-12">Academic Journey</p>
+          <div className="w-24 h-1 bg-foreground mb-12" />
           
           <div className="space-y-8">
             <div className="border-l-2 border-foreground pl-6 relative">
@@ -530,8 +526,7 @@ export default function Home() {
       <section id="certifications" className="py-20 px-6 bg-background relative z-10">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold mb-4">Certifications</h2>
-          <div className="w-24 h-1 bg-foreground mb-4" />
-          <p className="text-white mb-12">Professional Achievements</p>
+          <div className="w-24 h-1 bg-foreground mb-12" />
           
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-border border border-border rounded-lg p-6 hover:border-foreground transition-colors">
@@ -542,10 +537,12 @@ export default function Home() {
             <div className="bg-border border border-border rounded-lg p-6 hover:border-foreground transition-colors">
               <h3 className="text-xl font-semibold mb-2">Networking Essentials</h3>
               <p className="text-white mb-2">Professional Certification</p>
+              <p className="text-sm text-white">June 2022</p>
             </div>
             <div className="bg-border border border-border rounded-lg p-6 hover:border-foreground transition-colors">
               <h3 className="text-xl font-semibold mb-2">Introduction to Cybersecurity Tools & Cyber Attacks</h3>
               <p className="text-white mb-2">Professional Certification</p>
+              <p className="text-sm text-white">July 2022</p>
             </div>
           </div>
         </div>
@@ -555,8 +552,7 @@ export default function Home() {
       <section id="contact" className="py-20 px-6 relative z-10">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold mb-4">Get in touch</h2>
-          <div className="w-24 h-1 bg-foreground mb-4" />
-          <p className="text-white mb-12">Let&apos;s Connect</p>
+          <div className="w-24 h-1 bg-foreground mb-12" />
           
           <div className="grid md:grid-cols-2 gap-6 mb-12">
             <a
@@ -631,7 +627,7 @@ export default function Home() {
           {/* Contact Form */}
           <div className="border border-border rounded-lg p-8">
             <h3 className="text-2xl font-semibold mb-2">Send a Message</h3>
-            <p className="text-white mb-6">Have a project in mind? Let&apos;s discuss it</p>
+            <p className="text-white mb-6">Have a project in mind? Let&apos;s discuss it.</p>
             <form className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-2">Name *</label>
