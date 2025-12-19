@@ -1,104 +1,207 @@
-# Terminal-Style Portfolio
+# Portfolio - Next.js 15
 
-A modern, terminal-inspired portfolio website for AI/ML Engineer Sowmith Kuppa. Built with a developer aesthetic featuring terminal windows, code animations, and a dark theme.
+A modern, terminal-inspired portfolio website built with Next.js 15, Tailwind CSS, and Framer Motion, configured for GitHub Pages deployment.
 
-## Features
+## 🚀 Tech Stack
 
-- 🖥️ **Terminal Aesthetic**: Command-line interface design with terminal windows
-- 🎨 **Dark Theme**: Developer-friendly dark color scheme with neon accents
-- ⚡ **Interactive Animations**: Typewriter effects, code animations, and smooth transitions
-- 📱 **Responsive Design**: Works seamlessly on all devices
-- 🚀 **Performance Optimized**: Fast loading and smooth animations
+- **Framework:** Next.js 15 (App Router)
+- **Styling:** Tailwind CSS (Dark Mode: #0a0a0a)
+- **Animations:** Framer Motion
+- **UI Components:** Shadcn/UI + Lucide React icons
+- **Deployment:** GitHub Pages (Static Export)
 
-## Technologies Used
+## 📋 Prerequisites
 
-- HTML5
-- CSS3 (with CSS Grid & Flexbox)
-- JavaScript (Vanilla JS)
-- Font Awesome Icons
-- Google Fonts (JetBrains Mono)
+- Node.js 18+ 
+- npm or yarn
+- Git
 
-## Getting Started
+## 🛠️ Installation
 
-### Local Development
-
-1. Clone the repository:
+1. **Install dependencies:**
 ```bash
-git clone <your-repo-url>
-cd portfolio
+npm install
 ```
 
-2. Open `index.html` in your browser or use a local server:
+2. **Run development server:**
 ```bash
-# Using Python
-python -m http.server 8000
-
-# Using Node.js (with http-server)
-npx http-server
+npm run dev
 ```
 
-3. Visit `http://localhost:8000` in your browser
+3. **Open [http://localhost:3000](http://localhost:3000)** in your browser
 
-### Deploy to GitHub Pages
+## 🏗️ Build for Production
 
-1. Push your code to a GitHub repository
+```bash
+npm run build
+```
 
-2. Go to your repository settings
+This will generate a static export in the `out/` directory, ready for GitHub Pages.
 
-3. Navigate to "Pages" in the left sidebar
+## 📦 Deploy to GitHub Pages
 
-4. Under "Source", select the branch (usually `main` or `master`)
+### Option 1: Using GitHub Actions (Recommended)
 
-5. Click "Save"
+1. Create `.github/workflows/deploy.yml`:
+```yaml
+name: Deploy to GitHub Pages
 
-6. Your site will be available at `https://<username>.github.io/<repository-name>`
+on:
+  push:
+    branches: [ main ]
 
-## Project Structure
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm install
+      - run: npm run build
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out
+```
+
+2. Push to your repository - GitHub Actions will automatically deploy.
+
+### Option 2: Manual Deployment
+
+1. **Build the static site:**
+```bash
+npm run export
+```
+
+2. **Create `.nojekyll` file** (prevents Jekyll processing):
+```bash
+touch out/.nojekyll
+```
+
+3. **Deploy to `gh-pages` branch:**
+
+For a repository named `s0umith29.github.io` (user/organization page):
+```bash
+# First time setup
+git subtree push --prefix out origin gh-pages
+
+# Subsequent deployments
+npm run deploy
+```
+
+For a project repository (e.g., `portfolio`):
+```bash
+# Update next.config.mjs basePath
+basePath: '/portfolio',
+assetPrefix: '/portfolio',
+
+# Then deploy
+npm run export
+touch out/.nojekyll
+git subtree push --prefix out origin gh-pages
+```
+
+### Option 3: Using GitHub Pages Settings
+
+1. Go to your repository **Settings** → **Pages**
+2. Under **Source**, select **GitHub Actions**
+3. The workflow will automatically deploy on push to `main`
+
+## 🔧 Configuration
+
+### GitHub Pages Base Path
+
+If deploying to a project repository (not user/organization page), update `next.config.mjs`:
+
+```javascript
+const nextConfig = {
+  output: 'export',
+  images: {
+    unoptimized: true,
+  },
+  basePath: '/your-repo-name',  // Add this
+  assetPrefix: '/your-repo-name', // Add this
+  trailingSlash: true,
+};
+```
+
+### Custom Domain
+
+1. Add a `CNAME` file in the `public/` directory with your domain
+2. Configure DNS settings as per GitHub Pages documentation
+
+## 📁 Project Structure
 
 ```
 portfolio/
-├── index.html      # Main HTML file
-├── styles.css      # All styles and animations
-├── script.js       # JavaScript functionality
-└── README.md       # This file
+├── app/
+│   ├── layout.tsx          # Root layout
+│   ├── page.tsx            # Home page
+│   └── globals.css         # Global styles
+├── components/
+│   ├── Navigation.tsx      # Navigation component
+│   ├── sections/           # Section components
+│   │   ├── Hero.tsx
+│   │   ├── Experience.tsx
+│   │   ├── Projects.tsx
+│   │   ├── Skills.tsx
+│   │   └── Contact.tsx
+│   └── ui/                 # Shadcn/UI components
+├── lib/
+│   └── utils.ts            # Utility functions
+├── next.config.mjs         # Next.js configuration
+├── tailwind.config.ts      # Tailwind configuration
+└── package.json
 ```
 
-## Customization
+## 🎨 Customization
 
 ### Colors
 
-Edit the CSS variables in `styles.css`:
+Edit `tailwind.config.ts` to customize the color scheme:
 
-```css
-:root {
-    --terminal-green: #39ff14;
-    --terminal-cyan: #00ffff;
-    --terminal-blue: #4dabf7;
-    /* ... */
+```typescript
+colors: {
+  background: "#0a0a0a",  // Main background
+  primary: "#39ff14",      // Terminal green
+  secondary: "#00ffff",    // Cyan
+  // ...
 }
 ```
 
 ### Content
 
-Update the content in `index.html`:
-- Personal information
-- Experience details
-- Projects
-- Skills
-- Contact information
+Update the data in component files:
+- `components/sections/Hero.tsx` - Hero section
+- `components/sections/Experience.tsx` - Experience data
+- `components/sections/Projects.tsx` - Projects data
+- `components/sections/Skills.tsx` - Skills data
 
-## Browser Support
+## 🐛 Troubleshooting
 
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
+### Images not loading on GitHub Pages
 
-## License
+Ensure `images: { unoptimized: true }` is set in `next.config.mjs`.
+
+### 404 errors on GitHub Pages
+
+- Ensure `trailingSlash: true` is set in `next.config.mjs`
+- Check that `basePath` is correctly configured for project repositories
+- Verify `.nojekyll` file exists in the `out/` directory
+
+### Build errors
+
+- Clear `.next` and `out` directories: `rm -rf .next out`
+- Reinstall dependencies: `rm -rf node_modules && npm install`
+- Check Node.js version: `node --version` (should be 18+)
+
+## 📝 License
 
 This project is open source and available under the MIT License.
 
-## Contact
+## 👤 Author
 
 **Sowmith Kuppa**
 - Email: soumith.odu@gmail.com
@@ -107,4 +210,4 @@ This project is open source and available under the MIT License.
 
 ---
 
-Built with ❤️ using terminal aesthetics
+Built with ❤️ using Next.js 15, Tailwind CSS, and Framer Motion
