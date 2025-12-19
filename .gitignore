@@ -36,3 +36,5 @@ yarn-error.log*
 
 # assets
 assets/*
+public/Picture.jpeg
+public/Profile.pdf

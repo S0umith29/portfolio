@@ -1,6 +1,7 @@
 import AIChatbot from "@/components/AIChatbot";
 import SkillIcon from "@/components/SkillIcon";
 import Image from "next/image";
+import { PROFILE_IMAGE_URL } from "@/lib/config";
 
 export default function Home() {
   return (
@@ -68,8 +69,9 @@ export default function Home() {
                 Email
               </a>
               <a
-                href="/Profile.pdf"
-                download
+                href="https://drive.google.com/file/d/1LnBKLfM-9wan8AT5oaNB89a0YJBijpZT/view?usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-2 bg-foreground text-background rounded-lg hover:opacity-90 transition-opacity"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -82,13 +84,14 @@ export default function Home() {
             </div>
           </div>
           <div className="hidden md:flex items-center justify-center">
-            <div className="relative w-80 h-80 rounded-full overflow-hidden border-4 border-border">
+            <div className="relative w-80 h-80 rounded-full overflow-hidden border-4 border-border animate-jump">
               <Image
-                src="/Picture.jpeg"
+                src={PROFILE_IMAGE_URL}
                 alt="Sowmith Kuppa"
                 fill
                 className="object-cover"
                 priority
+                unoptimized
               />
             </div>
           </div>
