@@ -1,12 +1,14 @@
 import AIChatbot from "@/components/AIChatbot";
 import SkillIcon from "@/components/SkillIcon";
 import DinoGame from "@/components/DinoGame";
+import BackgroundAnimation from "@/components/BackgroundAnimation";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background relative">
+      <BackgroundAnimation />
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-sm border-b border-border z-50">
+      <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-sm border-b border-border z-50 relative">
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="text-xl font-semibold">Sowmith Kuppa</div>
           <div className="hidden md:flex gap-8">
@@ -20,7 +22,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center px-6 pt-20">
+      <section className="min-h-screen flex items-center justify-center px-6 pt-20 relative z-10">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div>
             <p className="text-2xl md:text-3xl font-bold mb-4 text-white">Hello, I&apos;m</p>
@@ -89,7 +91,7 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 px-6">
+      <section id="about" className="py-20 px-6 relative z-10">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold mb-4">About</h2>
           <div className="w-24 h-1 bg-foreground mb-8" />
@@ -111,7 +113,7 @@ export default function Home() {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-20 px-6 bg-background">
+      <section id="skills" className="py-20 px-6 bg-background relative z-10">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold mb-4">Skills</h2>
           <div className="w-24 h-1 bg-foreground mb-4" />
@@ -174,7 +176,7 @@ export default function Home() {
       </section>
 
       {/* Experience Section */}
-      <section id="experience" className="py-20 px-6">
+      <section id="experience" className="py-20 px-6 relative z-10">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold mb-4">Experience</h2>
           <div className="w-24 h-1 bg-foreground mb-4" />
@@ -237,7 +239,7 @@ export default function Home() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 px-6 bg-background">
+      <section id="projects" className="py-20 px-6 bg-background relative z-10">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold mb-4">Projects</h2>
           <div className="w-24 h-1 bg-foreground mb-4" />
@@ -269,7 +271,7 @@ export default function Home() {
       </section>
 
       {/* Education Section */}
-      <section id="education" className="py-20 px-6">
+      <section id="education" className="py-20 px-6 relative z-10">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold mb-4">Education</h2>
           <div className="w-24 h-1 bg-foreground mb-4" />
@@ -296,7 +298,7 @@ export default function Home() {
       </section>
 
       {/* Certifications Section */}
-      <section id="certifications" className="py-20 px-6 bg-background">
+      <section id="certifications" className="py-20 px-6 bg-background relative z-10">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold mb-4">Certifications</h2>
           <div className="w-24 h-1 bg-foreground mb-4" />
@@ -321,7 +323,7 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 px-6">
+      <section id="contact" className="py-20 px-6 relative z-10">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold mb-4">Get in touch</h2>
           <div className="w-24 h-1 bg-foreground mb-4" />
@@ -438,7 +440,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-6 border-t border-border">
+      <footer className="py-8 px-6 border-t border-border relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           <div className="flex justify-center gap-6 mb-4">
             <a
