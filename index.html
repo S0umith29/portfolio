@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sowmith Kuppa - Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">SK</div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Sowmith Kuppa</h1>
+                <p class="hero-subtitle">AI Research Intern | Graduate Student | ML Engineer</p>
+                <p class="hero-description">Passionate about building reliable AI systems, MLOps, and scalable machine learning solutions</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">Get In Touch</a>
+                    <a href="#projects" class="btn btn-secondary">View Projects</a>
+                </div>
+                <div class="social-links">
+                    <a href="https://linkedin.com/in/soumith29" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/s0umith29" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="mailto:soumith.odu@gmail.com" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>I'm a Master's student in Computer Science at Old Dominion University with a strong passion for AI research, machine learning, and MLOps. Currently working as an AI Research Intern, I focus on building reliable AI systems, implementing RAG pipelines, and developing scalable ML solutions.</p>
+                    <p>My expertise spans across machine learning model development, cloud infrastructure, containerization, and automation. I enjoy solving complex problems and building systems that are both performant and maintainable.</p>
+                </div>
+                <div class="education-card">
+                    <h3><i class="fas fa-graduation-cap"></i> Education</h3>
+                    <div class="education-item">
+                        <h4>M.Sc. in Computer Science</h4>
+                        <p class="institution">Old Dominion University, Norfolk, VA</p>
+                        <p class="period">Aug 2023 – May 2025 | GPA: 3.84/4.0</p>
+                        <p class="coursework"><strong>Relevant Coursework:</strong> MLOps for Generative AI, Natural Language Processing, Intro to Data Science and Analytics, Cybersecurity Fundamentals</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="experience">
+        <div class="container">
+            <h2 class="section-title">Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="job-header">
+                            <h3>AI Research Intern</h3>
+                            <span class="job-period">Jan 2025 – Present</span>
+                        </div>
+                        <p class="company">Old Dominion University, Norfolk, Virginia</p>
+                        <ul class="job-description">
+                            <li>Designed and implemented machine learning models using PyTorch to support research on reliable AI systems, focusing on model robustness and performance evaluation</li>
+                            <li>Developed and integrated Retrieval-Augmented Generation (RAG) pipelines to enhance dataset quality and context relevance, improving model accuracy and research insights by 20%</li>
+                            <li>Conducted A/B testing and controlled experiments to evaluate new model features, statistically measuring their impact on accuracy and user experience</li>
+                            <li>Created data mining and drift detection algorithms to analyze large datasets, generating actionable visual reports to monitor and explain model behavior over time</li>
+                            <li>Performed iterative model refinement and testing, leading to measurable improvements in performance and contributing to findings on reliable and scalable AI techniques</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="job-header">
+                            <h3>Graduate Research Assistant</h3>
+                            <span class="job-period">Aug 2023 – May 2025</span>
+                        </div>
+                        <p class="company">Old Dominion University, Norfolk, Virginia</p>
+                        <ul class="job-description">
+                            <li>Deployed infrastructure with Ansible and Terraform reducing the provisioning time by 40% in various production grade systems</li>
+                            <li>Automated CI/CD pipelines using Jenkins and Terraform, shortening deployment cycles by 30% and aligning with customer-ready ITSM practices</li>
+                            <li>Engineered monitoring solutions with Prometheus and Grafana (akin to Datadog), maintaining 99.9% uptime by resolving bottlenecks in real-time</li>
+                            <li>Collaborated with cross-functional teams, including ITS, to resolve over 100 hardware and software issues in Windows, Linux and MacOS systems, enhancing system reliability for Computer Science Department users</li>
+                            <li>Conducted routine system checks, patching, and updates to ensure compliance and system health</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>MedSim</h3>
+                        <span class="project-period">Jan 2025 – Present</span>
+                    </div>
+                    <p class="project-description">A comprehensive medical simulation platform with AI-powered evaluation capabilities</p>
+                    <ul class="project-features">
+                        <li>Re-architected the platform into a decoupled microservices architecture, utilizing React.js for a responsive client interface and FastAPI for high-concurrency asynchronous backend handling</li>
+                        <li>Engineered a Hybrid RAG pipeline on Google Cloud Platform utilizing Vertex AI Vector Search and Gemini 2.5 Pro to retrieve precise diagnostic context from a dataset of 40,000+ PMC case reports</li>
+                        <li>Developed an automated OSCE-style evaluation engine that analyzes student-patient chat logs in real-time, acting as a senior faculty member to generate detailed clinical performance reports</li>
+                        <li>Deployed the full-stack application as containerized services on Google Cloud Run, implementing strict IAM roles for security and optimizing Docker builds to minimize cold-start latency</li>
+                    </ul>
+                    <div class="project-tech">
+                        <span class="tech-tag">React.js</span>
+                        <span class="tech-tag">FastAPI</span>
+                        <span class="tech-tag">GCP</span>
+                        <span class="tech-tag">Vertex AI</span>
+                        <span class="tech-tag">RAG</span>
+                        <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">Cloud Run</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3><i class="fas fa-brain"></i> Machine Learning & AI</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Scikit-learn</span>
+                        <span class="skill-tag">PyTorch</span>
+                        <span class="skill-tag">TensorFlow</span>
+                        <span class="skill-tag">Agentic AI</span>
+                        <span class="skill-tag">RAG</span>
+                        <span class="skill-tag">Model Deployment</span>
+                        <span class="skill-tag">Hyperparameter Tuning</span>
+                        <span class="skill-tag">ML Pipeline Automation</span>
+                        <span class="skill-tag">Apache Spark</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-chart-line"></i> Data Science & Analytics</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Python (Pandas, NumPy)</span>
+                        <span class="skill-tag">Data Preprocessing</span>
+                        <span class="skill-tag">Statistical Analysis</span>
+                        <span class="skill-tag">Data Visualization</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-cogs"></i> MLOps & Automation</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Ansible</span>
+                        <span class="skill-tag">Terraform</span>
+                        <span class="skill-tag">Jenkins</span>
+                        <span class="skill-tag">ArgoCD</span>
+                        <span class="skill-tag">Helm</span>
+                        <span class="skill-tag">GitLab CI/CD</span>
+                        <span class="skill-tag">Canary/Blue-Green Deployments</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-cloud"></i> Cloud & Containerization</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">GCP (Cloud Run, Cloud Storage, Vertex AI, Vector Search, GKE)</span>
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Kubernetes</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-database"></i> Databases</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">PostgreSQL</span>
+                        <span class="skill-tag">MySQL</span>
+                        <span class="skill-tag">Google Cloud Storage</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-code"></i> Programming Languages</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Go</span>
+                        <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">Bash</span>
+                        <span class="skill-tag">PowerShell</span>
+                        <span class="skill-tag">C++</span>
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">HTML, CSS, JavaScript</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-chart-bar"></i> Observability & Monitoring</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Prometheus & Grafana (ML Monitoring)</span>
+                        <span class="skill-tag">Datadog (like workflows)</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-tools"></i> Collaboration & Workflow Tools</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">JIRA</span>
+                        <span class="skill-tag">ServiceNow</span>
+                        <span class="skill-tag">SharePoint</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="certifications">
+        <div class="container">
+            <h2 class="section-title">Certifications</h2>
+            <div class="cert-card">
+                <div class="cert-icon">
+                    <i class="fas fa-certificate"></i>
+                </div>
+                <div class="cert-content">
+                    <h3>CKA: Certified Kubernetes Administrator</h3>
+                    <p class="cert-issuer">The Linux Foundation | April 2025</p>
+                    <p class="cert-focus">Cluster Management, Workloads, Troubleshooting</p>
+                    <p class="cert-description">Hands-on expertise in installing, configuring, managing, and troubleshooting production-grade Kubernetes clusters mastering cluster architecture, workloads, networking, storage, and efficient use of kubectl in real-world scenarios.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <p class="contact-description">I'm always open to discussing new opportunities, interesting projects, or just having a conversation about AI and technology.</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <a href="tel:+17577989998">+1 (757) 798-9998</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:soumith.odu@gmail.com">soumith.odu@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-linkedin"></i>
+                    <a href="https://linkedin.com/in/soumith29" target="_blank">linkedin.com/in/soumith29</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-github"></i>
+                    <a href="https://github.com/s0umith29" target="_blank">github.com/s0umith29</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Sowmith Kuppa. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
