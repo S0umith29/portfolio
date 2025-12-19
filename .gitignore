@@ -36,5 +36,5 @@ yarn-error.log*
 
 # assets
 assets/*
-public/Picture.jpeg
 public/Profile.pdf
+# Note: public/assets/Picture.jpeg is committed for the portfolio

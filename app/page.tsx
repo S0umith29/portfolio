@@ -2,7 +2,6 @@ import AIChatbot from "@/components/AIChatbot";
 import SkillIcon from "@/components/SkillIcon";
 import BackgroundAnimation from "@/components/BackgroundAnimation";
 import Image from "next/image";
-import { PROFILE_IMAGE_URL } from "@/lib/config";
 
 export default function Home() {
   return (
@@ -88,7 +87,7 @@ export default function Home() {
           <div className="hidden md:flex items-center justify-center">
             <div className="relative w-64 h-64 md:w-80 md:h-80">
               <Image
-                src={PROFILE_IMAGE_URL}
+                src="/assets/Picture.jpeg"
                 alt="Sowmith Kuppa"
                 fill
                 className="rounded-full object-cover border-4 border-foreground"
@@ -129,7 +128,7 @@ export default function Home() {
           <p className="text-muted mb-12">Technical Expertise</p>
           
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-12">
-            {["PyTorch", "TensorFlow", "Kubernetes", "Docker", "Terraform", "Ansible", "Jenkins", "GCP", "AWS", "Python", "Go", "PostgreSQL", "MySQL", "Prometheus", "Grafana"].map((skill) => (
+            {["PyTorch", "TensorFlow", "Kubernetes", "Docker", "Terraform", "Ansible", "Jenkins", "GCP", "AWS", "Python", "Go", "PostgreSQL", "MySQL", "Prometheus", "Grafana", "ArgoCD", "Helm", "Java", "GitLab"].map((skill) => (
               <div key={skill} className="bg-border border border-border rounded-lg p-4 flex flex-col items-center justify-center gap-2 hover:border-foreground transition-colors">
                 <SkillIcon name={skill} size={32} />
                 <div className="text-sm font-medium">{skill}</div>
@@ -139,43 +138,113 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="bg-border border border-border rounded-lg p-6">
-              <h3 className="text-xl font-semibold mb-4">AI/ML</h3>
+              <h3 className="text-xl font-semibold mb-4">Machine Learning & AI</h3>
               <div className="flex flex-wrap gap-3">
-                {["PyTorch", "TensorFlow"].map((skill) => (
+                {["PyTorch", "TensorFlow", "Scikit-learn"].map((skill) => (
                   <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded">
                     <SkillIcon name={skill} size={20} />
                     <span className="text-sm">{skill}</span>
                   </div>
                 ))}
-                {["RAG", "Agentic AI", "Scikit-learn", "Model Deployment", "Apache Spark"].map((skill) => (
+                {["RAG", "Agentic AI", "Model Deployment", "Hyperparameter Tuning", "ML Pipeline Automation", "Apache Spark"].map((skill) => (
                   <span key={skill} className="px-3 py-2 bg-background rounded text-sm">{skill}</span>
                 ))}
               </div>
             </div>
             <div className="bg-border border border-border rounded-lg p-6">
-              <h3 className="text-xl font-semibold mb-4">MLOps & Cloud</h3>
+              <h3 className="text-xl font-semibold mb-4">Data Science & Analytics</h3>
               <div className="flex flex-wrap gap-3">
-                {["Kubernetes", "Docker", "Terraform", "Ansible", "Jenkins", "GCP", "AWS"].map((skill) => (
+                {["Python", "Pandas", "NumPy"].map((skill) => (
                   <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded">
                     <SkillIcon name={skill} size={20} />
                     <span className="text-sm">{skill}</span>
                   </div>
                 ))}
-                {["ArgoCD", "Helm"].map((skill) => (
+                {["Data Preprocessing", "Statistical Analysis", "Data Visualization"].map((skill) => (
                   <span key={skill} className="px-3 py-2 bg-background rounded text-sm">{skill}</span>
                 ))}
               </div>
             </div>
             <div className="bg-border border border-border rounded-lg p-6">
-              <h3 className="text-xl font-semibold mb-4">Programming</h3>
+              <h3 className="text-xl font-semibold mb-4">MLOps & Automation</h3>
               <div className="flex flex-wrap gap-3">
-                {["Python", "Go"].map((skill) => (
+                {["Kubernetes", "Docker", "Terraform", "Ansible", "Jenkins", "ArgoCD", "Helm", "GitLab"].map((skill) => (
                   <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded">
                     <SkillIcon name={skill} size={20} />
                     <span className="text-sm">{skill}</span>
                   </div>
                 ))}
-                {["SQL", "Bash", "PowerShell", "C++", "Java", "JavaScript"].map((skill) => (
+                {["GitLab CI/CD", "Canary/Blue-Green Deployments"].map((skill) => (
+                  <span key={skill} className="px-3 py-2 bg-background rounded text-sm">{skill}</span>
+                ))}
+              </div>
+            </div>
+            <div className="bg-border border border-border rounded-lg p-6">
+              <h3 className="text-xl font-semibold mb-4">Cloud & Containerization</h3>
+              <div className="flex flex-wrap gap-3">
+                {["GCP", "AWS", "Kubernetes", "Docker"].map((skill) => (
+                  <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded">
+                    <SkillIcon name={skill} size={20} />
+                    <span className="text-sm">{skill}</span>
+                  </div>
+                ))}
+                {["Cloud Run", "Cloud Storage", "Vertex AI", "Vector Search", "GKE"].map((skill) => (
+                  <span key={skill} className="px-3 py-2 bg-background rounded text-sm">{skill}</span>
+                ))}
+              </div>
+            </div>
+            <div className="bg-border border border-border rounded-lg p-6">
+              <h3 className="text-xl font-semibold mb-4">Databases</h3>
+              <div className="flex flex-wrap gap-3">
+                {["PostgreSQL", "MySQL"].map((skill) => (
+                  <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded">
+                    <SkillIcon name={skill} size={20} />
+                    <span className="text-sm">{skill}</span>
+                  </div>
+                ))}
+                {["Google Cloud Storage"].map((skill) => (
+                  <span key={skill} className="px-3 py-2 bg-background rounded text-sm">{skill}</span>
+                ))}
+              </div>
+            </div>
+            <div className="bg-border border border-border rounded-lg p-6">
+              <h3 className="text-xl font-semibold mb-4">Programming Languages</h3>
+              <div className="flex flex-wrap gap-3">
+                {["Python", "Go", "Java", "JavaScript", "HTML", "CSS", "Bash", "C++"].map((skill) => (
+                  <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded">
+                    <SkillIcon name={skill} size={20} />
+                    <span className="text-sm">{skill}</span>
+                  </div>
+                ))}
+                {["SQL", "PowerShell"].map((skill) => (
+                  <span key={skill} className="px-3 py-2 bg-background rounded text-sm">{skill}</span>
+                ))}
+              </div>
+            </div>
+            <div className="bg-border border border-border rounded-lg p-6">
+              <h3 className="text-xl font-semibold mb-4">Observability & Monitoring</h3>
+              <div className="flex flex-wrap gap-3">
+                {["Prometheus", "Grafana"].map((skill) => (
+                  <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded">
+                    <SkillIcon name={skill} size={20} />
+                    <span className="text-sm">{skill}</span>
+                  </div>
+                ))}
+                {["ML Monitoring", "Datadog"].map((skill) => (
+                  <span key={skill} className="px-3 py-2 bg-background rounded text-sm">{skill}</span>
+                ))}
+              </div>
+            </div>
+            <div className="bg-border border border-border rounded-lg p-6">
+              <h3 className="text-xl font-semibold mb-4">Collaboration & Workflow Tools</h3>
+              <div className="flex flex-wrap gap-3">
+                {["JIRA"].map((skill) => (
+                  <div key={skill} className="flex items-center gap-2 px-3 py-2 bg-background rounded">
+                    <SkillIcon name={skill} size={20} />
+                    <span className="text-sm">{skill}</span>
+                  </div>
+                ))}
+                {["ServiceNow", "SharePoint"].map((skill) => (
                   <span key={skill} className="px-3 py-2 bg-background rounded text-sm">{skill}</span>
                 ))}
               </div>
