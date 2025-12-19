@@ -87,7 +87,7 @@ export default function Home() {
           <div className="hidden md:flex items-center justify-center">
             <div className="relative w-64 h-64 md:w-80 md:h-80">
               <Image
-                src="/assets/Picture.jpeg"
+                src="/portfolio/assets/Picture.jpeg"
                 alt="Sowmith Kuppa"
                 fill
                 className="rounded-full object-cover border-4 border-foreground"
