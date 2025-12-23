@@ -305,14 +305,13 @@ export default function Home() {
 
             <div className="border-l-2 border-border pl-6 relative">
               <div className="absolute -left-2 top-0 w-4 h-4 bg-border rounded-full" />
-              <h3 className="text-2xl font-semibold mb-2">DevOps Engineer Intern</h3>
-              <p className="text-white mb-2">Campaign Innovations</p>
+              <h3 className="text-2xl font-semibold mb-2">Machine Learning Intern</h3>
+              <p className="text-white mb-2">Campalin Innovations</p>
               <p className="text-white mb-4">July 2022 - September 2022 (3 months)</p>
               <ul className="space-y-2 text-white">
-                <li>• Developed CI/CD pipelines integrating Docker, Kubernetes, and GitLab CI, improving deployment consistency and scalability.</li>
-                <li>• Automated configuration management processes using Ansible, reducing manual intervention and errors.</li>
-                <li>• Conducted vulnerability assessments and implemented security patches to ensure robust system reliability.</li>
-                <li>• Optimized cloud infrastructure costs by 15% through efficient resource utilization and scaling policies.</li>
+                <li>• Developed an AI customer support chatbot using a RAG pipeline with a ChromaDB vector database for efficient knowledge retrieval, integrated with a React.js and CSS frontend, reducing average response time by ~50%.</li>
+                <li>• Implemented a Node.js backend to manage conversation workflows, API requests, and response selection, handling simulated user queries with ~85% correct response accuracy.</li>
+                <li>• Collaborated with mentors and teammates to optimize data preprocessing, improve model performance, and enhance UI/UX, resulting in a 30% reduction in repetitive support queries during testing.</li>
               </ul>
             </div>
           </div>
