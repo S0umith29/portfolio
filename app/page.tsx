@@ -71,7 +71,7 @@ export default function Home() {
                 Email
               </a>
               <a
-                href="https://drive.google.com/file/d/1LnBKLfM-9wan8AT5oaNB89a0YJBijpZT/view?usp=sharing"
+                href="https://drive.google.com/file/d/1LfE2C7f9J8MA_3OTEEJmCQK2OmfeheU7/view?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-2 bg-foreground text-background rounded-lg hover:opacity-90 transition-opacity"
