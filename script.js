@@ -1,4 +1,6 @@
 let currentPath = "/";
+let isPasswordMode = false;   // NEW: Tracks if we are waiting for a password
+let passwordAttempts = 0;     // NEW: Counts how many times they guessed
 
 const input = document.getElementById('command-input');
 const output = document.getElementById('output');
@@ -42,7 +44,6 @@ async function fetchGithubProjects() {
 }
 fetchGithubProjects();
 
-// --- NEW: Helper function to resolve paths for cd, ls, and cat ---
 function resolvePath(target) {
     if (!target || target === "~" || target === "/") return "/";
     if (target === "..") {
@@ -59,15 +60,15 @@ function processCommand(rawInput) {
     const command = parts[0].toLowerCase();
     const args = parts.slice(1);
 
-    // --- NEW: Restricted OS Environment ---
-    const restrictedCommands = ['sudo', 'su', 'rm', 'mkdir', 'touch', 'mv', 'cp', 'chmod', 'chown', 'nano', 'vim', 'vi'];
+    // Removed 'sudo' from here so we can handle it specifically in the Enter key event
+    const restrictedCommands = ['su', 'rm', 'mkdir', 'touch', 'mv', 'cp', 'chmod', 'chown', 'nano', 'vim', 'vi'];
     if (restrictedCommands.includes(command)) {
         return `-zsh: permission denied: ${command}`;
     }
 
     switch (command) {
         case 'help':
-            return "Available commands: ls, cd, cat, clear, whoami, github";
+            return "Available commands: ls, cd, cat, clear, whoami, github, sudo";
         case 'whoami':
             return "Hey, this is Sowmith, nice to meet you!";
         case 'clear':
@@ -77,7 +78,7 @@ function processCommand(rawInput) {
             window.open("https://github.com/s0umith29", "_blank");
             return "Opening Github profile...";
         case "ls":
-            return listDirectory(args[0]); // Now passes the argument!
+            return listDirectory(args[0]);
         case "cd":
             return changeDirectory(args[0]);
         case "cat":
@@ -89,7 +90,6 @@ function processCommand(rawInput) {
     }
 }
 
-// --- UPDATED: ls now accepts targets ---
 function listDirectory(target) {
     const targetPath = target ? resolvePath(target) : currentPath;
     const node = fileSystem[targetPath];
@@ -98,7 +98,6 @@ function listDirectory(target) {
         if (node.type === "directory") {
             return node.children.join("   ");
         } else if (node.type === "file") {
-            // If they ls a file, show the file name but give a helpful hint
             return `${target} <br>💡 Hint: Use 'cat ${target}' to view its contents.`;
         }
     }
@@ -141,7 +140,12 @@ function updatePrompt() {
 }
 
 input.addEventListener('input', () => {
-    cmdText.textContent = input.value;
+    // NEW: If we are asking for a password, don't show any text when they type!
+    if (isPasswordMode) {
+        cmdText.textContent = ''; 
+    } else {
+        cmdText.textContent = input.value;
+    }
 });
 
 input.addEventListener('keydown', function(event) {
@@ -149,17 +153,47 @@ input.addEventListener('keydown', function(event) {
         const fullCommand = input.value.trim();
         const currentPrompt = document.querySelector("#input-line .prompt").textContent;
         
-        output.innerHTML += `<p><span class="prompt">${currentPrompt}</span> ${fullCommand}</p>`;
-        
-        if (fullCommand.length > 0) {
-            const response = processCommand(fullCommand);
-            if (response) {
-                const formattedResponse = response.replace(/\n/g, "<br>");
-                output.innerHTML += `<p>${formattedResponse}</p>`;
+        // --- NEW: Password Mode Logic ---
+        if (isPasswordMode) {
+            // Echo the prompt, but NOT the password they typed
+            output.innerHTML += `<p><span class="prompt">${currentPrompt}</span></p>`;
+            passwordAttempts++;
+
+            if (passwordAttempts >= 3) {
+                output.innerHTML += `<p>sudo: 3 incorrect password attempts</p>`;
+                isPasswordMode = false;     // Turn off password mode
+                passwordAttempts = 0;       // Reset attempts
+                updatePrompt();             // Restore the normal viewer@sowmith prompt
+            } else {
+                output.innerHTML += `<p>Sorry, try again.</p>`;
+                // Leave the prompt as "Password:" for the next attempt
+            }
+        } 
+        // --- Normal Command Logic ---
+        else {
+            output.innerHTML += `<p><span class="prompt">${currentPrompt}</span> ${fullCommand}</p>`;
+            
+            if (fullCommand.length > 0) {
+                const parts = fullCommand.trim().split(/\s+/);
+                
+                // If they type sudo, trigger password mode!
+                if (parts[0].toLowerCase() === 'sudo') {
+                    isPasswordMode = true;
+                    passwordAttempts = 0;
+                    document.querySelector("#input-line .prompt").textContent = "Password:";
+                } else {
+                    const response = processCommand(fullCommand);
+                    if (response) {
+                        const formattedResponse = response.replace(/\n/g, "<br>");
+                        output.innerHTML += `<p>${formattedResponse}</p>`;
+                    }
+                    updatePrompt();
+                }
+            } else {
+                updatePrompt();
             }
         }
 
-        updatePrompt();
         input.value = ''; 
         cmdText.textContent = '';
         window.scrollTo(0, document.body.scrollHeight);
@@ -173,7 +207,6 @@ document.addEventListener('click', (event) => {
 });
 document.addEventListener('keydown', () => input.focus());
 
-// --- NEW: Automatically display available commands on load ---
 window.addEventListener('DOMContentLoaded', () => {
     const initialHelp = processCommand("help");
     output.innerHTML += `<p>${initialHelp}</p>`;
