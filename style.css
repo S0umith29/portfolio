@@ -1,12 +1,13 @@
 body {
-    background-color: #36454F; /* Sleek Mac Charcoal */
-    color: #FFFFFF; /* Crisp white text */
-    /* Menlo and Monaco are the default macOS terminal fonts */
+    background-color: #36454F; /* Charcoal Gray from your screenshot */
+    color: #FFFFFF; /* White text */
+    /* Using native Mac fonts */
     font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
     margin: 0;
     padding: 20px;
     height: 100vh;
     box-sizing: border-box;
+    font-size: 16px;
 }
 
 #terminal {
@@ -30,29 +31,41 @@ p {
     font-weight: bold;
 }
 
-/* Styling the input to look like native terminal text */
-/* Hide the real input but keep it functional */
+/* 1. We display the input, but make the native caret translucent */
 #command-input {
+    background: transparent;
+    border: none;
+    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-size: 16px;
+    flex-grow: 1;
+    outline: none;
+    
+    /* Crucial: This hides the thin vertical native cursor */
+    caret-color: transparent; 
+
+    /* We need to position relative to attach the custom cursor */
+    position: relative; 
+    color: #FFFFFF;
+}
+
+/* 2. We create the thick vertical line as a pseudo-element on the input */
+#command-input::after {
+    content: ''; /* Required for pseudo-elements */
     position: absolute;
-    opacity: 0;
-    pointer-events: none;
+    top: 0; /* Align to top of input text */
+    left: 0; /* We will use JS to move this later */
+    
+    /* 3. The thick vertical line style from your photo */
+    width: 2px; /* This makes it thick! Adjust to 3px if you want even thicker */
+    height: 100%; /* Spans the full text height */
+    background-color: #FFFFFF; /* The cursor color */
+    
+    /* Blinking animation */
+    animation: thickBlink 1s step-end infinite;
 }
 
-#cursor {
-    display: inline-block;
-    width: 10px;
-    height: 1.2em;
-    background-color: #FFFFFF;
-    margin-left: 2px;
-    animation: blink 1s step-end infinite;
-    vertical-align: middle;
-}
-
-@keyframes blink {
-    from, to { background-color: transparent; }
-    50% { background-color: #FFFFFF; }
-}
-
-#cmd-text {
-    white-space: pre; /* Preserves spaces in the command */
+/* 4. Simple Blinking Animation */
+@keyframes thickBlink {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
 }

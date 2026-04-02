@@ -2,9 +2,23 @@ const input = document.getElementById('command-input');
 const output = document.getElementById('output');
 const cmdText = document.getElementById('cmd-text');
 
+function updateThickCursorPosition() {
+    // Create a temporary span to measure the text width accurately
+    const tempSpan = document.createElement('span');
+    tempSpan.style.font = getComputedStyle(input).font; // Use same font settings
+    tempSpan.textContent = input.value;
+    document.body.appendChild(tempSpan);
+    const textWidth = tempSpan.offsetWidth;
+    document.body.removeChild(tempSpan);
+
+    // Update the 'left' position of the pseudo-element in CSS
+    input.style.setProperty('--cursor-left', textWidth + 'px');
+}
+
 // 1. Sync the visible text with the hidden input
 input.addEventListener('input', () => {
     cmdText.textContent = input.value;
+    updateThickCursorPosition();
 });
 
 // 2. Handle the "Enter" key
