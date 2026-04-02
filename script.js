@@ -1,3 +1,5 @@
+let currentPath = "/";
+
 const input = document.getElementById('command-input');
 const output = document.getElementById('output');
 const cmdText = document.getElementById('cmd-text');
@@ -66,14 +68,14 @@ function processCommand(rawInput) {
 
 function listDirectory() {
     const dir = fileSystem[currentPath];
-    return dir.children.join("  ");
+    return dir.children.join("   ");
 }
 
-function changeDirectory(path) {
+function changeDirectory(target) {
     if (!target || target == "~" || target == "/") {
         currentPath = "/";
     } else {
-        const newPath = currentPath = "/" ? `/${target}` : `${currentPath}/${target}`;
+        const newPath = currentPath === "/" ? `/${target}` : `${currentPath}/${target}`;
         if (fileSystem[newPath] && fileSystem[newPath].type == "directory") {
             currentPath = newPath;
         } else {
@@ -102,13 +104,14 @@ function updateThickCursorPosition() {
     // Create a temporary span to measure the text width accurately
     const tempSpan = document.createElement('span');
     tempSpan.style.font = getComputedStyle(input).font; // Use same font settings
+    tempSpan.style.visibility = "hidden";
     tempSpan.textContent = input.value;
     document.body.appendChild(tempSpan);
     const textWidth = tempSpan.offsetWidth;
     document.body.removeChild(tempSpan);
 
     // Update the 'left' position of the pseudo-element in CSS
-    input.style.setProperty('--cursor-left', textWidth + 'px');
+    input.style.paddingLeft = textWidth + 'px';
 }
 
 // 1. Sync the visible text with the hidden input
@@ -120,16 +123,24 @@ input.addEventListener('input', () => {
 // 2. Handle the "Enter" key
 input.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-        const command = input.value.trim();
-        
+        const fullCommand = input.value.trim();
+        const currentPrompt = document.querySelector(".prompt").textContent;
         // Add the finished line to the output history
         // Using viewer@sowmith to match your index.html prompt
-        output.innerHTML += `<p><span class="prompt">viewer@sowmith ~ %</span> ${command}</p>`;
+        output.innerHTML += `<p><span class="prompt">${currentPrompt}</span> ${fullCommand}</p>`;
         
+        if (fullCommand.length > 0) {
+            const response = processCommand(fullCommand);
+            if (response) {
+                const formattedResponse = response.replace(/\n/g, "<br>");
+                output.innerHTML += `<p>${formattedResponse}</p>`;
+            }
+        }
+
         // Reset everything for the next command
         input.value = ''; 
         cmdText.textContent = '';
-
+        updateThickCursorPosition();
         // Add command logic here later (e.g., if (command === 'help') ...)
 
         window.scrollTo(0, document.body.scrollHeight);
