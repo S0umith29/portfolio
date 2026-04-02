@@ -1,7 +1,6 @@
 body {
-    background-color: #36454F; /* Charcoal Gray from your screenshot */
+    background-color: #36454F; /* Charcoal Gray */
     color: #FFFFFF; /* White text */
-    /* Using native Mac fonts */
     font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
     margin: 0;
     padding: 20px;
@@ -23,6 +22,7 @@ p {
     display: flex;
     align-items: center;
     margin-top: 10px;
+    position: relative; /* Crucial for overlaying the input */
 }
 
 .prompt {
@@ -31,40 +31,35 @@ p {
     font-weight: bold;
 }
 
-/* 1. We display the input, but make the native caret translucent */
-#command-input {
-    background: transparent;
-    border: none;
-    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
-    font-size: 16px;
-    flex-grow: 1;
-    outline: none;
-    
-    /* Crucial: This hides the thin vertical native cursor */
-    caret-color: transparent; 
-
-    /* We need to position relative to attach the custom cursor */
-    position: relative; 
-    color: #FFFFFF;
+/* Make the visible text respect spaces you type */
+#cmd-text {
+    white-space: pre; 
 }
 
-/* 2. We create the thick vertical line as a pseudo-element on the input */
-#command-input::after {
-    content: ''; /* Required for pseudo-elements */
-    position: absolute;
-    top: 0; /* Align to top of input text */
-    left: 0; /* We will use JS to move this later */
-    
-    /* 3. The thick vertical line style from your photo */
-    width: 2px; /* This makes it thick! Adjust to 3px if you want even thicker */
-    height: 100%; /* Spans the full text height */
-    background-color: #FFFFFF; /* The cursor color */
-    
-    /* Blinking animation */
+/* The Thick Vertical Cursor */
+#cursor {
+    display: inline-block;
+    width: 6px; /* Adjust this to make it thicker/thinner */
+    height: 1.2em;
+    background-color: #FFFFFF;
+    margin-left: 2px;
     animation: thickBlink 1s step-end infinite;
+    vertical-align: text-bottom;
 }
 
-/* 4. Simple Blinking Animation */
+/* The Invisible Input */
+#command-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; /* Completely hidden, but still clickable and typable */
+    cursor: text;
+    border: none;
+    outline: none;
+}
+
 @keyframes thickBlink {
     from, to { opacity: 1; }
     50% { opacity: 0; }

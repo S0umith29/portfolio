@@ -30,7 +30,7 @@ async function fetchGithubProjects() {
             fileSystem["/projects"].children.push(repo.name);
             fileSystem[`/projects/${repo.name}`] = {
                 type: "file",
-                content: `Name: ${repo.name}\nDesc: ${repo.description}\nLink: ${repo.html_url}`
+                content: `Name: ${repo.name}\nDesc: ${repo.description || "No description provided."}\nLink: ${repo.html_url}`
             };
         });
     } catch (e) {
@@ -48,13 +48,13 @@ function processCommand(rawInput) {
         case 'help':
             return "Available: ls, cd, cat, clear, whoami, github";
         case 'whoami':
-            return "viewer@sowmith - exploring the portfolio OS."
+            return "viewer@sowmith - exploring the portfolio OS.";
         case 'clear':
             output.innerHTML = '';
-            return ''
+            return '';
         case 'github':
             window.open("https://github.com/s0umith29", "_blank");
-            return "Opening Github profile..."
+            return "Opening Github profile...";
         case "ls":
             return listDirectory();
         case "cd":
@@ -62,7 +62,7 @@ function processCommand(rawInput) {
         case "cat":
             return readFile(args[0]);
         default:
-            return `Command not found: $(command)`;
+            return `Command not found: ${command}`; // Fixed $(command) typo here
     }
 }
 
@@ -72,14 +72,14 @@ function listDirectory() {
 }
 
 function changeDirectory(target) {
-    if (!target || target == "~" || target == "/") {
+    if (!target || target === "~" || target === "/") {
         currentPath = "/";
     } else {
         const newPath = currentPath === "/" ? `/${target}` : `${currentPath}/${target}`;
-        if (fileSystem[newPath] && fileSystem[newPath].type == "directory") {
+        if (fileSystem[newPath] && fileSystem[newPath].type === "directory") {
             currentPath = newPath;
         } else {
-            return `cd: no such directory: ${target}`
+            return `cd: no such directory: ${target}`;
         }
     }
     updatePrompt();
@@ -100,24 +100,9 @@ function updatePrompt() {
     document.querySelector(".prompt").textContent = `viewer@sowmith ${displayPath} %`;
 }
 
-function updateThickCursorPosition() {
-    // Create a temporary span to measure the text width accurately
-    const tempSpan = document.createElement('span');
-    tempSpan.style.font = getComputedStyle(input).font; // Use same font settings
-    tempSpan.style.visibility = "hidden";
-    tempSpan.textContent = input.value;
-    document.body.appendChild(tempSpan);
-    const textWidth = tempSpan.offsetWidth;
-    document.body.removeChild(tempSpan);
-
-    // Update the 'left' position of the pseudo-element in CSS
-    input.style.paddingLeft = textWidth + 'px';
-}
-
 // 1. Sync the visible text with the hidden input
 input.addEventListener('input', () => {
     cmdText.textContent = input.value;
-    updateThickCursorPosition();
 });
 
 // 2. Handle the "Enter" key
@@ -125,8 +110,7 @@ input.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
         const fullCommand = input.value.trim();
         const currentPrompt = document.querySelector(".prompt").textContent;
-        // Add the finished line to the output history
-        // Using viewer@sowmith to match your index.html prompt
+        
         output.innerHTML += `<p><span class="prompt">${currentPrompt}</span> ${fullCommand}</p>`;
         
         if (fullCommand.length > 0) {
@@ -140,8 +124,6 @@ input.addEventListener('keydown', function(event) {
         // Reset everything for the next command
         input.value = ''; 
         cmdText.textContent = '';
-        updateThickCursorPosition();
-        // Add command logic here later (e.g., if (command === 'help') ...)
 
         window.scrollTo(0, document.body.scrollHeight);
     }
