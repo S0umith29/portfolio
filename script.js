@@ -2,11 +2,18 @@ let currentPath = "/";
 let isPasswordMode = false;   
 let passwordAttempts = 0;     
 
+// --- NEW: Command History Variables ---
+let commandHistory = [];
+let historyIndex = -1;
+
+// --- NEW: Tab Completion Dictionary ---
+const availableCommands = ['help', 'ls', 'cd', 'cat', 'clear', 'whoami', 'github', 'sudo'];
+
 const input = document.getElementById('command-input');
 const output = document.getElementById('output');
 const cmdText = document.getElementById('cmd-text');
 
-// 1 & 2: Added contact.txt and resume.pdf to the file system
+// Updated with your actual links and emails
 const fileSystem = {
     '/': {
         type: "directory",
@@ -18,11 +25,11 @@ const fileSystem = {
     },
     '/contact.txt': {
         type: "file",
-        content: "Let's connect!<br>Email: <a href='mailto:your.email@example.com' style='color: #58a6ff;'>your.email@example.com</a><br>LinkedIn: <a href='https://linkedin.com/in/soumith29' target='_blank' style='color: #58a6ff;'>linkedin.com/in/soumith29</a>"
+        content: "Let's connect!<br>Email: <a href='mailto:soumith.odu@gmail.com' style='color: #58a6ff;'>soumith.odu@gmail.com</a><br>LinkedIn: <a href='https://linkedin.com/in/soumith29' target='_blank' style='color: #58a6ff;'>linkedin.com/in/soumith29</a>"
     },
     '/resume.pdf': {
         type: "file",
-        content: "Opening resume in a new tab... <br>If it didn't open automatically, <a href='https://drive.google.com/file/d/1U6Hsf-wjn4_ZB-bezH0W78lrGrrMrKhg/view?usp=sharing' target='_blank' style='color: #58a6ff; text-decoration: underline;'>click here to view my resume</a>."
+        content: "Opening resume in a new tab... <br>If it didn't open automatically, <a href='https://drive.google.com/file/d/1U6Hsf-wjn4_ZBbezH0W78lrGrrMrKhg/view?usp=sharing' target='_blank' style='color: #58a6ff; text-decoration: underline;'>click here to view my resume</a>."
     }
 }
 
@@ -75,7 +82,6 @@ function processCommand(rawInput) {
     }
 
     switch (command) {
-        // 5: Changed the help command to be beginner-friendly
         case 'help':
             return `Welcome! Here are the available commands to navigate my portfolio:<br><br>
 <span style="color: #58a6ff;">ls</span>     - List all files and folders in your current location<br>
@@ -141,20 +147,19 @@ function changeDirectory(target) {
     return ""; 
 }
 
-// 2: Auto-open the resume file if it is "cat'd"
 function readFile(fileName) {
     if (!fileName) return "usage: cat [file]";
     const filePath = resolvePath(fileName);
     if (fileSystem[filePath] && fileSystem[filePath].type === "file") {
         if (filePath === "/resume.pdf") {
-            window.open('https://drive.google.com/file/d/1U6Hsf-wjn4_ZB-bezH0W78lrGrrMrKhg/view?usp=sharing', '_blank'); // Opens Google Drive link
+            // Opens your specific Google Drive link
+            window.open('https://drive.google.com/file/d/1U6Hsf-wjn4_ZBbezH0W78lrGrrMrKhg/view?usp=sharing', '_blank'); 
         }
         return fileSystem[filePath].content;
     }
     return `cat: ${fileName}: No such file or directory`;
 }
 
-// 4: Updated prompt
 function updatePrompt() {
     const displayPath = currentPath === "/" ? "~" : `~${currentPath}`;
     document.querySelector("#input-line .prompt").textContent = `sowmith@portfolio ${displayPath} %`;
@@ -170,6 +175,61 @@ input.addEventListener('input', () => {
 
 input.addEventListener('keydown', function(event) {
     const currentPrompt = document.querySelector("#input-line .prompt").textContent;
+
+    // --- NEW: Handle Tab Completion ---
+    if (event.key === 'Tab') {
+        event.preventDefault(); // Stop tab from un-focusing the input
+        const currentInput = input.value;
+        const parts = currentInput.split(' ');
+
+        if (parts.length === 1) {
+            // Autocomplete commands
+            const match = availableCommands.find(cmd => cmd.startsWith(parts[0].toLowerCase()));
+            if (match) {
+                input.value = match + ' ';
+                cmdText.textContent = input.value;
+            }
+        } else if (parts.length === 2 && ['cd', 'cat', 'ls'].includes(parts[0].toLowerCase())) {
+            // Autocomplete files and directories in current path
+            const typedOut = parts[1];
+            const node = fileSystem[currentPath];
+            
+            if (node && node.children) {
+                const match = node.children.find(child => child.startsWith(typedOut));
+                if (match) {
+                    input.value = parts[0] + ' ' + match;
+                    cmdText.textContent = input.value;
+                }
+            }
+        }
+        return;
+    }
+
+    // --- NEW: Handle Up Arrow (History) ---
+    if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        if (historyIndex > 0) {
+            historyIndex--;
+            input.value = commandHistory[historyIndex];
+            cmdText.textContent = input.value;
+        }
+        return;
+    }
+
+    // --- NEW: Handle Down Arrow (History) ---
+    if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        if (historyIndex < commandHistory.length - 1) {
+            historyIndex++;
+            input.value = commandHistory[historyIndex];
+            cmdText.textContent = input.value;
+        } else if (historyIndex === commandHistory.length - 1) {
+            historyIndex++;
+            input.value = '';
+            cmdText.textContent = '';
+        }
+        return;
+    }
 
     if (event.ctrlKey && event.key.toLowerCase() === 'c') {
         if (isPasswordMode) {
@@ -190,6 +250,12 @@ input.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
         const fullCommand = input.value.trim();
         
+        // --- NEW: Push to history if it's not a blank command or a password ---
+        if (fullCommand.length > 0 && !isPasswordMode) {
+            commandHistory.push(fullCommand);
+            historyIndex = commandHistory.length;
+        }
+
         if (isPasswordMode) {
             output.innerHTML += `<p><span class="prompt">${currentPrompt}</span></p>`;
             passwordAttempts++;
@@ -239,18 +305,27 @@ document.addEventListener('click', (event) => {
 });
 document.addEventListener('keydown', () => input.focus());
 
-// 3: Dynamic MOTD Initialization
 window.addEventListener('DOMContentLoaded', () => {
-    // Generates standard date like: "Wed Apr 01 2026 09:24:36 GMT-0400"
     const fullDate = new Date().toString(); 
     
+    // --- NEW: Solid block ASCII Art built with String.raw to preserve formatting cleanly ---
+    const asciiArt = String.raw`
+<pre style="color: #58a6ff; font-weight: bold; line-height: 1.1; font-size: clamp(8px, 1.2vw, 14px);">
+  ██████  ██████  ██     ██ ███    ███ ██ ████████ ██   ██    ██   ██ ██    ██ ██████  ██████   █████  
+ ██      ██    ██ ██     ██ ████  ████ ██    ██    ██   ██    ██  ██  ██    ██ ██   ██ ██   ██ ██   ██ 
+ ███████ ██    ██ ██  █  ██ ██ ████ ██ ██    ██    ███████    █████   ██    ██ ██████  ██████  ███████ 
+      ██ ██    ██ ██ ███ ██ ██  ██  ██ ██    ██    ██   ██    ██  ██  ██    ██ ██      ██      ██   ██ 
+ ██████   ██████   ███ ███  ██      ██ ██    ██    ██   ██    ██   ██  ██████  ██      ██      ██   ██ 
+</pre>`;
+
     const motd = `
         <p>Last login: ${fullDate}</p>
-        <p>======================================================================</p>
-        <p>👋 Welcome to Sowmith's Interactive Terminal Portfolio!</p>
+        ${asciiArt}
+        <p>=================================================================================================</p>
+        <p>👋 Welcome to my Interactive Terminal Portfolio!</p>
         <p>I'm a software engineer passionate about distributed systems & web tech.</p>
-        <p>======================================================================</p>
-        <p><br>💡 <b>Tip:</b> If you aren't familiar with terminal commands, simply type <span style="color: #58a6ff; font-weight: bold;">help</span> and hit Enter to see what you can do.</p>
+        <p>=================================================================================================</p>
+        <p><br>💡 <b>Tip:</b> If you aren't familiar with terminal commands, simply type <span style="color: #58a6ff; font-weight: bold;">help</span> and hit Enter.</p>
         <p><br></p>
     `;
     
