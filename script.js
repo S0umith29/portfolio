@@ -323,7 +323,7 @@ window.addEventListener('DOMContentLoaded', () => {
         ${asciiArt}
         <p>=================================================================================================</p>
         <p>👋 Welcome to my Terminal Portfolio!</p>
-        <p>I'm a software engineer focused on distributed systems and web tech. I've tried to build a mini linux portfolio, enjoy exploring!!!</p>
+        <p>I'm a software engineer focused on distributed systems and web tech. I've built a mini linux portfolio, enjoy exploring!!!</p>
         <p>=================================================================================================</p>
         <p><br>💡 <b>Tip:</b> If you aren't familiar with terminal commands, simply type <span style="color: #58a6ff; font-weight: bold;">help</span> and hit Enter.</p>
         <p><br></p>
