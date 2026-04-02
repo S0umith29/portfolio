@@ -1,6 +1,6 @@
 let currentPath = "/";
-let isPasswordMode = false;   // NEW: Tracks if we are waiting for a password
-let passwordAttempts = 0;     // NEW: Counts how many times they guessed
+let isPasswordMode = false;   
+let passwordAttempts = 0;     
 
 const input = document.getElementById('command-input');
 const output = document.getElementById('output');
@@ -60,7 +60,6 @@ function processCommand(rawInput) {
     const command = parts[0].toLowerCase();
     const args = parts.slice(1);
 
-    // Removed 'sudo' from here so we can handle it specifically in the Enter key event
     const restrictedCommands = ['su', 'rm', 'mkdir', 'touch', 'mv', 'cp', 'chmod', 'chown', 'nano', 'vim', 'vi'];
     if (restrictedCommands.includes(command)) {
         return `-zsh: permission denied: ${command}`;
@@ -140,7 +139,6 @@ function updatePrompt() {
 }
 
 input.addEventListener('input', () => {
-    // NEW: If we are asking for a password, don't show any text when they type!
     if (isPasswordMode) {
         cmdText.textContent = ''; 
     } else {
@@ -149,34 +147,49 @@ input.addEventListener('input', () => {
 });
 
 input.addEventListener('keydown', function(event) {
+    const currentPrompt = document.querySelector("#input-line .prompt").textContent;
+
+    // --- NEW: Handle Ctrl+C (SIGINT) ---
+    if (event.ctrlKey && event.key.toLowerCase() === 'c') {
+        if (isPasswordMode) {
+            // Cancel out of the password prompt
+            output.innerHTML += `<p><span class="prompt">${currentPrompt}</span>^C</p>`;
+            isPasswordMode = false;
+            passwordAttempts = 0;
+        } else {
+            // Cancel whatever command they were currently typing
+            output.innerHTML += `<p><span class="prompt">${currentPrompt}</span> ${input.value}^C</p>`;
+        }
+        
+        updatePrompt();
+        input.value = '';
+        cmdText.textContent = '';
+        window.scrollTo(0, document.body.scrollHeight);
+        return; // Stop the rest of the keydown event from firing
+    }
+
     if (event.key === 'Enter') {
         const fullCommand = input.value.trim();
-        const currentPrompt = document.querySelector("#input-line .prompt").textContent;
         
-        // --- NEW: Password Mode Logic ---
         if (isPasswordMode) {
-            // Echo the prompt, but NOT the password they typed
             output.innerHTML += `<p><span class="prompt">${currentPrompt}</span></p>`;
             passwordAttempts++;
 
             if (passwordAttempts >= 3) {
                 output.innerHTML += `<p>sudo: 3 incorrect password attempts</p>`;
-                isPasswordMode = false;     // Turn off password mode
-                passwordAttempts = 0;       // Reset attempts
-                updatePrompt();             // Restore the normal viewer@sowmith prompt
+                isPasswordMode = false;     
+                passwordAttempts = 0;       
+                updatePrompt();             
             } else {
                 output.innerHTML += `<p>Sorry, try again.</p>`;
-                // Leave the prompt as "Password:" for the next attempt
             }
         } 
-        // --- Normal Command Logic ---
         else {
             output.innerHTML += `<p><span class="prompt">${currentPrompt}</span> ${fullCommand}</p>`;
             
             if (fullCommand.length > 0) {
                 const parts = fullCommand.trim().split(/\s+/);
                 
-                // If they type sudo, trigger password mode!
                 if (parts[0].toLowerCase() === 'sudo') {
                     isPasswordMode = true;
                     passwordAttempts = 0;
