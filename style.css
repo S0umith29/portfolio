@@ -1,7 +1,8 @@
 body {
-    background-color: #121212; /* Dark hacker background */
-    color: #00FF00; /* Classic terminal green */
-    font-family: 'Courier New', Courier, monospace;
+    background-color: #36454F; /* Sleek Mac Charcoal */
+    color: #FFFFFF; /* Crisp white text */
+    /* Menlo and Monaco are the default macOS terminal fonts */
+    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
     margin: 0;
     padding: 20px;
     height: 100vh;
@@ -14,6 +15,7 @@ body {
 
 p {
     margin: 5px 0;
+    line-height: 1.5;
 }
 
 #input-line {
@@ -24,16 +26,21 @@ p {
 
 .prompt {
     margin-right: 10px;
-    color: #00FF00;
+    color: #FFFFFF;
+    font-weight: bold;
 }
 
-/* This makes the input field look like terminal text instead of a box */
+/* Styling the input to look like native terminal text */
 #command-input {
     background: transparent;
     border: none;
-    color: #00FF00;
-    font-family: 'Courier New', Courier, monospace;
+    color: #FFFFFF;
+    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
     font-size: 16px;
     flex-grow: 1;
     outline: none;
+    
+    /* This creates the vim/zsh block cursor */
+    caret-color: #FFFFFF;
+    caret-shape: block; 
 }
