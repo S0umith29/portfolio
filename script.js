@@ -6,8 +6,8 @@ input.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
         const command = input.value.trim(); // Get what the user typed
         
-        // Print what the user just typed to the screen
-        output.innerHTML += `<p><span class="prompt">guest@soumith:~$</span> ${command}</p>`;
+        // Print what the user just typed to the screen with the zsh prompt
+        output.innerHTML += `<p><span class="prompt">soumith@macbook ~ %</span> ${command}</p>`;
         
         // Clear the input box
         input.value = ''; 
