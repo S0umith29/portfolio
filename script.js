@@ -11,7 +11,7 @@ const fileSystem = {
     },
     '/about_me.txt': {
         type: "file",
-        content: "Hello, I'm Sowmith! I'm a software engineer focused on distributed systems and web tech."
+        content: "Hello, I'm Sowmith! I'm a software engineer focused on distributed systems and web tech. I've tried to build a mini linux portfolio, enjoy exploring!!!"
     }
 }
 
@@ -30,7 +30,8 @@ async function fetchGithubProjects() {
             fileSystem["/projects"].children.push(repo.name);
             fileSystem[`/projects/${repo.name}`] = {
                 type: "file",
-                content: `Name: ${repo.name}\nDesc: ${repo.description || "No description provided."}\nLink: ${repo.html_url}`
+                repo_url: repo.html_url,
+                content: `Name: ${repo.name}\nDesc: ${repo.description || "No description provided."}\nLink: <a href="${repo.html_url}" target="_blank" style="color: #58a6ff; text-decoration: underline;">View Repository on Github</a>`
             };
         });
     } catch (e) {
@@ -48,7 +49,7 @@ function processCommand(rawInput) {
         case 'help':
             return "Available: ls, cd, cat, clear, whoami, github";
         case 'whoami':
-            return "viewer@sowmith - exploring the portfolio OS.";
+            return "Hey, this is Sowmith, nice to meet you!";
         case 'clear':
             output.innerHTML = '';
             return '';
@@ -74,10 +75,23 @@ function listDirectory() {
 function changeDirectory(target) {
     if (!target || target === "~" || target === "/") {
         currentPath = "/";
+    } else if (target === ".."){
+        if (currentPath !== "/") {
+            const parts = currentPath.split("/");
+            parts.pop();
+            currentPath = parts.length === 1 ? "/" : parts.join("/");
+        }
     } else {
         const newPath = currentPath === "/" ? `/${target}` : `${currentPath}/${target}`;
-        if (fileSystem[newPath] && fileSystem[newPath].type === "directory") {
-            currentPath = newPath;
+        if (fileSystem[newPath]) {
+            if (fileSystem[newPath].type === "directory") {
+                currentPath = newPath;
+            } else if (fileSystem[newPath].type === "file") {
+                if (fileSystem[newPath].repo_url) {
+                    return `cd: not a directory: ${target}<br>💡 Hint: Use 'cat ${target}' to read it, or <a href="${fileSystem[newPath].repo_url}" target="_blank" style="color: #58a6ff; text-decoration: underline;">click here to view it on GitHub</a>.`;
+                }
+                return `cd: not a directory: ${target}`;
+            }
         } else {
             return `cd: no such directory: ${target}`;
         }
@@ -97,7 +111,7 @@ function readFile(fileName) {
 
 function updatePrompt() {
     const displayPath = currentPath === "/" ? "~" : `~${currentPath}`;
-    document.querySelector(".prompt").textContent = `viewer@sowmith ${displayPath} %`;
+    document.querySelector("#input-line .prompt").textContent = `viewer@sowmith ${displayPath} %`;
 }
 
 // 1. Sync the visible text with the hidden input
@@ -109,7 +123,7 @@ input.addEventListener('input', () => {
 input.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
         const fullCommand = input.value.trim();
-        const currentPrompt = document.querySelector(".prompt").textContent;
+        const currentPrompt = document.querySelector("#input-line .prompt").textContent;
         
         output.innerHTML += `<p><span class="prompt">${currentPrompt}</span> ${fullCommand}</p>`;
         
