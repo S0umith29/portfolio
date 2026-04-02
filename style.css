@@ -1,0 +1,39 @@
+body {
+    background-color: #121212; /* Dark hacker background */
+    color: #00FF00; /* Classic terminal green */
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 20px;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+#terminal {
+    max-width: 800px;
+}
+
+p {
+    margin: 5px 0;
+}
+
+#input-line {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.prompt {
+    margin-right: 10px;
+    color: #00FF00;
+}
+
+/* This makes the input field look like terminal text instead of a box */
+#command-input {
+    background: transparent;
+    border: none;
+    color: #00FF00;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    flex-grow: 1;
+    outline: none;
+}
