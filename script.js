@@ -28,14 +28,11 @@ async function fetchGithubProjects() {
 
         repos.forEach(repo => {
             fileSystem["/projects"].children.push(repo.name);
-            
-            // Clean the description in case it has weird characters that break HTML
             const safeDesc = repo.description ? repo.description.replace(/</g, "&lt;").replace(/>/g, "&gt;") : "No description provided.";
             
             fileSystem[`/projects/${repo.name}`] = {
                 type: "file",
                 repo_url: repo.html_url,
-                // Using an inline style to ensure it looks and acts like a clickable link
                 content: `Name: ${repo.name}\nDesc: ${safeDesc}\nLink: <a href="${repo.html_url}" target="_blank" style="color: #58a6ff; text-decoration: underline; pointer-events: auto;">View Repository on GitHub</a>`
             };
         });
@@ -45,15 +42,32 @@ async function fetchGithubProjects() {
 }
 fetchGithubProjects();
 
+// --- NEW: Helper function to resolve paths for cd, ls, and cat ---
+function resolvePath(target) {
+    if (!target || target === "~" || target === "/") return "/";
+    if (target === "..") {
+        if (currentPath === "/") return "/";
+        const parts = currentPath.split("/");
+        parts.pop();
+        return parts.length === 1 ? "/" : parts.join("/");
+    }
+    return currentPath === "/" ? `/${target}` : `${currentPath}/${target}`;
+}
+
 function processCommand(rawInput) {
-    // FIX 1: Split by ANY whitespace (handles Mac Option+Space bug)
     const parts = rawInput.trim().split(/\s+/);
     const command = parts[0].toLowerCase();
     const args = parts.slice(1);
 
+    // --- NEW: Restricted OS Environment ---
+    const restrictedCommands = ['sudo', 'su', 'rm', 'mkdir', 'touch', 'mv', 'cp', 'chmod', 'chown', 'nano', 'vim', 'vi'];
+    if (restrictedCommands.includes(command)) {
+        return `-zsh: permission denied: ${command}`;
+    }
+
     switch (command) {
         case 'help':
-            return "Available: ls, cd, cat, clear, whoami, github";
+            return "Available commands: ls, cd, cat, clear, whoami, github";
         case 'whoami':
             return "Hey, this is Sowmith, nice to meet you!";
         case 'clear':
@@ -63,35 +77,39 @@ function processCommand(rawInput) {
             window.open("https://github.com/s0umith29", "_blank");
             return "Opening Github profile...";
         case "ls":
-            return listDirectory();
+            return listDirectory(args[0]); // Now passes the argument!
         case "cd":
             return changeDirectory(args[0]);
         case "cat":
             return readFile(args[0]);
         case "file":
-            // FIX 3: Catch the 'file' command and point them to 'cat'
-            return `Command 'file' is not supported in this environment. Try using 'cat ${args[0] || "filename"}' instead.`;
+            return `Command 'file' is not supported. Try using 'cat ${args[0] || "filename"}' instead.`;
         default:
             return `Command not found: ${command}`; 
     }
 }
 
-function listDirectory() {
-    const dir = fileSystem[currentPath];
-    return dir.children.join("   ");
+// --- UPDATED: ls now accepts targets ---
+function listDirectory(target) {
+    const targetPath = target ? resolvePath(target) : currentPath;
+    const node = fileSystem[targetPath];
+
+    if (node) {
+        if (node.type === "directory") {
+            return node.children.join("   ");
+        } else if (node.type === "file") {
+            // If they ls a file, show the file name but give a helpful hint
+            return `${target} <br>💡 Hint: Use 'cat ${target}' to view its contents.`;
+        }
+    }
+    return `ls: ${target}: No such file or directory`;
 }
 
 function changeDirectory(target) {
     if (!target || target === "~" || target === "/") {
         currentPath = "/";
-    } else if (target === ".."){
-        if (currentPath !== "/") {
-            const parts = currentPath.split("/");
-            parts.pop();
-            currentPath = parts.length === 1 ? "/" : parts.join("/");
-        }
     } else {
-        const newPath = currentPath === "/" ? `/${target}` : `${currentPath}/${target}`;
+        const newPath = resolvePath(target);
         if (fileSystem[newPath]) {
             if (fileSystem[newPath].type === "directory") {
                 currentPath = newPath;
@@ -110,15 +128,14 @@ function changeDirectory(target) {
 
 function readFile(fileName) {
     if (!fileName) return "usage: cat [file]";
-    const filePath = currentPath === "/" ? `/${fileName}` : `${currentPath}/${fileName}`;
+    const filePath = resolvePath(fileName);
     if (fileSystem[filePath] && fileSystem[filePath].type === "file") {
         return fileSystem[filePath].content;
     }
-    return `cat: ${fileName}: No such file`;
+    return `cat: ${fileName}: No such file or directory`;
 }
 
 function updatePrompt() {
-    // FIX 4: Globally forces the HTML to match our currentPath variable
     const displayPath = currentPath === "/" ? "~" : `~${currentPath}`;
     document.querySelector("#input-line .prompt").textContent = `viewer@sowmith ${displayPath} %`;
 }
@@ -142,19 +159,22 @@ input.addEventListener('keydown', function(event) {
             }
         }
 
-        // Run this at the end of EVERY command to ensure the visual prompt never breaks
         updatePrompt();
-
         input.value = ''; 
         cmdText.textContent = '';
         window.scrollTo(0, document.body.scrollHeight);
     }
 });
 
-// FIX 2: Only force focus back to the input if they didn't click a link!
 document.addEventListener('click', (event) => {
     if (event.target.tagName !== 'A') {
         input.focus();
     }
 });
 document.addEventListener('keydown', () => input.focus());
+
+// --- NEW: Automatically display available commands on load ---
+window.addEventListener('DOMContentLoaded', () => {
+    const initialHelp = processCommand("help");
+    output.innerHTML += `<p>${initialHelp}</p>`;
+});
