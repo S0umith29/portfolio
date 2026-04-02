@@ -31,16 +31,28 @@ p {
 }
 
 /* Styling the input to look like native terminal text */
+/* Hide the real input but keep it functional */
 #command-input {
-    background: transparent;
-    border: none;
-    color: #FFFFFF;
-    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
-    font-size: 16px;
-    flex-grow: 1;
-    outline: none;
-    
-    /* This creates the vim/zsh block cursor */
-    caret-color: #FFFFFF;
-    caret-shape: block; 
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#cursor {
+    display: inline-block;
+    width: 10px;
+    height: 1.2em;
+    background-color: #FFFFFF;
+    margin-left: 2px;
+    animation: blink 1s step-end infinite;
+    vertical-align: middle;
+}
+
+@keyframes blink {
+    from, to { background-color: transparent; }
+    50% { background-color: #FFFFFF; }
+}
+
+#cmd-text {
+    white-space: pre; /* Preserves spaces in the command */
 }

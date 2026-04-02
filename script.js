@@ -1,23 +1,31 @@
 const input = document.getElementById('command-input');
 const output = document.getElementById('output');
+const cmdText = document.getElementById('cmd-text');
 
-// Listen for the "Enter" key
+// 1. Sync the visible text with the hidden input
+input.addEventListener('input', () => {
+    cmdText.textContent = input.value;
+});
+
+// 2. Handle the "Enter" key
 input.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-        const command = input.value.trim(); // Get what the user typed
+        const command = input.value.trim();
         
-        // Print what the user just typed to the screen with the zsh prompt
-        output.innerHTML += `<p><span class="prompt">soumith@macbook ~ %</span> ${command}</p>`;
+        // Add the finished line to the output history
+        // Using viewer@sowmith to match your index.html prompt
+        output.innerHTML += `<p><span class="prompt">viewer@sowmith ~ %</span> ${command}</p>`;
         
-        // Clear the input box
+        // Reset everything for the next command
         input.value = ''; 
+        cmdText.textContent = '';
 
-        // We will add the logic to process commands here next!
-        
-        // Automatically scroll to the bottom
+        // Add command logic here later (e.g., if (command === 'help') ...)
+
         window.scrollTo(0, document.body.scrollHeight);
     }
 });
 
-// Keep focus on the input so the user can always type
+// Keep focus on the input
 document.addEventListener('click', () => input.focus());
+document.addEventListener('keydown', () => input.focus());
