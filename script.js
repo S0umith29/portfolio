@@ -322,7 +322,7 @@ window.addEventListener('DOMContentLoaded', () => {
         <p>Last login: ${fullDate}</p>
         ${asciiArt}
         <p>=================================================================================================</p>
-        <p>👋 Welcome to my Interactive Terminal Portfolio!</p>
+        <p>👋 Welcome to my Terminal Portfolio!</p>
         <p>I'm a software engineer passionate about distributed systems & web tech.</p>
         <p>=================================================================================================</p>
         <p><br>💡 <b>Tip:</b> If you aren't familiar with terminal commands, simply type <span style="color: #58a6ff; font-weight: bold;">help</span> and hit Enter.</p>
