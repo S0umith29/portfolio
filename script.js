@@ -28,10 +28,15 @@ async function fetchGithubProjects() {
 
         repos.forEach(repo => {
             fileSystem["/projects"].children.push(repo.name);
+            
+            // Clean the description in case it has weird characters that break HTML
+            const safeDesc = repo.description ? repo.description.replace(/</g, "&lt;").replace(/>/g, "&gt;") : "No description provided.";
+            
             fileSystem[`/projects/${repo.name}`] = {
                 type: "file",
                 repo_url: repo.html_url,
-                content: `Name: ${repo.name}\nDesc: ${repo.description || "No description provided."}\nLink: <a href="${repo.html_url}" target="_blank" style="color: #58a6ff; text-decoration: underline;">View Repository on Github</a>`
+                // Using an inline style to ensure it looks and acts like a clickable link
+                content: `Name: ${repo.name}\nDesc: ${safeDesc}\nLink: <a href="${repo.html_url}" target="_blank" style="color: #58a6ff; text-decoration: underline; pointer-events: auto;">View Repository on GitHub</a>`
             };
         });
     } catch (e) {
@@ -41,7 +46,8 @@ async function fetchGithubProjects() {
 fetchGithubProjects();
 
 function processCommand(rawInput) {
-    const parts = rawInput.split(" ");
+    // FIX 1: Split by ANY whitespace (handles Mac Option+Space bug)
+    const parts = rawInput.trim().split(/\s+/);
     const command = parts[0].toLowerCase();
     const args = parts.slice(1);
 
@@ -62,8 +68,11 @@ function processCommand(rawInput) {
             return changeDirectory(args[0]);
         case "cat":
             return readFile(args[0]);
+        case "file":
+            // FIX 3: Catch the 'file' command and point them to 'cat'
+            return `Command 'file' is not supported in this environment. Try using 'cat ${args[0] || "filename"}' instead.`;
         default:
-            return `Command not found: ${command}`; // Fixed $(command) typo here
+            return `Command not found: ${command}`; 
     }
 }
 
@@ -93,11 +102,10 @@ function changeDirectory(target) {
                 return `cd: not a directory: ${target}`;
             }
         } else {
-            return `cd: no such directory: ${target}`;
+            return `cd: no such file or directory: ${target}`;
         }
     }
-    updatePrompt();
-    return "";
+    return ""; 
 }
 
 function readFile(fileName) {
@@ -110,16 +118,15 @@ function readFile(fileName) {
 }
 
 function updatePrompt() {
+    // FIX 4: Globally forces the HTML to match our currentPath variable
     const displayPath = currentPath === "/" ? "~" : `~${currentPath}`;
     document.querySelector("#input-line .prompt").textContent = `viewer@sowmith ${displayPath} %`;
 }
 
-// 1. Sync the visible text with the hidden input
 input.addEventListener('input', () => {
     cmdText.textContent = input.value;
 });
 
-// 2. Handle the "Enter" key
 input.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
         const fullCommand = input.value.trim();
@@ -135,14 +142,19 @@ input.addEventListener('keydown', function(event) {
             }
         }
 
-        // Reset everything for the next command
+        // Run this at the end of EVERY command to ensure the visual prompt never breaks
+        updatePrompt();
+
         input.value = ''; 
         cmdText.textContent = '';
-
         window.scrollTo(0, document.body.scrollHeight);
     }
 });
 
-// Keep focus on the input
-document.addEventListener('click', () => input.focus());
+// FIX 2: Only force focus back to the input if they didn't click a link!
+document.addEventListener('click', (event) => {
+    if (event.target.tagName !== 'A') {
+        input.focus();
+    }
+});
 document.addEventListener('keydown', () => input.focus());
