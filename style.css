@@ -14,14 +14,15 @@ body {
 }
 
 p {
-    margin: 2px 0; /* Reduced from 5px for tighter grouping */
-    line-height: 1.2; /* Reduced from 1.5 to bring lines closer vertically */
+    margin: 0; /* Absolute zero margin between output lines */
+    line-height: 1.1; /* Extremely tight line height */
+    padding-bottom: 2px; /* Just a tiny pixel of breathing room so characters don't touch */
 }
 
 #input-line {
     display: flex;
     align-items: center;
-    margin-top: 4px; /* Reduced from 10px so the prompt sits closer to previous output */
+    margin-top: 2px; /* Barely any gap before the new prompt appears */
     position: relative; 
 }
 
