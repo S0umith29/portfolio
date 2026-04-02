@@ -6,6 +6,7 @@ const input = document.getElementById('command-input');
 const output = document.getElementById('output');
 const cmdText = document.getElementById('cmd-text');
 
+// 1 & 2: Added contact.txt and resume.pdf to the file system
 const fileSystem = {
     '/': {
         type: "directory",
@@ -14,6 +15,14 @@ const fileSystem = {
     '/about_me.txt': {
         type: "file",
         content: "Hello, I'm Sowmith! I'm a software engineer focused on distributed systems and web tech. I've tried to build a mini linux portfolio, enjoy exploring!!!"
+    },
+    '/contact.txt': {
+        type: "file",
+        content: "Let's connect!<br>Email: <a href='mailto:your.email@example.com' style='color: #58a6ff;'>your.email@example.com</a><br>LinkedIn: <a href='https://linkedin.com/in/soumith29' target='_blank' style='color: #58a6ff;'>linkedin.com/in/soumith29</a>"
+    },
+    '/resume.pdf': {
+        type: "file",
+        content: "Opening resume in a new tab... <br>If it didn't open automatically, <a href='https://drive.google.com/file/d/1U6Hsf-wjn4_ZB-bezH0W78lrGrrMrKhg/view?usp=sharing' target='_blank' style='color: #58a6ff; text-decoration: underline;'>click here to view my resume</a>."
     }
 }
 
@@ -66,8 +75,16 @@ function processCommand(rawInput) {
     }
 
     switch (command) {
+        // 5: Changed the help command to be beginner-friendly
         case 'help':
-            return "Available commands: ls, cd, cat, clear, whoami, github, sudo";
+            return `Welcome! Here are the available commands to navigate my portfolio:<br><br>
+<span style="color: #58a6ff;">ls</span>     - List all files and folders in your current location<br>
+<span style="color: #58a6ff;">cd</span>     - Change directory (e.g., 'cd projects' to enter the projects folder)<br>
+<span style="color: #58a6ff;">cat</span>    - Read a file (e.g., 'cat about_me.txt' or 'cat resume.pdf')<br>
+<span style="color: #58a6ff;">clear</span>  - Clear the terminal screen<br>
+<span style="color: #58a6ff;">whoami</span> - Find out who built this terminal<br>
+<span style="color: #58a6ff;">github</span> - Opens my GitHub profile in a new tab<br>
+<span style="color: #58a6ff;">sudo</span>   - ??? (Super secret admin command)`;
         case 'whoami':
             return "Hey, this is Sowmith, nice to meet you!";
         case 'clear':
@@ -85,7 +102,7 @@ function processCommand(rawInput) {
         case "file":
             return `Command 'file' is not supported. Try using 'cat ${args[0] || "filename"}' instead.`;
         default:
-            return `Command not found: ${command}`; 
+            return `Command not found: ${command}. Type 'help' for a list of commands.`; 
     }
 }
 
@@ -124,18 +141,23 @@ function changeDirectory(target) {
     return ""; 
 }
 
+// 2: Auto-open the resume file if it is "cat'd"
 function readFile(fileName) {
     if (!fileName) return "usage: cat [file]";
     const filePath = resolvePath(fileName);
     if (fileSystem[filePath] && fileSystem[filePath].type === "file") {
+        if (filePath === "/resume.pdf") {
+            window.open('https://drive.google.com/file/d/1U6Hsf-wjn4_ZB-bezH0W78lrGrrMrKhg/view?usp=sharing', '_blank'); // Opens Google Drive link
+        }
         return fileSystem[filePath].content;
     }
     return `cat: ${fileName}: No such file or directory`;
 }
 
+// 4: Updated prompt
 function updatePrompt() {
     const displayPath = currentPath === "/" ? "~" : `~${currentPath}`;
-    document.querySelector("#input-line .prompt").textContent = `viewer@sowmith ${displayPath} %`;
+    document.querySelector("#input-line .prompt").textContent = `sowmith@portfolio ${displayPath} %`;
 }
 
 input.addEventListener('input', () => {
@@ -149,15 +171,12 @@ input.addEventListener('input', () => {
 input.addEventListener('keydown', function(event) {
     const currentPrompt = document.querySelector("#input-line .prompt").textContent;
 
-    // --- NEW: Handle Ctrl+C (SIGINT) ---
     if (event.ctrlKey && event.key.toLowerCase() === 'c') {
         if (isPasswordMode) {
-            // Cancel out of the password prompt
             output.innerHTML += `<p><span class="prompt">${currentPrompt}</span>^C</p>`;
             isPasswordMode = false;
             passwordAttempts = 0;
         } else {
-            // Cancel whatever command they were currently typing
             output.innerHTML += `<p><span class="prompt">${currentPrompt}</span> ${input.value}^C</p>`;
         }
         
@@ -165,7 +184,7 @@ input.addEventListener('keydown', function(event) {
         input.value = '';
         cmdText.textContent = '';
         window.scrollTo(0, document.body.scrollHeight);
-        return; // Stop the rest of the keydown event from firing
+        return; 
     }
 
     if (event.key === 'Enter') {
@@ -176,7 +195,7 @@ input.addEventListener('keydown', function(event) {
             passwordAttempts++;
 
             if (passwordAttempts >= 3) {
-                output.innerHTML += `<p>sudo: 3 incorrect password attempts</p>`;
+                output.innerHTML += `<p>sudo: 3 incorrect password attempts. This incident will be reported.</p>`;
                 isPasswordMode = false;     
                 passwordAttempts = 0;       
                 updatePrompt();             
@@ -220,7 +239,20 @@ document.addEventListener('click', (event) => {
 });
 document.addEventListener('keydown', () => input.focus());
 
+// 3: Dynamic MOTD Initialization
 window.addEventListener('DOMContentLoaded', () => {
-    const initialHelp = processCommand("help");
-    output.innerHTML += `<p>${initialHelp}</p>`;
+    // Generates standard date like: "Wed Apr 01 2026 09:24:36 GMT-0400"
+    const fullDate = new Date().toString(); 
+    
+    const motd = `
+        <p>Last login: ${fullDate}</p>
+        <p>======================================================================</p>
+        <p>👋 Welcome to Sowmith's Interactive Terminal Portfolio!</p>
+        <p>I'm a software engineer passionate about distributed systems & web tech.</p>
+        <p>======================================================================</p>
+        <p><br>💡 <b>Tip:</b> If you aren't familiar with terminal commands, simply type <span style="color: #58a6ff; font-weight: bold;">help</span> and hit Enter to see what you can do.</p>
+        <p><br></p>
+    `;
+    
+    output.innerHTML = motd;
 });
