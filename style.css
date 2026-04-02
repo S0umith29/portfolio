@@ -14,15 +14,15 @@ body {
 }
 
 p {
-    margin: 5px 0;
-    line-height: 1.5;
+    margin: 2px 0; /* Reduced from 5px for tighter grouping */
+    line-height: 1.2; /* Reduced from 1.5 to bring lines closer vertically */
 }
 
 #input-line {
     display: flex;
     align-items: center;
-    margin-top: 10px;
-    position: relative; /* Crucial for overlaying the input */
+    margin-top: 4px; /* Reduced from 10px so the prompt sits closer to previous output */
+    position: relative; 
 }
 
 .prompt {
