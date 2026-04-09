@@ -1,15 +1,22 @@
 let currentPath = "/";
+let currentTheme = 'dark';
 let isPasswordMode = false;
 let passwordAttempts = 0;
 
 let commandHistory = [];
 let historyIndex = -1;
 
+function applyTheme(theme) {
+    currentTheme = theme;
+    document.body.classList.toggle('light-theme', theme === 'light');
+    try { localStorage.setItem('portfolio-theme', theme); } catch(e) {}
+}
+
 let tabMatches = [];
 let tabIndex = -1;
 let lastTabInput = '';
 
-const availableCommands = ['help', 'ls', 'cd', 'cat', 'open', 'pwd', 'clear', 'whoami', 'github', 'sudo', 'file'];
+const availableCommands = ['help', 'ls', 'cd', 'cat', 'open', 'pwd', 'clear', 'whoami', 'github', 'sudo', 'file', 'theme'];
 
 const input = document.getElementById('command-input');
 const output = document.getElementById('output');
@@ -44,7 +51,7 @@ const fileSystem = {
     },
     '/resume.pdf': {
         type: "file",
-        content: "Opening resume in a new tab... <br>If it didn't open automatically, <a href='https://drive.google.com/file/d/1U6Hsf-wjn4_ZBbezH0W78lrGrrMrKhg/view?usp=sharing' target='_blank' style='color: #58a6ff; text-decoration: underline;'>click here to view my resume</a>."
+        content: "Opening resume in a new tab... <br>If it didn't open automatically, <a href='https://drive.google.com/file/d/1U6Hsf-wjn4_ZB-bezH0W78lrGrrMrKhg/view?usp=sharing' target='_blank' style='color: #58a6ff; text-decoration: underline;'>click here to view my resume</a>."
     }
 };
 
@@ -103,14 +110,15 @@ function processCommand(rawInput) {
     switch (command) {
         case 'help':
             return `Welcome! Here are the available commands to navigate my portfolio:<br><br>
-<span style="color: #58a6ff;">ls</span>     - List all files and folders in your current location<br>
-<span style="color: #58a6ff;">cd</span>     - Change directory (e.g., 'cd projects' to enter the projects folder)<br>
-<span style="color: #58a6ff;">cat</span>    - Read a file (e.g., 'cat about_me.txt' or 'cat resume.pdf')<br>
-<span style="color: #58a6ff;">open</span>   - Open a file (e.g., 'open resume.pdf')<br>
-<span style="color: #58a6ff;">pwd</span>    - Print current working directory<br>
-<span style="color: #58a6ff;">clear</span>  - Clear the terminal screen<br>
-<span style="color: #58a6ff;">whoami</span> - Find out who built this terminal<br>
-<span style="color: #58a6ff;">github</span> - Opens my GitHub profile in a new tab`;
+<span style="color: #58a6ff;">ls</span>          - List all files and folders in your current location<br>
+<span style="color: #58a6ff;">cd</span>          - Change directory (e.g., 'cd projects' to enter the projects folder)<br>
+<span style="color: #58a6ff;">cat</span>         - Read a file (e.g., 'cat about_me.txt' or 'cat resume.pdf')<br>
+<span style="color: #58a6ff;">open</span>        - Open a file (e.g., 'open resume.pdf')<br>
+<span style="color: #58a6ff;">pwd</span>         - Print current working directory<br>
+<span style="color: #58a6ff;">clear</span>       - Clear the terminal screen<br>
+<span style="color: #58a6ff;">whoami</span>      - Find out who built this terminal<br>
+<span style="color: #58a6ff;">github</span>      - Opens my GitHub profile in a new tab<br>
+<span style="color: #58a6ff;">theme</span>       - Switch colour theme (e.g., 'theme light' or 'theme dark')`;
         case 'whoami':
             return "Hey, this is Sowmith, nice to meet you!";
         case 'pwd':
@@ -132,6 +140,15 @@ function processCommand(rawInput) {
             return `Command 'file' is not supported. Try using 'cat ${args[0] || "filename"}' instead.`;
         case "sudo":
             return handleSudo();
+        case "theme":
+            if (!args[0]) {
+                return `Current theme: <span style="color: #58a6ff;">${currentTheme}</span><br>Usage: theme [dark|light]`;
+            }
+            if (args[0] === 'dark' || args[0] === 'light') {
+                applyTheme(args[0]);
+                return `Theme switched to <span style="color: #58a6ff;">${args[0]}</span>.`;
+            }
+            return `theme: unknown option '${args[0]}'. Available: dark, light`;
         default:
             return `Command not found: ${command}. Type 'help' for a list of commands.`;
     }
@@ -196,7 +213,7 @@ function readFile(fileName) {
         }
         if (fileSystem[filePath].type === "file") {
             if (filePath === "/resume.pdf") {
-                window.open('https://drive.google.com/file/d/1U6Hsf-wjn4_ZBbezH0W78lrGrrMrKhg/view?usp=sharing', '_blank');
+                window.open('https://drive.google.com/file/d/1U6Hsf-wjn4_ZB-bezH0W78lrGrrMrKhg/view?usp=sharing', '_blank');
             }
             return fileSystem[filePath].content;
         }
@@ -356,6 +373,12 @@ document.addEventListener('click', (event) => {
 document.addEventListener('keydown', () => input.focus());
 
 window.addEventListener('DOMContentLoaded', async () => {
+    // Restore saved theme preference
+    try {
+        const saved = localStorage.getItem('portfolio-theme');
+        if (saved === 'light' || saved === 'dark') applyTheme(saved);
+    } catch(e) {}
+
     const fullDate = new Date().toString();
 
     const asciiArt = String.raw`

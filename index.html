@@ -7,12 +7,22 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="terminal">
-        <div id="output"></div>
-        <div id="input-line">
-            <span class="prompt">sowmith@portfolio ~ %</span>
-            <span id="cmd-text"></span><span id="cursor"></span>
-            <input type="text" id="command-input" autocomplete="off" spellcheck="false" autofocus>
+    <div id="terminal-window">
+        <div id="titlebar">
+            <div id="traffic-lights">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+            </div>
+            <span id="titlebar-text">sowmith@portfolio — zsh</span>
+        </div>
+        <div id="terminal">
+            <div id="output"></div>
+            <div id="input-line">
+                <span class="prompt">sowmith@portfolio ~ %</span>
+                <span id="cmd-text"></span><span id="cursor"></span>
+                <input type="text" id="command-input" autocomplete="off" spellcheck="false" autofocus>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>

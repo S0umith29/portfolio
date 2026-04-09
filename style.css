@@ -1,69 +1,179 @@
+/* ── Theme variables ─────────────────────────────────────────── */
+:root {
+    --bg-outer:     #101010;
+    --bg-titlebar:  #2c2c2c;
+    --bg-terminal:  #1e1e1e;
+    --text:         #d4d4d4;
+    --prompt-color: #4ec9b0;
+    --cursor-color: #d4d4d4;
+    --link-color:   #58a6ff;
+    --titlebar-fg:  #888888;
+    --border:       rgba(255, 255, 255, 0.07);
+    --shadow:       rgba(0, 0, 0, 0.65);
+    --dot-red:      #ff5f57;
+    --dot-yellow:   #ffbd2e;
+    --dot-green:    #28c840;
+}
+
+body.light-theme {
+    --bg-outer:     #a8a8a8;
+    --bg-titlebar:  #dcdcdc;
+    --bg-terminal:  #f5f5f5;
+    --text:         #1a1a1a;
+    --prompt-color: #007acc;
+    --cursor-color: #1a1a1a;
+    --link-color:   #0451a5;
+    --titlebar-fg:  #555555;
+    --border:       rgba(0, 0, 0, 0.12);
+    --shadow:       rgba(0, 0, 0, 0.28);
+}
+
+/* ── Reset ───────────────────────────────────────────────────── */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* ── Page ────────────────────────────────────────────────────── */
 body {
-    background-color: #36454F; /* Charcoal Gray */
-    color: #FFFFFF; /* White text */
+    background-color: var(--bg-outer);
+    color: var(--text);
     font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
     margin: 0;
-    padding: 20px;
-    height: 100vh;
-    box-sizing: border-box;
-    font-size: 16px;
-    text-shadow: 0 0 4px rgba(255, 255, 255, 0.4);
+    padding: 48px 20px 40px;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    transition: background-color 0.3s ease;
 }
 
+/* ── Terminal window chrome ──────────────────────────────────── */
+#terminal-window {
+    width: 100%;
+    max-width: 920px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px var(--shadow), 0 0 0 1px var(--border);
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 88px);
+    transition: box-shadow 0.3s ease;
+}
+
+#titlebar {
+    background-color: var(--bg-titlebar);
+    padding: 11px 16px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    user-select: none;
+    transition: background-color 0.3s ease;
+}
+
+#traffic-lights {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    z-index: 1;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.9;
+}
+
+.dot.red    { background-color: var(--dot-red); }
+.dot.yellow { background-color: var(--dot-yellow); }
+.dot.green  { background-color: var(--dot-green); }
+
+#titlebar-text {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--titlebar-fg);
+    font-size: 13px;
+    letter-spacing: 0.01em;
+    pointer-events: none;
+    transition: color 0.3s ease;
+}
+
+/* ── Terminal body ───────────────────────────────────────────── */
 #terminal {
-    max-width: 800px;
+    background-color: var(--bg-terminal);
+    padding: 16px 20px 20px;
+    flex: 1;
     overflow-x: hidden;
+    transition: background-color 0.3s ease;
 }
 
+/* ── Output text ─────────────────────────────────────────────── */
 p {
-    margin: 0; /* Absolute zero margin between output lines */
-    line-height: 1.1; /* Extremely tight line height */
-    padding-bottom: 2px; /* Just a tiny pixel of breathing room so characters don't touch */
+    margin: 0;
+    line-height: 1.45;
+    padding-bottom: 1px;
+    font-size: 14px;
+    color: var(--text);
+    transition: color 0.3s ease;
 }
 
+/* ── Input line ──────────────────────────────────────────────── */
 #input-line {
     display: flex;
     align-items: center;
-    margin-top: 2px; /* Barely any gap before the new prompt appears */
-    position: relative; 
+    margin-top: 2px;
+    position: relative;
 }
 
 .prompt {
-    margin-right: 10px;
-    color: #FFFFFF;
+    margin-right: 8px;
+    color: var(--prompt-color);
     font-weight: bold;
+    white-space: nowrap;
+    font-size: 14px;
+    transition: color 0.3s ease;
 }
 
-/* Make the visible text respect spaces you type */
 #cmd-text {
-    white-space: pre; 
+    white-space: pre;
+    color: var(--text);
+    font-size: 14px;
 }
 
-/* The Thick Vertical Cursor */
+/* ── Blinking cursor ─────────────────────────────────────────── */
 #cursor {
     display: inline-block;
-    width: 6px; /* Adjust this to make it thicker/thinner */
-    height: 1.2em;
-    background-color: #FFFFFF;
-    margin-left: 2px;
-    animation: thickBlink 1s step-end infinite;
+    width: 7px;
+    height: 1.1em;
+    background-color: var(--cursor-color);
+    margin-left: 1px;
+    animation: blink 1s step-end infinite;
     vertical-align: text-bottom;
+    transition: background-color 0.3s ease;
 }
 
-/* The Invisible Input */
+@keyframes blink {
+    from, to { opacity: 1; }
+    50%       { opacity: 0; }
+}
+
+/* ── Hidden real input ───────────────────────────────────────── */
 #command-input {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0; /* Completely hidden, but still clickable and typable */
+    opacity: 0;
     cursor: text;
     border: none;
     outline: none;
-}
-
-@keyframes thickBlink {
-    from, to { opacity: 1; }
-    50% { opacity: 0; }
+    background: transparent;
+    color: transparent;
+    caret-color: transparent;
+    font-family: inherit;
 }
