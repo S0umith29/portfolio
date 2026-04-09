@@ -184,7 +184,12 @@ function changeDirectory(target) {
 
 function readFile(fileName) {
     if (!fileName) return "usage: cat [file]";
-    const filePath = resolvePath(fileName);
+    let filePath = resolvePath(fileName);
+    // If not found in current directory, try root as fallback
+    if (!fileSystem[filePath] && currentPath !== "/") {
+        const rootPath = `/${fileName}`;
+        if (fileSystem[rootPath]) filePath = rootPath;
+    }
     if (fileSystem[filePath]) {
         if (fileSystem[filePath].type === "directory") {
             return `cat: ${fileName}: Is a directory`;
