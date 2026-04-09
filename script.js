@@ -1,27 +1,42 @@
 let currentPath = "/";
-let isPasswordMode = false;   
-let passwordAttempts = 0;     
+let isPasswordMode = false;
+let passwordAttempts = 0;
 
-// --- NEW: Command History Variables ---
 let commandHistory = [];
 let historyIndex = -1;
 
-// --- NEW: Tab Completion Dictionary ---
-const availableCommands = ['help', 'ls', 'cd', 'cat', 'clear', 'whoami', 'github', 'sudo'];
+let tabMatches = [];
+let tabIndex = -1;
+let lastTabInput = '';
+
+const availableCommands = ['help', 'ls', 'cd', 'cat', 'open', 'pwd', 'clear', 'whoami', 'github', 'sudo', 'file'];
 
 const input = document.getElementById('command-input');
 const output = document.getElementById('output');
 const cmdText = document.getElementById('cmd-text');
 
-// Updated with your actual links and emails
+function escapeHtml(str) {
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
 const fileSystem = {
     '/': {
         type: "directory",
         children: ["projects", "about_me.txt", "resume.pdf", "contact.txt"]
     },
+    '/projects': {
+        type: "directory",
+        children: [],
+        loading: true
+    },
     '/about_me.txt': {
         type: "file",
-        content: "Hello, I'm Sowmith! I'm a software engineer focused on distributed systems and web tech. I've tried to build a mini linux portfolio, enjoy exploring!!!"
+        content: "Name:     Sowmith Kuppa\nRole:     Software Engineer\nFocus:    Distributed systems &amp; backend infrastructure\n\nI enjoy building systems that scale — from distributed databases\nto side projects like this terminal portfolio.\n\nWhen I'm not coding, I'm usually deep in a systems design paper\nor tinkering with something new.\n\nFeel free to explore — check out /projects, grab /resume.pdf,\nor find me in /contact.txt."
     },
     '/contact.txt': {
         type: "file",
@@ -31,23 +46,25 @@ const fileSystem = {
         type: "file",
         content: "Opening resume in a new tab... <br>If it didn't open automatically, <a href='https://drive.google.com/file/d/1U6Hsf-wjn4_ZBbezH0W78lrGrrMrKhg/view?usp=sharing' target='_blank' style='color: #58a6ff; text-decoration: underline;'>click here to view my resume</a>."
     }
-}
+};
 
 async function fetchGithubProjects() {
     const username = 's0umith29';
     try {
         const response = await fetch(`https://api.github.com/users/${username}/repos`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const repos = await response.json();
 
         fileSystem['/projects'] = {
             type: "directory",
-            children: []
+            children: [],
+            loading: false
         };
 
         repos.forEach(repo => {
             fileSystem["/projects"].children.push(repo.name);
             const safeDesc = repo.description ? repo.description.replace(/</g, "&lt;").replace(/>/g, "&gt;") : "No description provided.";
-            
+
             fileSystem[`/projects/${repo.name}`] = {
                 type: "file",
                 repo_url: repo.html_url,
@@ -55,7 +72,9 @@ async function fetchGithubProjects() {
             };
         });
     } catch (e) {
-        console.log("Offline mode: Github projects not loaded.");
+        fileSystem['/projects'].loading = false;
+        fileSystem['/projects'].error = true;
+        console.log("Offline mode: Github projects not loaded.", e.message);
     }
 }
 fetchGithubProjects();
@@ -87,12 +106,15 @@ function processCommand(rawInput) {
 <span style="color: #58a6ff;">ls</span>     - List all files and folders in your current location<br>
 <span style="color: #58a6ff;">cd</span>     - Change directory (e.g., 'cd projects' to enter the projects folder)<br>
 <span style="color: #58a6ff;">cat</span>    - Read a file (e.g., 'cat about_me.txt' or 'cat resume.pdf')<br>
+<span style="color: #58a6ff;">open</span>   - Open a file (e.g., 'open resume.pdf')<br>
+<span style="color: #58a6ff;">pwd</span>    - Print current working directory<br>
 <span style="color: #58a6ff;">clear</span>  - Clear the terminal screen<br>
 <span style="color: #58a6ff;">whoami</span> - Find out who built this terminal<br>
-<span style="color: #58a6ff;">github</span> - Opens my GitHub profile in a new tab<br>
-<span style="color: #58a6ff;">sudo</span>   - ??? (Super secret admin command)`;
+<span style="color: #58a6ff;">github</span> - Opens my GitHub profile in a new tab`;
         case 'whoami':
             return "Hey, this is Sowmith, nice to meet you!";
+        case 'pwd':
+            return currentPath;
         case 'clear':
             output.innerHTML = '';
             return '';
@@ -104,12 +126,22 @@ function processCommand(rawInput) {
         case "cd":
             return changeDirectory(args[0]);
         case "cat":
+        case "open":
             return readFile(args[0]);
         case "file":
             return `Command 'file' is not supported. Try using 'cat ${args[0] || "filename"}' instead.`;
+        case "sudo":
+            return handleSudo();
         default:
-            return `Command not found: ${command}. Type 'help' for a list of commands.`; 
+            return `Command not found: ${command}. Type 'help' for a list of commands.`;
     }
+}
+
+function handleSudo() {
+    isPasswordMode = true;
+    passwordAttempts = 0;
+    document.querySelector("#input-line .prompt").textContent = "Password:";
+    return '';
 }
 
 function listDirectory(target) {
@@ -118,12 +150,15 @@ function listDirectory(target) {
 
     if (node) {
         if (node.type === "directory") {
+            if (node.loading) return "Fetching GitHub repositories...";
+            if (node.error) return "(error loading repositories — check your connection)";
+            if (node.children.length === 0) return "(empty directory)";
             return node.children.join("   ");
         } else if (node.type === "file") {
-            return `${target} <br>💡 Hint: Use 'cat ${target}' to view its contents.`;
+            return `${target}  (use 'cat ${target}' to view its contents)`;
         }
     }
-    return `ls: ${target}: No such file or directory`;
+    return `ls: ${target || currentPath}: No such file or directory`;
 }
 
 function changeDirectory(target) {
@@ -144,18 +179,22 @@ function changeDirectory(target) {
             return `cd: no such file or directory: ${target}`;
         }
     }
-    return ""; 
+    return "";
 }
 
 function readFile(fileName) {
     if (!fileName) return "usage: cat [file]";
     const filePath = resolvePath(fileName);
-    if (fileSystem[filePath] && fileSystem[filePath].type === "file") {
-        if (filePath === "/resume.pdf") {
-            // Opens your specific Google Drive link
-            window.open('https://drive.google.com/file/d/1U6Hsf-wjn4_ZBbezH0W78lrGrrMrKhg/view?usp=sharing', '_blank'); 
+    if (fileSystem[filePath]) {
+        if (fileSystem[filePath].type === "directory") {
+            return `cat: ${fileName}: Is a directory`;
         }
-        return fileSystem[filePath].content;
+        if (fileSystem[filePath].type === "file") {
+            if (filePath === "/resume.pdf") {
+                window.open('https://drive.google.com/file/d/1U6Hsf-wjn4_ZBbezH0W78lrGrrMrKhg/view?usp=sharing', '_blank');
+            }
+            return fileSystem[filePath].content;
+        }
     }
     return `cat: ${fileName}: No such file or directory`;
 }
@@ -165,9 +204,16 @@ function updatePrompt() {
     document.querySelector("#input-line .prompt").textContent = `sowmith@portfolio ${displayPath} %`;
 }
 
+function resetTabState() {
+    tabMatches = [];
+    tabIndex = -1;
+    lastTabInput = '';
+}
+
 input.addEventListener('input', () => {
+    resetTabState();
     if (isPasswordMode) {
-        cmdText.textContent = ''; 
+        cmdText.textContent = '';
     } else {
         cmdText.textContent = input.value;
     }
@@ -176,38 +222,40 @@ input.addEventListener('input', () => {
 input.addEventListener('keydown', function(event) {
     const currentPrompt = document.querySelector("#input-line .prompt").textContent;
 
-    // --- NEW: Handle Tab Completion ---
     if (event.key === 'Tab') {
-        event.preventDefault(); // Stop tab from un-focusing the input
+        event.preventDefault();
         const currentInput = input.value;
         const parts = currentInput.split(' ');
 
-        if (parts.length === 1) {
-            // Autocomplete commands
-            const match = availableCommands.find(cmd => cmd.startsWith(parts[0].toLowerCase()));
-            if (match) {
-                input.value = match + ' ';
-                cmdText.textContent = input.value;
-            }
-        } else if (parts.length === 2 && ['cd', 'cat', 'ls'].includes(parts[0].toLowerCase())) {
-            // Autocomplete files and directories in current path
-            const typedOut = parts[1];
-            const node = fileSystem[currentPath];
-            
-            if (node && node.children) {
-                const match = node.children.find(child => child.startsWith(typedOut));
-                if (match) {
-                    input.value = parts[0] + ' ' + match;
-                    cmdText.textContent = input.value;
+        // Re-compute matches only if input changed since last Tab
+        if (currentInput !== lastTabInput || tabMatches.length === 0) {
+            tabMatches = [];
+            tabIndex = -1;
+
+            if (parts.length === 1) {
+                tabMatches = availableCommands.filter(cmd => cmd.startsWith(parts[0].toLowerCase()));
+            } else if (parts.length === 2 && ['cd', 'cat', 'ls', 'open', 'file'].includes(parts[0].toLowerCase())) {
+                const typedOut = parts[1];
+                const node = fileSystem[currentPath];
+                if (node && node.children) {
+                    tabMatches = node.children.filter(child => child.startsWith(typedOut));
                 }
             }
+        }
+
+        if (tabMatches.length > 0) {
+            tabIndex = (tabIndex + 1) % tabMatches.length;
+            const match = tabMatches[tabIndex];
+            input.value = parts.length === 1 ? match + ' ' : parts[0] + ' ' + match;
+            lastTabInput = input.value;
+            cmdText.textContent = input.value;
         }
         return;
     }
 
-    // --- NEW: Handle Up Arrow (History) ---
     if (event.key === 'ArrowUp') {
         event.preventDefault();
+        resetTabState();
         if (historyIndex > 0) {
             historyIndex--;
             input.value = commandHistory[historyIndex];
@@ -216,9 +264,9 @@ input.addEventListener('keydown', function(event) {
         return;
     }
 
-    // --- NEW: Handle Down Arrow (History) ---
     if (event.key === 'ArrowDown') {
         event.preventDefault();
+        resetTabState();
         if (historyIndex < commandHistory.length - 1) {
             historyIndex++;
             input.value = commandHistory[historyIndex];
@@ -237,20 +285,20 @@ input.addEventListener('keydown', function(event) {
             isPasswordMode = false;
             passwordAttempts = 0;
         } else {
-            output.innerHTML += `<p><span class="prompt">${currentPrompt}</span> ${input.value}^C</p>`;
+            output.innerHTML += `<p><span class="prompt">${currentPrompt}</span> ${escapeHtml(input.value)}^C</p>`;
         }
-        
+        resetTabState();
         updatePrompt();
         input.value = '';
         cmdText.textContent = '';
         window.scrollTo(0, document.body.scrollHeight);
-        return; 
+        return;
     }
 
     if (event.key === 'Enter') {
         const fullCommand = input.value.trim();
-        
-        // --- NEW: Push to history if it's not a blank command or a password ---
+        resetTabState();
+
         if (fullCommand.length > 0 && !isPasswordMode) {
             commandHistory.push(fullCommand);
             historyIndex = commandHistory.length;
@@ -262,23 +310,20 @@ input.addEventListener('keydown', function(event) {
 
             if (passwordAttempts >= 3) {
                 output.innerHTML += `<p>sudo: 3 incorrect password attempts. This incident will be reported.</p>`;
-                isPasswordMode = false;     
-                passwordAttempts = 0;       
-                updatePrompt();             
+                isPasswordMode = false;
+                passwordAttempts = 0;
+                updatePrompt();
             } else {
                 output.innerHTML += `<p>Sorry, try again.</p>`;
             }
-        } 
-        else {
-            output.innerHTML += `<p><span class="prompt">${currentPrompt}</span> ${fullCommand}</p>`;
-            
+        } else {
+            output.innerHTML += `<p><span class="prompt">${currentPrompt}</span> ${escapeHtml(fullCommand)}</p>`;
+
             if (fullCommand.length > 0) {
                 const parts = fullCommand.trim().split(/\s+/);
-                
+
                 if (parts[0].toLowerCase() === 'sudo') {
-                    isPasswordMode = true;
-                    passwordAttempts = 0;
-                    document.querySelector("#input-line .prompt").textContent = "Password:";
+                    handleSudo();
                 } else {
                     const response = processCommand(fullCommand);
                     if (response) {
@@ -292,7 +337,7 @@ input.addEventListener('keydown', function(event) {
             }
         }
 
-        input.value = ''; 
+        input.value = '';
         cmdText.textContent = '';
         window.scrollTo(0, document.body.scrollHeight);
     }
@@ -306,16 +351,15 @@ document.addEventListener('click', (event) => {
 document.addEventListener('keydown', () => input.focus());
 
 window.addEventListener('DOMContentLoaded', () => {
-    const fullDate = new Date().toString(); 
-    
-    // --- NEW: Solid block ASCII Art built with String.raw to preserve formatting cleanly ---
+    const fullDate = new Date().toString();
+
     const asciiArt = String.raw`
 <pre style="color: #58a6ff; font-weight: bold; line-height: 1.1; font-size: clamp(8px, 1.2vw, 14px);">
-  ██████  ██████  ██     ██ ███    ███ ██ ████████ ██   ██    ██   ██ ██    ██ ██████  ██████   █████  
- ██      ██    ██ ██     ██ ████  ████ ██    ██    ██   ██    ██  ██  ██    ██ ██   ██ ██   ██ ██   ██ 
- ███████ ██    ██ ██  █  ██ ██ ████ ██ ██    ██    ███████    █████   ██    ██ ██████  ██████  ███████ 
-      ██ ██    ██ ██ ███ ██ ██  ██  ██ ██    ██    ██   ██    ██  ██  ██    ██ ██      ██      ██   ██ 
- ██████   ██████   ███ ███  ██      ██ ██    ██    ██   ██    ██   ██  ██████  ██      ██      ██   ██ 
+  ██████  ██████  ██     ██ ███    ███ ██ ████████ ██   ██    ██   ██ ██    ██ ██████  ██████   █████
+ ██      ██    ██ ██     ██ ████  ████ ██    ██    ██   ██    ██  ██  ██    ██ ██   ██ ██   ██ ██   ██
+ ███████ ██    ██ ██  █  ██ ██ ████ ██ ██    ██    ███████    █████   ██    ██ ██████  ██████  ███████
+      ██ ██    ██ ██ ███ ██ ██  ██  ██ ██    ██    ██   ██    ██  ██  ██    ██ ██      ██      ██   ██
+ ██████   ██████   ███ ███  ██      ██ ██    ██    ██   ██    ██   ██  ██████  ██      ██      ██   ██
 </pre>`;
 
     const motd = `
@@ -323,11 +367,10 @@ window.addEventListener('DOMContentLoaded', () => {
         ${asciiArt}
         <p>=================================================================================================</p>
         <p>👋 Welcome to my Terminal Portfolio!</p>
-        <p>I'm a software engineer focused on distributed systems and web tech. I've built a mini linux portfolio, enjoy exploring!!!</p>
+        <p>I'm a software engineer focused on distributed systems and web tech. Type <span style="color: #58a6ff; font-weight: bold;">help</span> to get started.</p>
         <p>=================================================================================================</p>
-        <p><br>💡 <b>Tip:</b> If you aren't familiar with terminal commands, simply type <span style="color: #58a6ff; font-weight: bold;">help</span> and hit Enter.</p>
         <p><br></p>
     `;
-    
+
     output.innerHTML = motd;
 });

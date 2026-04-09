@@ -12,6 +12,7 @@ body {
 
 #terminal {
     max-width: 800px;
+    overflow-x: hidden;
 }
 
 p {
