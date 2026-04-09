@@ -355,7 +355,7 @@ document.addEventListener('click', (event) => {
 });
 document.addEventListener('keydown', () => input.focus());
 
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
     const fullDate = new Date().toString();
 
     const asciiArt = String.raw`
@@ -367,12 +367,20 @@ window.addEventListener('DOMContentLoaded', () => {
  ██████   ██████   ███ ███  ██      ██ ██    ██    ██   ██    ██   ██  ██████  ██      ██      ██   ██
 </pre>`;
 
+    let visitorNum = '...';
+    try {
+        const res = await fetch('https://api.counterapi.dev/v1/sowmith-portfolio/views/up');
+        const data = await res.json();
+        visitorNum = data.count.toLocaleString();
+    } catch (e) {}
+
     const motd = `
         <p>Last login: ${fullDate}</p>
         ${asciiArt}
         <p>=================================================================================================</p>
         <p>👋 Welcome to my Terminal Portfolio!</p>
         <p>I'm a software engineer focused on distributed systems and web tech. Type <span style="color: #58a6ff; font-weight: bold;">help</span> to get started.</p>
+        <p>You are visitor <span style="color: #58a6ff; font-weight: bold;">#${visitorNum}</span></p>
         <p>=================================================================================================</p>
         <p><br></p>
     `;
