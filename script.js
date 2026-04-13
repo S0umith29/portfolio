@@ -16,7 +16,7 @@ let tabMatches = [];
 let tabIndex = -1;
 let lastTabInput = '';
 
-const availableCommands = ['help', 'ls', 'cd', 'cat', 'open', 'pwd', 'clear', 'whoami', 'github', 'sudo', 'file', 'theme'];
+const availableCommands = ['help', 'ls', 'cd', 'cat', 'open', 'pwd', 'clear', 'whoami', 'github', 'sudo', 'file', 'theme', 'about', 'projects', 'contact', 'resume'];
 
 const input = document.getElementById('command-input');
 const output = document.getElementById('output');
@@ -110,9 +110,14 @@ function processCommand(rawInput) {
     switch (command) {
         case 'help':
             return `Welcome! Here are the available commands to navigate my portfolio:<br><br>
+<span style="color: #58a6ff;">about</span>       - Read about me<br>
+<span style="color: #58a6ff;">projects</span>    - Browse my projects<br>
+<span style="color: #58a6ff;">resume</span>      - Open my resume<br>
+<span style="color: #58a6ff;">contact</span>     - View contact info<br>
+<br>
 <span style="color: #58a6ff;">ls</span>          - List all files and folders in your current location<br>
-<span style="color: #58a6ff;">cd</span>          - Change directory (e.g., 'cd projects' to enter the projects folder)<br>
-<span style="color: #58a6ff;">cat</span>         - Read a file (e.g., 'cat about_me.txt' or 'cat resume.pdf')<br>
+<span style="color: #58a6ff;">cd</span>          - Change directory (e.g., 'cd projects')<br>
+<span style="color: #58a6ff;">cat</span>         - Read a file (e.g., 'cat about_me.txt')<br>
 <span style="color: #58a6ff;">open</span>        - Open a file (e.g., 'open resume.pdf')<br>
 <span style="color: #58a6ff;">pwd</span>         - Print current working directory<br>
 <span style="color: #58a6ff;">clear</span>       - Clear the terminal screen<br>
@@ -149,6 +154,16 @@ function processCommand(rawInput) {
                 return `Theme switched to <span style="color: #58a6ff;">${args[0]}</span>.`;
             }
             return `theme: unknown option '${args[0]}'. Available: dark, light`;
+        // Plain-English aliases for non-technical visitors
+        case 'about':
+            return readFile('about_me.txt');
+        case 'projects':
+            changeDirectory('projects');
+            return listDirectory();
+        case 'contact':
+            return readFile('contact.txt');
+        case 'resume':
+            return readFile('resume.pdf');
         default:
             return `Command not found: ${command}. Type 'help' for a list of commands.`;
     }
@@ -170,7 +185,15 @@ function listDirectory(target) {
             if (node.loading) return "Fetching GitHub repositories...";
             if (node.error) return "(error loading repositories — check your connection)";
             if (node.children.length === 0) return "(empty directory)";
-            return node.children.join("   ");
+            return node.children.map(child => {
+                const childPath = targetPath === "/" ? `/${child}` : `${targetPath}/${child}`;
+                const childNode = fileSystem[childPath];
+                const isDir = childNode && childNode.type === "directory";
+                const cmd = isDir ? `cd ${child}` : `cat ${child}`;
+                const label = isDir ? `${child}/` : child;
+                const color = isDir ? 'var(--prompt-color)' : 'var(--link-color)';
+                return `<span class="cmd-chip" data-cmd="${cmd}" style="color: ${color};" title="Click to run: ${cmd}">${label}</span>`;
+            }).join("   ");
         } else if (node.type === "file") {
             return `${target}  (use 'cat ${target}' to view its contents)`;
         }
@@ -224,6 +247,24 @@ function readFile(fileName) {
 function updatePrompt() {
     const displayPath = currentPath === "/" ? "~" : `~${currentPath}`;
     document.querySelector("#input-line .prompt").textContent = `sowmith@portfolio ${displayPath} %`;
+}
+
+// Runs a command programmatically (used by clickable chips)
+function runCommand(cmd) {
+    if (isPasswordMode) return;
+    const currentPrompt = document.querySelector("#input-line .prompt").textContent;
+    commandHistory.push(cmd);
+    historyIndex = commandHistory.length;
+    output.innerHTML += `<p><span class="prompt">${currentPrompt}</span> ${escapeHtml(cmd)}</p>`;
+    const response = processCommand(cmd);
+    if (response) {
+        output.innerHTML += `<p>${response.replace(/\n/g, "<br>")}</p>`;
+    }
+    updatePrompt();
+    input.value = '';
+    cmdText.textContent = '';
+    window.scrollTo(0, document.body.scrollHeight);
+    input.focus();
 }
 
 function resetTabState() {
@@ -366,6 +407,12 @@ input.addEventListener('keydown', function(event) {
 });
 
 document.addEventListener('click', (event) => {
+    if (event.target.classList.contains('cmd-chip')) {
+        const cmd = event.target.getAttribute('data-cmd');
+        if (cmd) runCommand(cmd);
+        input.focus();
+        return;
+    }
     if (event.target.tagName !== 'A') {
         input.focus();
     }
@@ -405,6 +452,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         <p>I'm a software engineer focused on distributed systems and web tech. Type <span style="color: #58a6ff; font-weight: bold;">help</span> to get started.</p>
         <p>You are visitor <span style="color: #58a6ff; font-weight: bold;">#${visitorNum}</span></p>
         <p>=================================================================================================</p>
+        <p>Quick access →&nbsp;&nbsp;<span class="cmd-chip" data-cmd="about" title="Run: about">[ About Me ]</span>&nbsp;&nbsp;<span class="cmd-chip" data-cmd="projects" title="Run: projects">[ Projects ]</span>&nbsp;&nbsp;<span class="cmd-chip" data-cmd="resume" title="Run: resume">[ Resume ]</span>&nbsp;&nbsp;<span class="cmd-chip" data-cmd="contact" title="Run: contact">[ Contact ]</span></p>
         <p><br></p>
     `;
 

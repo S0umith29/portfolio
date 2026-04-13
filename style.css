@@ -161,6 +161,19 @@ p {
     50%       { opacity: 0; }
 }
 
+/* ── Clickable command chips (ls output + quick-access bar) ─── */
+.cmd-chip {
+    color: var(--link-color);
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+    user-select: none;
+}
+
+.cmd-chip:hover {
+    text-decoration: underline;
+    opacity: 0.75;
+}
+
 /* ── Hidden real input ───────────────────────────────────────── */
 #command-input {
     position: absolute;
