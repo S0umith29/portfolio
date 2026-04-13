@@ -5,6 +5,7 @@ let passwordAttempts = 0;
 
 let commandHistory = [];
 let historyIndex = -1;
+let motdHTML = '';
 
 function applyTheme(theme) {
     currentTheme = theme;
@@ -129,7 +130,7 @@ function processCommand(rawInput) {
         case 'pwd':
             return currentPath;
         case 'clear':
-            output.innerHTML = '';
+            output.innerHTML = motdHTML;
             return '';
         case 'github':
             window.open("https://github.com/s0umith29", "_blank");
@@ -457,4 +458,5 @@ window.addEventListener('DOMContentLoaded', async () => {
     `;
 
     output.innerHTML = motd;
+    motdHTML = motd;
 });
