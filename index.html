@@ -1,30 +1,395 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sowmith | Terminal</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sowmith Kuppa — Software Engineer</title>
+
+  <!-- Google Fonts: Archivo (headings) + Space Grotesk (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary:    '#18181B',
+            secondary:  '#3F3F46',
+            cta:        '#2563EB',
+            background: '#FAFAFA',
+            ink:        '#09090B',
+          },
+          fontFamily: {
+            heading: ['Archivo', 'sans-serif'],
+            body:    ['Space Grotesk', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- GSAP + ScrollTrigger via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+
+  <!-- Lenis smooth scroll via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js" defer></script>
+
+  <!-- Site styles -->
+  <link rel="stylesheet" href="css/main.css">
 </head>
-<body>
-    <div id="terminal-window">
-        <div id="titlebar">
-            <div id="traffic-lights">
-                <span class="dot red"></span>
-                <span class="dot yellow"></span>
-                <span class="dot green"></span>
-            </div>
-            <span id="titlebar-text">sowmith@portfolio — zsh</span>
+<body class="bg-background text-ink font-body antialiased">
+
+  <!-- ─────────────────────────── HERO ─────────────────────────── -->
+  <section id="hero-scroll-area" class="relative" style="height:200vh;">
+    <div id="hero-sticky" class="sticky top-0 h-screen overflow-hidden bg-background">
+
+      <!-- Back shapes — sit behind text (z-10) -->
+      <div class="shape s-ring"  aria-hidden="true"></div>
+      <div class="shape s-blob"  aria-hidden="true"></div>
+      <div class="shape s-bar"   aria-hidden="true"></div>
+
+      <!-- Hero text — z-20 -->
+      <div class="relative z-20 h-full flex flex-col items-center justify-center text-center px-6">
+        <p class="hero-label">Software Engineer &middot; AI / ML &middot; MLOps</p>
+
+        <h1 class="hero-name font-heading text-primary leading-none tracking-tighter mt-4">
+          <div class="overflow-hidden"><span class="name-line">SOWMITH</span></div>
+          <div class="overflow-hidden"><span class="name-line">KUPPA</span></div>
+        </h1>
+
+        <p class="hero-tagline font-body text-secondary leading-relaxed mt-6">
+          Building reliable AI &amp; RAG systems<br class="hidden sm:block">
+          with scalable MLOps infrastructure.
+        </p>
+
+        <div class="hero-cta flex items-center gap-4 flex-wrap justify-center mt-10">
+          <a href="#projects" class="btn-primary">View Work</a>
+          <a href="#contact"  class="btn-secondary">Get in Touch</a>
         </div>
-        <div id="terminal">
-            <div id="output"></div>
-            <div id="input-line">
-                <span class="prompt">sowmith@portfolio ~ %</span>
-                <span id="cmd-text"></span><span id="cursor"></span>
-                <input type="text" id="command-input" autocomplete="off" spellcheck="false" autofocus>
-            </div>
-        </div>
+      </div>
+
+      <!-- Front shapes — pass over text (z-30, very subtle) -->
+      <div class="shape s-square" aria-hidden="true"></div>
+      <div class="shape s-dot"    aria-hidden="true"></div>
+
+      <!-- Scroll indicator -->
+      <div class="scroll-cue" aria-hidden="true">
+        <span class="font-body text-[10px] tracking-[0.2em] uppercase text-secondary/60">Scroll</span>
+        <div class="scroll-cue-line"></div>
+      </div>
     </div>
-    <script src="script.js"></script>
+  </section>
+  <!-- ──────────────────────── /HERO ──────────────────────────── -->
+
+  <!-- ─────────────────────────── ABOUT ─────────────────────────── -->
+  <section id="about" class="py-24 md:py-36 px-6">
+    <div class="max-w-6xl mx-auto">
+
+      <header class="reveal-up mb-14 md:mb-20">
+        <p class="section-eyebrow">01 &mdash;</p>
+        <h2 class="section-title font-heading">About</h2>
+      </header>
+
+      <div class="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-10 md:gap-20 items-center">
+
+        <!-- Photo -->
+        <figure class="about-photo reveal-up">
+          <img
+            src="assets/profile.jpg"
+            alt="Sowmith Kuppa — Software Engineer and AI/ML Researcher"
+            class="about-img">
+        </figure>
+
+        <!-- Bio -->
+        <div class="about-bio reveal-up">
+          <p class="bio-lead">I'm Sowmith Kuppa — an M.Sc. Computer Science graduate from Old Dominion University, focused on machine learning, MLOps, and reliable AI systems.</p>
+          <p>I've built and deployed deep learning models in PyTorch and TensorFlow, designed Retrieval-Augmented Generation (RAG) pipelines, and run data-driven experiments that improved model accuracy by 20%. My work combines AI reliability, cloud automation, and data engineering — turning complex research into production-ready systems.</p>
+          <p>Before AI, I spent years in IT consulting and systems administration, managing large-scale Windows and Linux environments, automating infrastructure with Ansible and Terraform, and driving CI/CD pipelines with Jenkins and Kubernetes. That grounding gives me a sharp intuition for real-world system reliability.</p>
+          <p>I'm passionate about responsible, reproducible AI — from data preprocessing through monitoring and model refinement — always looking to bridge research, automation, and practical impact.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- ─────────────────────────── /ABOUT ─────────────────────────── -->
+
+  <!-- ────────────────────────── PROJECTS ────────────────────────── -->
+  <section id="projects" class="py-24 md:py-36 px-6 bg-[#F5F5F6]">
+    <div class="max-w-6xl mx-auto">
+
+      <header class="reveal-up mb-14 md:mb-20">
+        <p class="section-eyebrow">02 &mdash;</p>
+        <h2 class="section-title font-heading">Projects</h2>
+      </header>
+
+      <div class="projects-grid">
+
+        <!-- MedSim — featured, spans both columns -->
+        <article class="project-card project-card--featured">
+          <div class="flex items-start justify-between gap-4 mb-4 flex-wrap">
+            <span class="project-tag project-tag--active">Active</span>
+            <span class="project-private">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Private
+            </span>
+          </div>
+          <h3 class="project-title">MedSim</h3>
+          <p class="project-subtitle">Virtual Patient Simulator &middot; Jan 2025 – Present</p>
+          <p class="project-desc">Comprehensive medical simulation platform with AI-powered evaluation capabilities. Re-architected into microservices with a Hybrid RAG pipeline on GCP — featuring an automated OSCE-style evaluation engine for real-time clinical performance analysis, containerized deployment on Google Cloud Run with optimised cold-start, and Vertex AI Vector Search with Gemini 2.5 Pro for context retrieval.</p>
+          <div class="tech-chips">
+            <span class="tech-chip">React.js</span>
+            <span class="tech-chip">FastAPI</span>
+            <span class="tech-chip">GCP</span>
+            <span class="tech-chip">Vertex AI</span>
+            <span class="tech-chip">RAG</span>
+            <span class="tech-chip">Docker</span>
+            <span class="tech-chip">Cloud Run</span>
+            <span class="tech-chip">Gemini 2.5 Pro</span>
+          </div>
+        </article>
+
+        <!-- Clinical-Copilot -->
+        <article class="project-card">
+          <span class="project-tag">AI / ML</span>
+          <h3 class="project-title">Clinical-Copilot</h3>
+          <p class="project-subtitle">AI-Powered Clinical Assistant &middot; Oct 2025</p>
+          <p class="project-desc">Advanced AI system to assist healthcare professionals with clinical decision-making and medical knowledge retrieval using RAG pipelines and large language models.</p>
+          <div class="tech-chips">
+            <span class="tech-chip">Python</span>
+            <span class="tech-chip">RAG</span>
+            <span class="tech-chip">LLM</span>
+            <span class="tech-chip">Healthcare AI</span>
+          </div>
+          <a href="https://github.com/s0umith29/Clinical-Copilot"
+             target="_blank" rel="noopener noreferrer"
+             class="project-link">
+            View on GitHub
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </article>
+
+        <!-- Manuscript -->
+        <article class="project-card">
+          <span class="project-tag">AI Agent</span>
+          <h3 class="project-title">Manuscript</h3>
+          <p class="project-subtitle">AI Agent for Documentation &middot; Sep 2025</p>
+          <p class="project-desc">An AI-agent for internal documentation and querying. Streamlines knowledge management with intelligent document search, retrieval, and knowledge extraction.</p>
+          <div class="tech-chips">
+            <span class="tech-chip">Python</span>
+            <span class="tech-chip">AI Agents</span>
+            <span class="tech-chip">NLP</span>
+            <span class="tech-chip">Search</span>
+          </div>
+          <a href="https://github.com/s0umith29/Manuscript"
+             target="_blank" rel="noopener noreferrer"
+             class="project-link">
+            View on GitHub
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </article>
+
+        <!-- AI-monitoring -->
+        <article class="project-card">
+          <span class="project-tag">MLOps</span>
+          <h3 class="project-title">AI-monitoring</h3>
+          <p class="project-subtitle">MLOps Infrastructure &middot; Feb 2025</p>
+          <p class="project-desc">Production-ready ML monitoring and orchestration using Kubeflow and DevOps principles. Comprehensive lifecycle management for machine learning workflows.</p>
+          <div class="tech-chips">
+            <span class="tech-chip">Kubeflow</span>
+            <span class="tech-chip">Kubernetes</span>
+            <span class="tech-chip">MLOps</span>
+            <span class="tech-chip">DevOps</span>
+          </div>
+          <a href="https://github.com/s0umith29/AI-monitoring"
+             target="_blank" rel="noopener noreferrer"
+             class="project-link">
+            View on GitHub
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </article>
+
+        <!-- Transgaurd -->
+        <article class="project-card">
+          <span class="project-tag">AI / ML</span>
+          <h3 class="project-title">Transgaurd</h3>
+          <p class="project-subtitle">Fraud Detection System &middot; Jun 2022</p>
+          <p class="project-desc">Machine learning model that classifies whether a financial transaction is fraudulent using transaction details. Real-time fraud detection with ML-based classification.</p>
+          <div class="tech-chips">
+            <span class="tech-chip">Python</span>
+            <span class="tech-chip">Scikit-learn</span>
+            <span class="tech-chip">ML</span>
+            <span class="tech-chip">Fraud Detection</span>
+          </div>
+          <a href="https://github.com/s0umith29/Transgaurd"
+             target="_blank" rel="noopener noreferrer"
+             class="project-link">
+            View on GitHub
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+  <!-- ────────────────────────── /PROJECTS ───────────────────────── -->
+
+  <!-- ─────────────────────────── SKILLS ─────────────────────────── -->
+  <section id="skills" class="py-24 md:py-36 px-6">
+    <div class="max-w-6xl mx-auto">
+
+      <header class="reveal-up mb-14 md:mb-20">
+        <p class="section-eyebrow">03 &mdash;</p>
+        <h2 class="section-title font-heading">Skills</h2>
+      </header>
+
+      <div class="skills-list">
+
+        <div class="skill-group">
+          <p class="skill-category">AI &amp; Machine Learning</p>
+          <div class="skill-chips-wrap">
+            <span class="skill-chip">PyTorch</span>
+            <span class="skill-chip">TensorFlow</span>
+            <span class="skill-chip">Scikit-learn</span>
+            <span class="skill-chip">RAG</span>
+            <span class="skill-chip">Agentic AI</span>
+            <span class="skill-chip">Apache Spark</span>
+            <span class="skill-chip">Hyperparameter Tuning</span>
+            <span class="skill-chip">ML Pipeline Automation</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <p class="skill-category">MLOps &amp; DevOps</p>
+          <div class="skill-chips-wrap">
+            <span class="skill-chip">Kubernetes</span>
+            <span class="skill-chip">Docker</span>
+            <span class="skill-chip">Terraform</span>
+            <span class="skill-chip">Ansible</span>
+            <span class="skill-chip">Jenkins</span>
+            <span class="skill-chip">ArgoCD</span>
+            <span class="skill-chip">Helm</span>
+            <span class="skill-chip">GitLab CI/CD</span>
+            <span class="skill-chip">Canary / Blue-Green Deployments</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <p class="skill-category">Cloud Platforms</p>
+          <div class="skill-chips-wrap">
+            <span class="skill-chip">GCP</span>
+            <span class="skill-chip">AWS</span>
+            <span class="skill-chip">Vertex AI</span>
+            <span class="skill-chip">Cloud Run</span>
+            <span class="skill-chip">GKE</span>
+            <span class="skill-chip">Vector Search</span>
+            <span class="skill-chip">Cloud Storage</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <p class="skill-category">Languages</p>
+          <div class="skill-chips-wrap">
+            <span class="skill-chip">Python</span>
+            <span class="skill-chip">Go</span>
+            <span class="skill-chip">Java</span>
+            <span class="skill-chip">JavaScript</span>
+            <span class="skill-chip">Bash</span>
+            <span class="skill-chip">C++</span>
+            <span class="skill-chip">SQL</span>
+            <span class="skill-chip">PowerShell</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <p class="skill-category">Data &amp; Databases</p>
+          <div class="skill-chips-wrap">
+            <span class="skill-chip">Pandas</span>
+            <span class="skill-chip">NumPy</span>
+            <span class="skill-chip">PostgreSQL</span>
+            <span class="skill-chip">MySQL</span>
+            <span class="skill-chip">Data Visualization</span>
+            <span class="skill-chip">Statistical Analysis</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <p class="skill-category">Observability</p>
+          <div class="skill-chips-wrap">
+            <span class="skill-chip">Prometheus</span>
+            <span class="skill-chip">Grafana</span>
+            <span class="skill-chip">Datadog</span>
+            <span class="skill-chip">ML Monitoring</span>
+            <span class="skill-chip">Zabbix</span>
+            <span class="skill-chip">Graylog</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- ─────────────────────────── /SKILLS ─────────────────────────── -->
+
+  <!-- ────────────────────────── CONTACT ─────────────────────────── -->
+  <section id="contact" class="py-24 md:py-36 px-6 bg-primary">
+    <div class="max-w-6xl mx-auto">
+
+      <header class="reveal-up mb-14 md:mb-20">
+        <p class="section-eyebrow contact-eyebrow">04 &mdash;</p>
+        <h2 class="section-title contact-heading font-heading">Get in Touch</h2>
+        <p class="contact-sub font-body">Open to new opportunities, research collaborations, and interesting problems.</p>
+      </header>
+
+      <div class="contact-cards">
+
+        <a href="mailto:soumith.odu@gmail.com" class="contact-card">
+          <div class="contact-icon-wrap" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </div>
+          <div>
+            <p class="contact-label">Email</p>
+            <p class="contact-value">soumith.odu@gmail.com</p>
+          </div>
+        </a>
+
+        <a href="https://github.com/s0umith29"
+           target="_blank" rel="noopener noreferrer"
+           class="contact-card">
+          <div class="contact-icon-wrap" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+          </div>
+          <div>
+            <p class="contact-label">GitHub</p>
+            <p class="contact-value">github.com/s0umith29</p>
+          </div>
+        </a>
+
+        <a href="https://linkedin.com/in/soumith29"
+           target="_blank" rel="noopener noreferrer"
+           class="contact-card">
+          <div class="contact-icon-wrap" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          </div>
+          <div>
+            <p class="contact-label">LinkedIn</p>
+            <p class="contact-value">linkedin.com/in/soumith29</p>
+          </div>
+        </a>
+
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="bg-primary border-t border-white/[0.06] py-6 px-6 text-center">
+    <p class="font-body text-sm" style="color:rgba(255,255,255,0.5);">&copy; 2025 Sowmith Kuppa</p>
+  </footer>
+  <!-- ────────────────────────── /CONTACT ─────────────────────────── -->
+
+  <script src="js/main.js" defer></script>
 </body>
 </html>
