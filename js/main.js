@@ -247,7 +247,7 @@ function initScenes() {
   };
 }
 
-// the kinds of busywork teams hand me — each lands on the pile as the character sighs at it
+// the kinds of busywork teams hand me; each lands on the pile as the character sighs at it
 const TASKS = ['PDF → spreadsheet', 'Inbox triage', 'Weekly report', 'Data entry', 'Find that doc', 'Form intake', 'Ticket routing', 'Copy & paste', 'Status update'];
 
 function buildPile(root) {

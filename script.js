@@ -44,7 +44,7 @@ const fileSystem = {
     },
     '/about_me.txt': {
         type: "file",
-        content: "Name:     Sowmith Kuppa\nRole:     Software Engineer\nFocus:    Distributed systems &amp; backend infrastructure\n\nI enjoy building systems that scale — from distributed databases\nto side projects like this terminal portfolio.\n\nWhen I'm not coding, I'm usually deep in a systems design paper\nor tinkering with something new.\n\nFeel free to explore — check out /projects, grab /resume.pdf,\nor find me in /contact.txt."
+        content: "Name:     Sowmith Kuppa\nRole:     Software Engineer\nFocus:    Distributed systems &amp; backend infrastructure\n\nI enjoy building systems that scale, from distributed databases\nto side projects like this terminal portfolio.\n\nWhen I'm not coding, I'm usually deep in a systems design paper\nor tinkering with something new.\n\nFeel free to explore: check out /projects, grab /resume.pdf,\nor find me in /contact.txt."
     },
     '/contact.txt': {
         type: "file",
@@ -184,7 +184,7 @@ function listDirectory(target) {
     if (node) {
         if (node.type === "directory") {
             if (node.loading) return "Fetching GitHub repositories...";
-            if (node.error) return "(error loading repositories — check your connection)";
+            if (node.error) return "(error loading repositories, check your connection)";
             if (node.children.length === 0) return "(empty directory)";
             return node.children.map(child => {
                 const childPath = targetPath === "/" ? `/${child}` : `${targetPath}/${child}`;
