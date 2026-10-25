@@ -21,3 +21,9 @@ design-system/
 .env
 .env.local
 .env*.local
+
+# Character video working files (regenerable; the site only needs assets/web/)
+assets/sequence/
+assets/sequence_preview.mp4
+assets/clips/raw/
+assets/clips/[0-9][0-9]_*/

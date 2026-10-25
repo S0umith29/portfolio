@@ -1,0 +1,39 @@
+{
+ "count": 660,
+ "width": 1600,
+ "height": 900,
+ "sections": {
+  "hero": {
+   "start": 0,
+   "end": 61
+  },
+  "problem": {
+   "start": 62,
+   "end": 134
+  },
+  "build": {
+   "start": 135,
+   "end": 271
+  },
+  "result": {
+   "start": 272,
+   "end": 408
+  },
+  "projects": {
+   "start": 409,
+   "end": 479
+  },
+  "background": {
+   "start": 480,
+   "end": 539
+  },
+  "websites": {
+   "start": 540,
+   "end": 599
+  },
+  "contact": {
+   "start": 600,
+   "end": 659
+  }
+ }
+}
