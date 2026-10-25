@@ -48,16 +48,9 @@ b { font-weight: 600; }
   z-index: 10;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 20px var(--gutter);
   background: linear-gradient(to bottom, var(--bg) 35%, rgba(242, 234, 225, 0));
-}
-.mark {
-  font: 500 13px/1 var(--mono);
-  letter-spacing: 0.08em;
-  border: 1px solid var(--ink);
-  border-radius: 999px;
-  padding: 9px 11px;
 }
 .topnav { display: flex; gap: 6px; align-items: center; }
 .topnav a {

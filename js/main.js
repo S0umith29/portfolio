@@ -248,7 +248,7 @@ function initScenes() {
 }
 
 // the kinds of busywork teams hand me; each lands on the pile as the character sighs at it
-const TASKS = ['PDF → spreadsheet', 'Inbox triage', 'Weekly report', 'Data entry', 'Find that doc', 'Form intake', 'Ticket routing', 'Copy & paste', 'Status update'];
+const TASKS = ['Manual hand-offs', 'Repeat questions', 'Request queue', 'Buried in docs', 'Weekly reports', 'Data cleanup', 'Status updates', 'Model not in prod', 'Copy & paste'];
 
 function buildPile(root) {
   const cards = [];
