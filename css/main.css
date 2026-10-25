@@ -415,7 +415,7 @@ a.path span { font-size: 14px; opacity: .75; }
     height: 28%;
     background: linear-gradient(to bottom, rgba(242,234,225,0), var(--bg));
   }
-  .topbar { padding: 14px 16px; }
+  .topbar { padding: 14px 16px; background: none; }   /* nothing scrolls under it here; keep the character's hair clear */
   .topnav a:not(.topnav-cta) { display: none; }
   .scene, .scene--hero, .scene--long { height: auto; }
   .panel {

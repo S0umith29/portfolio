@@ -18,6 +18,7 @@ const FRAMES = {
 };
 const MONITOR_RIGHT = 0.52;   // right edge of the desk + monitor, as a fraction of frame width
 const CHAR_CENTER   = 0.28;   // character + desk centre, used to frame phones
+const HEADROOM      = 0.15;   // most of the frame's top we may crop before reaching the hair
 const BG = '#F2EAE1';
 
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -122,7 +123,9 @@ function initStage() {
     canvas.width = Math.round(canvas.clientWidth * dpr);
     canvas.height = Math.round(canvas.clientHeight * dpr);
     const cw = canvas.width, ch = canvas.height;
-    const scale = Math.max(cw / FRAMES.width, ch / FRAMES.height);
+    // cover the stage, but never crop into the headroom above the character (head sits ~20% down);
+    // on wide, short stages the leftover space is plain backdrop colour
+    const scale = Math.min(Math.max(cw / FRAMES.width, ch / FRAMES.height), ch / (FRAMES.height * (1 - HEADROOM)));
     const dw = FRAMES.width * scale, dh = FRAMES.height * scale;
     let dx;
     if (isNarrow()) {
@@ -135,7 +138,7 @@ function initStage() {
       const left = (dx + MONITOR_RIGHT * dw) / dpr + 24;
       document.documentElement.style.setProperty('--content-left', `${Math.round(left)}px`);
     }
-    dx = Math.min(0, Math.max(cw - dw, dx));
+    dx = dw >= cw ? Math.min(0, Math.max(cw - dw, dx)) : clamp(isNarrow() ? dx : 0, 0, cw - dw);
     layout = { dx, dy: ch - dh, dw, dh };                      // bottom stays flush, like the video
     lastDrawn = -1;
   }
@@ -173,6 +176,17 @@ function initStage() {
         ctx.globalAlpha = a;
         ctx.drawImage(frames[i + 1], dx, dy, dw, dh);
         ctx.globalAlpha = 1;
+      }
+      // when the frame is narrower than the stage, melt its side edges into the page colour
+      if (dw < canvas.width - 1) {
+        const f = dw * 0.14;
+        for (const [x0, x1] of [[dx, dx + f], [dx + dw, dx + dw - f]]) {
+          const g = ctx.createLinearGradient(x0, 0, x1, 0);
+          g.addColorStop(0, BG);
+          g.addColorStop(1, 'rgba(242, 234, 225, 0)');
+          ctx.fillStyle = g;
+          ctx.fillRect(Math.min(x0, x1), dy, f, dh);
+        }
       }
     },
   };
