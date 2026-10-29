@@ -23,7 +23,7 @@ for folder, section in SEGMENTS:
     start = len(seq)
     seq += [Image.open(f).convert('RGB') for f in frames]
     manifest.append({'segment': folder, 'section': section, 'start': start, 'end': len(seq)-1})
-for i, im in enumerate(seq): im.save(f'{OUT}/{i+1:04d}.jpg', quality=90)
+for i, im in enumerate(seq): im.save(f'{OUT}/{i+1:04d}.jpg', quality=95)
 json.dump({'fps': 24, 'frames': len(seq), 'segments': manifest}, open(f'{OUT}/manifest.json','w'), indent=1)
 os.system(f'ffmpeg -v error -y -framerate 24 -i {OUT}/%04d.jpg -pix_fmt yuv420p -crf 18 ../sequence_preview.mp4')
 print('frames', len(seq))

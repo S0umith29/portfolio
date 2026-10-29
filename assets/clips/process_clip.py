@@ -3,6 +3,7 @@
 import sys, os, glob, numpy as np
 from PIL import Image, ImageFilter
 W,H,S_,OX,FEATHER = 2688,1520,0.8,80,200
+OUT = (int(os.environ.get('SEQ_W', 1920)), int(os.environ.get('SEQ_W', 1920)) * 9 // 16)   # SEQ_W, default 1920
 DESK_LEFT, DESK_TOP = 100, 1430
 src_dir, out_dir = sys.argv[1], sys.argv[2]
 s0,dx0,dy0,s1,dx1,dy1 = map(float, sys.argv[3:9])
@@ -35,5 +36,5 @@ for i,f in enumerate(files):
     fg = np.array(Image.fromarray((np.clip((diff-8)/17,0,1)*255).astype(np.uint8)).filter(ImageFilter.MaxFilter(9)).filter(ImageFilter.GaussianBlur(6)))
     arr[...,3] = np.maximum(alpha, fg)
     layer = Image.new('RGBA',(W,H),(0,0,0,0)); layer.paste(Image.fromarray(arr),(OX,H-h))
-    Image.alpha_composite(bg, layer).convert('RGB').resize((1920,1080), Image.LANCZOS).save(f'{out_dir}/{i+1:03d}.jpg', quality=92)
+    Image.alpha_composite(bg, layer).convert('RGB').resize(OUT, Image.LANCZOS).save(f'{out_dir}/{i+1:03d}.jpg', quality=95)
 print('frames', n)

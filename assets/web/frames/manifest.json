@@ -2,6 +2,7 @@
  "count": 660,
  "width": 1600,
  "height": 900,
+ "alpha": true,
  "sections": {
   "hero": {
    "start": 0,

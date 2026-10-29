@@ -5,13 +5,15 @@ import sys, os, glob, numpy as np
 from PIL import Image, ImageFilter
 mode, out_dir, N = sys.argv[1], sys.argv[2], int(sys.argv[3])
 pdir, first, last = sys.argv[4], int(sys.argv[5]), int(sys.argv[6])
-OUT = (1920, 1080)
+OUT = (int(os.environ.get('SEQ_W', 1920)), int(os.environ.get('SEQ_W', 1920)) * 9 // 16)   # match the clip frames (SEQ_W, default 1920)
 Z = '../anchor/zoomed'
 os.makedirs(out_dir, exist_ok=True)
 bg = np.asarray(Image.open(f'{Z}/backdrop.png').convert('RGB').resize(OUT)).astype(float)
 L = {k: Image.open(f'{Z}/layers/{k}.png').convert('RGBA').resize(OUT, Image.LANCZOS) for k in ['chair','desk','monitor']}
 W = OUT[0]
-STAGGER = {'chair': 0.0, 'desk': 0.12, 'monitor': 0.22}
+# desk and chair travel as one piece (the chair's cut-off bottom stays hidden behind the desk);
+# the monitor rides on the desk and lands a hair later, for a small settle
+STAGGER = {'chair': 0.0, 'desk': 0.0, 'monitor': 0.06}
 
 def ease_out_back(t, k=1.2):
     t -= 1; return 1 + (k+1)*t**3 + k*t**2
@@ -44,5 +46,5 @@ for i in range(N):
     frame = Image.alpha_composite(frame, him)
     frame = Image.alpha_composite(frame, moved('desk', p))
     frame = Image.alpha_composite(frame, moved('monitor', p))
-    frame.convert('RGB').save(f'{out_dir}/{i+1:03d}.jpg', quality=92)
+    frame.convert('RGB').save(f'{out_dir}/{i+1:03d}.jpg', quality=95)
 print(mode, N, 'person frames', len(src))

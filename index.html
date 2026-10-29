@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Sowmith Kuppa | AI Automation Engineer</title>
-  <meta name="description" content="Sowmith Kuppa designs and ships AI workflows, agents and RAG systems that take repetitive work off a team's plate. Certified Kubernetes Administrator.">
+  <meta name="description" content="Sowmith Kuppa helps teams automate the repetitive work eating their week, with AI workflows, agents and document search that keep running after launch. Book a free automation review.">
   <meta name="theme-color" content="#F2EAE1">
   <meta property="og:title" content="Sowmith Kuppa | AI Automation Engineer">
-  <meta property="og:description" content="I build AI that does the busywork: workflows, agents and RAG systems that give teams their hours back.">
+  <meta property="og:description" content="I build AI that does the busywork. Book a free 30-minute automation review.">
   <meta property="og:image" content="assets/web/frames/d/0062.webp">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,42 +15,78 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <link rel="preload" as="image" href="assets/web/frames/d/0001.webp" fetchpriority="high">
-  <link rel="stylesheet" href="css/main.css?v=8">
+  <link rel="stylesheet" href="css/main.css?v=20">
 
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js" defer></script>
-  <script src="js/main.js?v=12" defer></script>
+  <script src="js/main.js?v=28" defer></script>
 </head>
 <body>
 
   <!-- ─────────────────────────── STAGE ───────────────────────────
-       The character video lives here: one canvas, scrubbed by scroll. -->
+       An illustrated sky that follows the real time of day, with the character
+       video (one canvas, scrubbed by scroll) standing in front of it. -->
   <div class="stage" aria-hidden="true">
+    <div class="sky">
+      <canvas class="sky-stars sky-stars--a"></canvas>
+      <canvas class="sky-stars sky-stars--b"></canvas>
+      <canvas class="sky-sun" width="512" height="512"></canvas>
+      <canvas class="sky-moon" width="192" height="192"></canvas>
+      <div class="sky-clouds">
+        <svg class="cloud c1" viewBox="0 0 220 96"><use href="#cloud"/></svg>
+        <svg class="cloud c2" viewBox="0 0 220 96"><use href="#cloud"/></svg>
+        <svg class="cloud c3" viewBox="0 0 220 96"><use href="#cloud"/></svg>
+        <svg class="cloud c4" viewBox="0 0 220 96"><use href="#cloud"/></svg>
+        <svg class="cloud c5" viewBox="0 0 220 96"><use href="#cloud"/></svg>
+      </div>
+      <div class="sky-scrim"></div>
+    </div>
     <canvas id="stage-canvas"></canvas>
     <div class="stage-fade"></div>
   </div>
 
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="cloud-shade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0.35" style="stop-color: var(--cloud-top)"/>
+        <stop offset="1" style="stop-color: var(--cloud-bot)"/>
+      </linearGradient>
+      <symbol id="cloud" viewBox="0 0 220 96">
+        <g fill="url(#cloud-shade)">
+          <circle cx="58" cy="62" r="28"/><circle cx="96" cy="44" r="38"/><circle cx="142" cy="50" r="33"/>
+          <circle cx="178" cy="64" r="24"/><rect x="34" y="60" width="168" height="32" rx="16"/>
+        </g>
+      </symbol>
+    </defs>
+  </svg>
+
   <header class="topbar">
     <nav class="topnav">
+      <button type="button" class="theme-toggle" aria-label="Theme: follows the sun" title="Theme: follows the sun">
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+        <span class="theme-mode">Auto</span>
+      </button>
       <a href="#services">Services</a>
       <a href="#projects">Work</a>
       <a href="#about">About</a>
-      <a href="#contact" class="topnav-cta">Let's talk</a>
+      <a href="https://calendly.com/soumithbuilds/30min" class="topnav-cta" target="_blank" rel="noopener noreferrer">Book a call</a>
     </nav>
   </header>
 
   <div class="loader" aria-hidden="true"><span class="loader-bar"></span></div>
 
   <main id="story">
+    <div class="thread" aria-hidden="true"><i class="thread-fill"></i><b class="thread-head"></b></div>
 
     <!-- ─────────────────────────── HERO ─────────────────────────── -->
     <section id="hero" class="scene scene--hero" data-scene="hero">
       <div class="panel">
         <p class="eyebrow reveal">Sowmith Kuppa · AI automation engineer</p>
         <h1 class="display reveal">I build AI that does <em>the busywork.</em></h1>
-        <p class="lede reveal">I design and ship AI workflows, agents and RAG systems that take repetitive work off your team's plate. They run on production-grade infrastructure, so they keep working long after launch.</p>
+        <p class="lede reveal">I help teams automate the repetitive work eating their week, with AI workflows, agents and document search that keep running after launch.</p>
         <div class="cta-row reveal">
-          <a href="#services" class="btn btn--ink">What I can build for you</a>
-          <a href="#contact" class="btn btn--ghost">Get in touch</a>
+          <a href="https://calendly.com/soumithbuilds/30min" class="btn btn--ink" target="_blank" rel="noopener noreferrer">Book a free automation review</a>
+          <a href="#projects" class="btn btn--ghost">See my work</a>
         </div>
         <p class="scroll-hint reveal"><span class="scroll-line"></span>Scroll</p>
       </div>
@@ -65,27 +101,23 @@
 
         <div class="viz viz-pile" aria-hidden="true">
           <div class="pile"></div>
-          <div class="clock">
-            <span class="clock-label">Tasks piling up</span>
-            <span class="clock-value js-tasks">0</span>
-            <span class="clock-bar"><i class="js-tasks-bar"></i></span>
-          </div>
+          <p class="pile-note">And the pile grows every week.</p>
         </div>
       </div>
     </section>
 
-    <!-- ─────────────────────────── 02 HOW I FIX IT ─────────────────────────── -->
+    <!-- ─────────────────────────── 02 HOW WE WORK ─────────────────────────── -->
     <section id="build" class="scene scene--long" data-scene="build">
       <div class="panel">
-        <p class="label reveal">02 / How I fix it</p>
-        <h2 class="headline reveal">I match each problem to the right AI system.</h2>
-        <p class="body reveal">I start by finding where your team's hours actually go. Then I build what fits: an automated workflow, an agent, search over your own knowledge, or a model running in production. It all plugs into the tools you already use.</p>
+        <p class="label reveal">02 / How we'd work together</p>
+        <h2 class="headline reveal">You bring the problem. I'll build the solution.</h2>
+        <p class="body reveal">You don't need to know what's possible with AI before we talk. Finding the right fix is my job, and every project follows the same simple path.</p>
 
-        <ol class="viz viz-flow" aria-label="How I work: find the hours, choose the fix, build it into your tools, run it in production">
-          <li class="node"><span class="node-icon">01</span><span class="node-text">Find where the hours go</span></li>
-          <li class="node"><span class="node-icon">02</span><span class="node-text">Choose the fix: workflow, agent, knowledge search or ML model</span></li>
-          <li class="node"><span class="node-icon">03</span><span class="node-text">Build it into Teams, Slack, Excel or your own systems</span></li>
-          <li class="node"><span class="node-icon">04</span><span class="node-text">Run it in production, monitored and built to stay up</span></li>
+        <ol class="viz viz-flow" aria-label="How a project goes: review call, proposal, build, handover and support">
+          <li class="node"><span class="node-icon">01</span><span class="node-text"><b>Free 30-min review.</b> We find where your team's hours go.</span></li>
+          <li class="node"><span class="node-icon">02</span><span class="node-text"><b>Proposal.</b> What I'd build, with a clear scope, price and timeline.</span></li>
+          <li class="node"><span class="node-icon">03</span><span class="node-text"><b>Build.</b> Inside the tools you already use, with check-ins along the way.</span></li>
+          <li class="node"><span class="node-icon">04</span><span class="node-text"><b>Handover &amp; support.</b> It runs, it's monitored, and your team knows how to use it.</span></li>
         </ol>
       </div>
     </section>
@@ -101,58 +133,58 @@
         </div>
         <p class="body reveal">Then it just runs. Here's what I can build, whether you need it delivered as a project or want me as an engineer on your team.</p>
         <ul class="services">
-          <li class="service"><b>AI workflow automation</b><span>Document processing, data entry, reporting and hand-offs between tools, done in minutes instead of hours.</span></li>
+          <li class="service"><b>AI workflow automation</b><span>Document processing, data entry, reporting and hand-offs between tools.</span></li>
           <li class="service"><b>Set up AI agents &amp; assistants</b><span>Agents that answer questions, triage requests and take actions across your systems.</span></li>
-          <li class="service"><b>Search over your knowledge</b><span>RAG systems that let people ask your docs, wikis and records a question and get a sourced answer.</span></li>
-          <li class="service"><b>Production ML &amp; MLOps</b><span>Deploying, monitoring and scaling models on Kubernetes, GCP and AWS, built to stay up.</span></li>
+          <li class="service"><b>Search over your knowledge</b><span>Ask your docs, wikis and records a question and get a sourced answer.</span></li>
+          <li class="service"><b>Production ML &amp; MLOps</b><span>Deploying, monitoring and scaling models on Kubernetes, GCP and AWS.</span></li>
         </ul>
       </div>
     </section>
 
-    <!-- ─────────────────────────── 04 WORK ─────────────────────────── -->
+    <!-- ─────────────────────────── 04 CASE STUDIES ─────────────────────────── -->
     <section id="projects" class="scene scene--long" data-scene="projects">
       <div class="panel">
         <p class="label reveal">04 / Selected work</p>
-        <h2 class="headline reveal">Systems I've designed and shipped.</h2>
+        <h2 class="headline reveal">Problems I've solved.</h2>
 
-        <div class="cards">
-          <article class="card card--lead">
-            <p class="card-meta"><span class="tag tag--accent">Flagship</span>Since Jan 2025 · Private</p>
-            <h3>MedSim</h3>
-            <p>A virtual patient simulator with an automated OSCE-style evaluation engine that scores clinical performance in real time. Hybrid RAG on GCP with Vertex AI Vector Search and Gemini 2.5 Pro, re-architected into microservices on Cloud Run.</p>
-            <p class="chips"><span>RAG</span><span>FastAPI</span><span>React</span><span>Vertex AI</span><span>Cloud Run</span></p>
+        <div class="cases">
+          <article class="card case">
+            <p class="card-meta"><span class="tag">Workflow automation</span>EVMS/ODU medical education</p>
+            <h3>PDF → Excel in Microsoft Teams</h3>
+            <dl class="case-steps">
+              <div><dt>Problem</dt><dd>Staff spent hours typing data from PDFs into Excel by hand.</dd></div>
+              <div><dt>What I built</dt><dd>A Teams workflow: drop the PDFs in a folder, get a clean, readable spreadsheet back.</dd></div>
+              <div><dt>Result</dt><dd class="result">6 hours → 1 minute</dd></div>
+            </dl>
           </article>
-          <article class="card">
-            <p class="card-meta"><span class="tag">Automation</span>EVMS/ODU</p>
-            <h3>PDF → Excel in Teams</h3>
-            <p>A medical education department typed PDF data into Excel by hand. Now they drop the PDFs in a Teams folder and get a clean spreadsheet back.</p>
-            <p class="impact">6 hours → 1 minute</p>
+          <article class="card case">
+            <p class="card-meta"><span class="tag">AI simulation</span>Since Jan 2025 · Private</p>
+            <h3>MedSim, virtual patient simulator</h3>
+            <dl class="case-steps">
+              <div><dt>Problem</dt><dd>Medical students rarely get enough practice talking to patients in a second language.</dd></div>
+              <div><dt>What I built</dt><dd>AI virtual patients students can practice with, plus an engine that evaluates each session. Hybrid RAG on GCP with Vertex AI and Gemini 2.5 Pro.</dd></div>
+              <div><dt>Result</dt><dd class="result">Helping medical students become bilingual clinicians</dd></div>
+            </dl>
           </article>
-          <article class="card">
-            <p class="card-meta"><span class="tag">AI / ML</span>Oct 2025</p>
-            <h3>Clinical-Copilot</h3>
-            <p>An assistant that helps clinicians with decision-making and medical knowledge retrieval, built on RAG pipelines and LLMs.</p>
-            <a class="card-link" href="https://github.com/s0umith29/Clinical-Copilot" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-          </article>
-          <article class="card">
+          <article class="card case">
             <p class="card-meta"><span class="tag">AI agent</span>Sep 2025</p>
-            <h3>Manuscript</h3>
-            <p>An AI agent for internal documentation: intelligent search, retrieval and knowledge extraction over a team's docs.</p>
+            <h3>Manuscript, an agent for internal docs</h3>
+            <dl class="case-steps">
+              <div><dt>Problem</dt><dd>Answers were buried across a team's internal documentation.</dd></div>
+              <div><dt>What I built</dt><dd>An AI agent that searches the docs, retrieves the right passages and answers in plain English.</dd></div>
+              <div><dt>Result</dt><dd class="result">Ask a question, get the answer with its source</dd></div>
+            </dl>
             <a class="card-link" href="https://github.com/s0umith29/Manuscript" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
           </article>
-          <article class="card">
-            <p class="card-meta"><span class="tag">MLOps</span>Feb 2025</p>
-            <h3>AI-monitoring</h3>
-            <p>Production ML monitoring and orchestration on Kubeflow, with full lifecycle management for ML workflows.</p>
-            <a class="card-link" href="https://github.com/s0umith29/AI-monitoring" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-          </article>
-          <article class="card">
-            <p class="card-meta"><span class="tag">ML</span>Jun 2022</p>
-            <h3>Transgaurd</h3>
-            <p>Real-time fraud detection that classifies financial transactions as fraudulent or legitimate.</p>
-            <a class="card-link" href="https://github.com/s0umith29/Transgaurd" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-          </article>
         </div>
+
+        <div class="more reveal">
+          <p class="more-label">More projects</p>
+          <a href="https://github.com/s0umith29/Clinical-Copilot" target="_blank" rel="noopener noreferrer"><b>Clinical-Copilot</b><span>RAG assistant for clinical decisions</span></a>
+          <a href="https://github.com/s0umith29/AI-monitoring" target="_blank" rel="noopener noreferrer"><b>AI-monitoring</b><span>ML monitoring on Kubeflow</span></a>
+          <a href="https://github.com/s0umith29/Transgaurd" target="_blank" rel="noopener noreferrer"><b>Transgaurd</b><span>Real-time fraud detection</span></a>
+        </div>
+        <p class="stack reveal">Tools I work with: Python, PyTorch, RAG, agentic AI, Kubernetes, Terraform, Docker, GCP, AWS, Vertex AI, Prometheus, Grafana.</p>
       </div>
     </section>
 
@@ -160,8 +192,8 @@
     <section id="about" class="scene" data-scene="background">
       <div class="panel">
         <p class="label reveal">05 / About me</p>
-        <h2 class="headline reveal">Ops engineer first. That's why my systems stay up.</h2>
-        <p class="body reveal">I spent years in IT consulting and systems administration, running large Windows and Linux fleets and automating them with Ansible, Terraform, Jenkins and Kubernetes. Then I went deep on machine learning for my M.Sc. Today I'm a Health Data Systems Intern at EVMS/ODU, building automation tools and HIPAA-compliant IT documentation. I build things that keep working long after launch day.</p>
+        <h2 class="headline reveal">Years of keeping systems running. Now I build AI on top of them.</h2>
+        <p class="body reveal">I spent years in IT consulting and systems administration before an M.Sc. in machine learning. So the things I build are designed to run every day, securely, without someone babysitting them. I currently build automation tools for health data systems at EVMS/ODU.</p>
         <div class="creds reveal">
           <div class="badge">
             <span class="badge-mark">CKA</span>
@@ -172,7 +204,6 @@
             <span><b>M.Sc. Computer Science</b><small>Old Dominion University</small></span>
           </div>
         </div>
-        <p class="chips chips--wide reveal"><span>Python</span><span>PyTorch</span><span>RAG</span><span>Agentic AI</span><span>Kubernetes</span><span>Terraform</span><span>GCP</span><span>AWS</span><span>Vertex AI</span><span>Docker</span><span>Prometheus</span><span>Grafana</span></p>
       </div>
     </section>
 
@@ -192,10 +223,15 @@
         <p class="label reveal">07 / Let's talk</p>
         <h2 class="headline reveal">Let's find the hours your team is losing.</h2>
         <div class="paths reveal">
-          <a class="path" href="mailto:soumith.odu@gmail.com?subject=Automation%20project">
-            <small>Have work to automate?</small>
-            <b>soumith.odu@gmail.com</b>
-            <span>Tell me what's slow and repetitive and I'll reply with how I'd automate it. →</span>
+          <a class="path path--book" href="https://calendly.com/soumithbuilds/30min" target="_blank" rel="noopener noreferrer">
+            <small>Free · 30 minutes · No commitment</small>
+            <b>Book an automation review</b>
+            <span>You'll leave the call knowing which of your processes are worth automating. →</span>
+          </a>
+          <a class="path path--mail" href="mailto:soumith.odu@gmail.com?subject=Automation%20project">
+            <small>Prefer email?</small>
+            <b>Email me</b>
+            <span>Tell me what's slow and repetitive and I'll reply with how I'd automate it.</span>
           </a>
           <div class="path path--links">
             <small>Hiring?</small>
