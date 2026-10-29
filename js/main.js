@@ -137,7 +137,7 @@ function initStage() {
     const i = order[next++];
     const img = new Image();
     img.decoding = 'async';
-    if (next <= heroCount) img.fetchPriority = 'high';
+    if (next === 1) img.fetchPriority = 'high';                            // the first pose; the rest must not crowd the page itself
     // load/error events always fire; decode() can stall indefinitely in background tabs
     img.onload = img.onerror = () => {
       if (img.naturalWidth) frames[i] = img;
@@ -715,7 +715,8 @@ function initReveals() {
     document.querySelectorAll(REVEALS).forEach(el => el.classList.add('in'));
     return;
   }
-  document.querySelectorAll('.display, .headline').forEach(splitWords);
+  // section headlines rise word by word; the hero headline animates with CSS so it paints immediately
+  document.querySelectorAll('.headline').forEach(splitWords);
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
   }, { threshold: 0.2 });

@@ -732,7 +732,4 @@ body.can-wave { cursor: pointer; }
   animation-delay: calc(120ms + var(--d, 0) * 80ms);
 }
 @keyframes hero-in { from { opacity: 0; transform: translateY(24px); filter: blur(6px); } }
-.scene--hero .reveal.split { animation: none; }
-.scene--hero .wi { transform: none; animation: word-up 1s var(--ease) both; animation-delay: calc(100ms + var(--wi) * 45ms); }
-@keyframes word-up { from { transform: translateY(110%); } }
-@media (prefers-reduced-motion: reduce) { .scene--hero .reveal, .scene--hero .wi { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .scene--hero .reveal { animation: none; } }
