@@ -9,7 +9,7 @@ SEGMENTS = [   # (folder, storyboard section)
     ('09_background', 'background'), ('10_websites', 'websites'), ('11_contact', 'contact'),
 ]
 XF = 4                                  # crossfade length in frames
-OUT = '../sequence'
+OUT = os.environ.get('SEQ_OUT', '../sequence')        # the HD rebuild writes to ../sequence_hd
 shutil.rmtree(OUT, ignore_errors=True); os.makedirs(OUT)
 seq, manifest = [], []
 for folder, section in SEGMENTS:
@@ -25,5 +25,5 @@ for folder, section in SEGMENTS:
     manifest.append({'segment': folder, 'section': section, 'start': start, 'end': len(seq)-1})
 for i, im in enumerate(seq): im.save(f'{OUT}/{i+1:04d}.jpg', quality=95)
 json.dump({'fps': 24, 'frames': len(seq), 'segments': manifest}, open(f'{OUT}/manifest.json','w'), indent=1)
-os.system(f'ffmpeg -v error -y -framerate 24 -i {OUT}/%04d.jpg -pix_fmt yuv420p -crf 18 ../sequence_preview.mp4')
+if OUT == '../sequence': os.system(f'ffmpeg -v error -y -framerate 24 -i {OUT}/%04d.jpg -pix_fmt yuv420p -crf 18 ../sequence_preview.mp4')
 print('frames', len(seq))

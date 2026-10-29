@@ -421,11 +421,10 @@ b { font-weight: 600; }
   display: flex;
   align-items: center;
   gap: 16px;
-  opacity: .35;
   transform: translateX(-6px);
-  transition: opacity .6s var(--ease), transform .6s var(--ease);
+  transition: transform .6s var(--ease);
 }
-.node.on { opacity: 1; transform: none; }
+.node.on { transform: none; }      /* text stays readable; the icon shows whether a step is reached */
 .node-icon {
   width: 48px; height: 48px;
   flex: none;
@@ -698,3 +697,42 @@ body.can-wave { cursor: pointer; }
   transition: opacity .25s var(--ease), transform .45s var(--ease);
 }
 .say-hi.show { opacity: 1; transform: translate(0, -100%) scale(1); }
+
+/* ─────────────────────────── Accessibility ─────────────────────────── */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+/* hidden until a keyboard user tabs to it */
+.skip-link, .say-hi-key {
+  position: fixed;
+  left: 16px;
+  z-index: 40;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--solid-bot);
+  color: var(--solid-ink);
+  font: 500 14px/1 var(--sans);
+  transform: translateY(-160px);                 /* fully off-screen until focused */
+  transition: transform .3s var(--ease);
+}
+.skip-link { top: 16px; }
+.say-hi-key { top: 64px; border: 0; cursor: pointer; }
+.skip-link:focus-visible, .say-hi-key:focus-visible { transform: none; }
+
+/* The hero animates in with pure CSS from the first frame, so its text counts as painted right away
+   (scroll reveals elsewhere still wait for their section). */
+.scene--hero .reveal {
+  opacity: 1; transform: none; filter: none;
+  animation: hero-in 1s var(--ease) both;
+  animation-delay: calc(120ms + var(--d, 0) * 80ms);
+}
+@keyframes hero-in { from { opacity: 0; transform: translateY(24px); filter: blur(6px); } }
+.scene--hero .reveal.split { animation: none; }
+.scene--hero .wi { transform: none; animation: word-up 1s var(--ease) both; animation-delay: calc(100ms + var(--wi) * 45ms); }
+@keyframes word-up { from { transform: translateY(110%); } }
+@media (prefers-reduced-motion: reduce) { .scene--hero .reveal, .scene--hero .wi { animation: none; } }

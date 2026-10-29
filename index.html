@@ -6,21 +6,27 @@
   <title>Sowmith Kuppa | AI Automation Engineer</title>
   <meta name="description" content="Sowmith Kuppa helps teams automate the repetitive work eating their week, with AI workflows, agents and document search that keep running after launch. Book a free automation review.">
   <meta name="theme-color" content="#F2EAE1">
+  <link rel="icon" type="image/png" href="assets/web/favicon.png">
+  <link rel="apple-touch-icon" href="assets/web/apple-touch-icon.png">
   <meta property="og:title" content="Sowmith Kuppa | AI Automation Engineer">
   <meta property="og:description" content="I build AI that does the busywork. Book a free 30-minute automation review.">
   <meta property="og:image" content="assets/web/frames/d/0062.webp">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- fonts load without blocking the first paint: text shows in a fallback font, then swaps -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
 
-  <link rel="preload" as="image" href="assets/web/frames/d/0001.webp" fetchpriority="high">
-  <link rel="stylesheet" href="css/main.css?v=20">
+  <link rel="stylesheet" href="css/main.css?v=23">
 
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js" defer></script>
-  <script src="js/main.js?v=28" defer></script>
+  <script src="js/main.js?v=30" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#problem">Skip to content</a>
+  <button type="button" class="say-hi-key">Say hi to the character 👋</button>
 
   <!-- ─────────────────────────── STAGE ───────────────────────────
        An illustrated sky that follows the real time of day, with the character
@@ -61,7 +67,7 @@
 
   <header class="topbar">
     <nav class="topnav">
-      <button type="button" class="theme-toggle" aria-label="Theme: follows the sun" title="Theme: follows the sun">
+      <button type="button" class="theme-toggle" aria-label="Auto theme (follows the sun)" title="Auto theme (follows the sun)">
         <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg>
         <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
         <span class="theme-mode">Auto</span>
@@ -69,7 +75,7 @@
       <a href="#services">Services</a>
       <a href="#projects">Work</a>
       <a href="#about">About</a>
-      <a href="https://calendly.com/soumithbuilds/30min" class="topnav-cta" target="_blank" rel="noopener noreferrer">Book a call</a>
+      <a href="https://calendly.com/soumithbuilds/30min" class="topnav-cta" target="_blank" rel="noopener noreferrer">Book a call <span class="sr-only">(opens in a new tab)</span></a>
     </nav>
   </header>
 
@@ -85,7 +91,7 @@
         <h1 class="display reveal">I build AI that does <em>the busywork.</em></h1>
         <p class="lede reveal">I help teams automate the repetitive work eating their week, with AI workflows, agents and document search that keep running after launch.</p>
         <div class="cta-row reveal">
-          <a href="https://calendly.com/soumithbuilds/30min" class="btn btn--ink" target="_blank" rel="noopener noreferrer">Book a free automation review</a>
+          <a href="https://calendly.com/soumithbuilds/30min" class="btn btn--ink" target="_blank" rel="noopener noreferrer">Book a free automation review <span class="sr-only">(opens in a new tab)</span></a>
           <a href="#projects" class="btn btn--ghost">See my work</a>
         </div>
         <p class="scroll-hint reveal"><span class="scroll-line"></span>Scroll</p>
@@ -126,11 +132,12 @@
     <section id="services" class="scene scene--long" data-scene="result">
       <div class="panel">
         <p class="label reveal">03 / What I can build for you</p>
-        <div class="swap" aria-label="Hours become minutes">
-          <span class="swap-before">Hours</span>
-          <span class="swap-arrow">→</span>
-          <span class="swap-after">minutes.</span>
-        </div>
+        <h2 class="swap">
+          <span class="sr-only">Hours become minutes.</span>
+          <span class="swap-before" aria-hidden="true">Hours</span>
+          <span class="swap-arrow" aria-hidden="true">→</span>
+          <span class="swap-after" aria-hidden="true">minutes.</span>
+        </h2>
         <p class="body reveal">Then it just runs. Here's what I can build, whether you need it delivered as a project or want me as an engineer on your team.</p>
         <ul class="services">
           <li class="service"><b>AI workflow automation</b><span>Document processing, data entry, reporting and hand-offs between tools.</span></li>
@@ -174,15 +181,15 @@
               <div><dt>What I built</dt><dd>An AI agent that searches the docs, retrieves the right passages and answers in plain English.</dd></div>
               <div><dt>Result</dt><dd class="result">Ask a question, get the answer with its source</dd></div>
             </dl>
-            <a class="card-link" href="https://github.com/s0umith29/Manuscript" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+            <a class="card-link" href="https://github.com/s0umith29/Manuscript" target="_blank" rel="noopener noreferrer"><span class="sr-only">Manuscript on </span>GitHub<span aria-hidden="true"> ↗</span> <span class="sr-only">(opens in a new tab)</span></a>
           </article>
         </div>
 
         <div class="more reveal">
           <p class="more-label">More projects</p>
-          <a href="https://github.com/s0umith29/Clinical-Copilot" target="_blank" rel="noopener noreferrer"><b>Clinical-Copilot</b><span>RAG assistant for clinical decisions</span></a>
-          <a href="https://github.com/s0umith29/AI-monitoring" target="_blank" rel="noopener noreferrer"><b>AI-monitoring</b><span>ML monitoring on Kubeflow</span></a>
-          <a href="https://github.com/s0umith29/Transgaurd" target="_blank" rel="noopener noreferrer"><b>Transgaurd</b><span>Real-time fraud detection</span></a>
+          <a href="https://github.com/s0umith29/Clinical-Copilot" target="_blank" rel="noopener noreferrer"><b>Clinical-Copilot</b><span>RAG assistant for clinical decisions</span> <span class="sr-only">(opens in a new tab)</span></a>
+          <a href="https://github.com/s0umith29/AI-monitoring" target="_blank" rel="noopener noreferrer"><b>AI-monitoring</b><span>ML monitoring on Kubeflow</span> <span class="sr-only">(opens in a new tab)</span></a>
+          <a href="https://github.com/s0umith29/Transgaurd" target="_blank" rel="noopener noreferrer"><b>Transgaurd</b><span>Real-time fraud detection</span> <span class="sr-only">(opens in a new tab)</span></a>
         </div>
         <p class="stack reveal">Tools I work with: Python, PyTorch, RAG, agentic AI, Kubernetes, Terraform, Docker, GCP, AWS, Vertex AI, Prometheus, Grafana.</p>
       </div>
@@ -223,7 +230,7 @@
         <p class="label reveal">07 / Let's talk</p>
         <h2 class="headline reveal">Let's find the hours your team is losing.</h2>
         <div class="paths reveal">
-          <a class="path path--book" href="https://calendly.com/soumithbuilds/30min" target="_blank" rel="noopener noreferrer">
+          <a class="path path--book" href="https://calendly.com/soumithbuilds/30min" target="_blank" rel="noopener noreferrer" aria-label="Book a free 30-minute automation review (opens Calendly in a new tab)">
             <small>Free · 30 minutes · No commitment</small>
             <b>Book an automation review</b>
             <span>You'll leave the call knowing which of your processes are worth automating. →</span>
@@ -235,12 +242,12 @@
           </a>
           <div class="path path--links">
             <small>Hiring?</small>
-            <a href="https://drive.google.com/file/d/1U6Hsf-wjn4_ZB-bezH0W78lrGrrMrKhg/view?usp=sharing" target="_blank" rel="noopener noreferrer">Résumé ↗</a>
-            <a href="https://linkedin.com/in/soumith29" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
-            <a href="https://github.com/s0umith29" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+            <a href="https://drive.google.com/file/d/1U6Hsf-wjn4_ZB-bezH0W78lrGrrMrKhg/view?usp=sharing" target="_blank" rel="noopener noreferrer">Résumé<span aria-hidden="true"> ↗</span> <span class="sr-only">(opens in a new tab)</span></a>
+            <a href="https://linkedin.com/in/soumith29" target="_blank" rel="noopener noreferrer">LinkedIn<span aria-hidden="true"> ↗</span> <span class="sr-only">(opens in a new tab)</span></a>
+            <a href="https://github.com/s0umith29" target="_blank" rel="noopener noreferrer">GitHub<span aria-hidden="true"> ↗</span> <span class="sr-only">(opens in a new tab)</span></a>
           </div>
         </div>
-        <p class="footnote">© 2026 Sowmith Kuppa · Norfolk, VA</p>
+        <footer class="footnote">© 2026 Sowmith Kuppa · Norfolk, VA</footer>
       </div>
     </section>
 

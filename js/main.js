@@ -19,6 +19,8 @@ const FRAMES = {
 const MONITOR_RIGHT = 0.52;   // right edge of the desk + monitor, as a fraction of frame width
 const CHAR_CENTER   = 0.28;   // character + desk centre, used to frame phones
 const HEADROOM      = 0.15;   // most of the frame's top we may crop before reaching the hair
+// the web frames only cover the part of the (16:9) frame the character and desk occupy: [x0, y0, x1, y1]
+const CROP = [0, 0.17, 0.68, 1];
 const THEME = { bg: 'rgb(242 234 225)', night: 0 };   // kept current by initTheme(); the stage paints with it
 
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -99,7 +101,11 @@ window.addEventListener('DOMContentLoaded', () => {
 function initStage() {
   const canvas = document.getElementById('stage-canvas');
   const ctx = canvas.getContext('2d');
-  const set = isNarrow() ? 'm' : 'd';
+  // phones get 'm'; high-DPI desktops big enough to show the detail get the full-resolution 'h' set
+  const dpr = window.devicePixelRatio || 1;
+  const conn = navigator.connection || {};
+  const lite = !!conn.saveData || /(^|-)2g|3g/.test(conn.effectiveType || '');   // data saver or a slow network
+  const set = isNarrow() || (lite && dpr < 1.5) ? 'm' : !lite && dpr >= 1.5 && window.innerWidth * dpr >= 2200 ? 'h' : 'd';
   const frames = new Array(FRAMES.count).fill(null);
   const loader = document.querySelector('.loader');
   let loaded = 0;
@@ -113,21 +119,31 @@ function initStage() {
   const order = [];
   const seen = new Set();
   const push = i => { if (i < FRAMES.count && !seen.has(i)) { seen.add(i); order.push(i); } };
-  for (let i = 0; i <= FRAMES.sections.hero[1]; i++) push(i);
-  for (const step of [16, 8, 4, 2, 1]) for (let i = 0; i < FRAMES.count; i += step) push(i);
+  for (let i = 0; i <= FRAMES.sections.hero[1]; i += lite ? 2 : 1) push(i);
+  push(FRAMES.sections.hero[1]);                                          // the intro waits for the wave's last frame
+  const heroCount = order.length;
+  // on a slow connection every other frame is enough: neighbouring frames are blended anyway
+  for (const step of lite ? [16, 8, 4, 2] : [16, 8, 4, 2, 1]) for (let i = 0; i < FRAMES.count; i += step) push(i);
+  const total = order.length;
 
-  let next = 0;
+  // the hero wave loads straight away; the rest of the story waits until the page has loaded and the
+  // browser is idle, and pauses while the tab is in the background
+  let next = 0, released = false;
+  const release = () => { if (released) return; released = true; for (let k = 0; k < 6; k++) pump(); };
   const pump = () => {
-    if (next >= order.length) return;
+    if (next >= total) return;
+    if (next >= heroCount && !released) return;
+    if (document.hidden) { document.addEventListener('visibilitychange', pump, { once: true }); return; }
     const i = order[next++];
     const img = new Image();
     img.decoding = 'async';
+    if (next <= heroCount) img.fetchPriority = 'high';
     // load/error events always fire; decode() can stall indefinitely in background tabs
     img.onload = img.onerror = () => {
       if (img.naturalWidth) frames[i] = img;
       loaded++;
-      loader.style.setProperty('--loaded', loaded / FRAMES.count);
-      if (loaded === FRAMES.count) loader.classList.add('done');
+      loader.style.setProperty('--loaded', loaded / total);
+      if (loaded === total) loader.classList.add('done');
       if (heroReady && i === FRAMES.sections.hero[1]) { heroReady(); heroReady = null; }
       lastDrawn = '';
       pump();
@@ -135,6 +151,11 @@ function initStage() {
     img.src = `assets/web/frames/${set}/${String(i + 1).padStart(4, '0')}.webp`;
   };
   for (let k = 0; k < 6; k++) pump();
+  const idle = window.requestIdleCallback || (fn => setTimeout(fn, 300));
+  // give the first screen a head start: the story frames start 1.5 s after load, when the browser is idle
+  const later = () => setTimeout(() => idle(release), 1500);
+  if (document.readyState === 'complete') later();
+  else window.addEventListener('load', later, { once: true });
 
   function resize() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -201,12 +222,13 @@ function initStage() {
         ctx.fillStyle = g;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       }
-      ctx.drawImage(base, dx, dy, dw, dh);
+      const [cx0, cy0, cx1, cy1] = CROP, fx = dx + cx0 * dw, fy = dy + cy0 * dh, fw = (cx1 - cx0) * dw, fh = (cy1 - cy0) * dh;
+      ctx.drawImage(base, fx, fy, fw, fh);
       // blend toward the next frame so motion stays continuous between the 12fps keyframes
       const over = a > 0.02 ? (j === i + 1 ? frames[j] : nearest(j)) : null;
       if (over) {
         ctx.globalAlpha = a;
-        ctx.drawImage(over, dx, dy, dw, dh);
+        ctx.drawImage(over, fx, fy, fw, fh);
         ctx.globalAlpha = 1;
       }
     },
@@ -257,7 +279,8 @@ const SKY = {
 };
 const SKY_NUMBERS = { '--cloud-a': [0.95, 0.9, 0.92, 0.5, 0.28], '--stars': [0, 0.12, 0, 0.55, 1] };
 const MODES = ['auto', 'day', 'night'];
-const MODE_TITLE = { auto: 'Theme: follows the sun', day: 'Theme: day', night: 'Theme: night' };
+// each name starts with the button's visible word, so voice control ("click Auto") works
+const MODE_TITLE = { auto: 'Auto theme (follows the sun)', day: 'Day theme', night: 'Night theme' };
 
 function initTheme(stage, sky) {
   const root = document.documentElement;
@@ -569,12 +592,16 @@ function initWave(stage, currentFrame) {
     bubbleTimer = setTimeout(() => bubble.classList.remove('show'), 2600);
   }
 
-  document.addEventListener('click', e => {
-    if (ignore(e.target) || !inside(e.clientX, e.clientY)) return;
+  function hello() {
     if (atDesk()) { say('Hi! A bit busy building right now 😄'); return; }
     say('Hi there! 👋');
     if (!prefersReduced && !start) start = performance.now();
+  }
+  document.addEventListener('click', e => {
+    if (ignore(e.target) || !inside(e.clientX, e.clientY)) return;
+    hello();
   });
+  document.querySelector('.say-hi-key').addEventListener('click', hello);
   // a pointer cursor over him hints that he's clickable
   document.addEventListener('mousemove', e => {
     document.body.classList.toggle('can-wave', !ignore(e.target) && inside(e.clientX, e.clientY));
@@ -697,6 +724,7 @@ function initReveals() {
 
 // wrap every word in a mask so headlines can rise in word by word (keeps <em> styling intact)
 function splitWords(el) {
+  const sentence = el.textContent.replace(/\s+/g, ' ').trim();
   let n = 0;
   const walk = node => {
     [...node.childNodes].forEach(child => {
@@ -708,6 +736,7 @@ function splitWords(el) {
         if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(' ')); return; }
         const w = document.createElement('span'), wi = document.createElement('span');
         w.className = 'w'; wi.className = 'wi'; wi.textContent = part;
+        w.setAttribute('aria-hidden', 'true');
         wi.style.setProperty('--wi', n++);
         w.appendChild(wi); frag.appendChild(w);
       });
@@ -715,6 +744,7 @@ function splitWords(el) {
     });
   };
   walk(el);
+  el.appendChild(Object.assign(document.createElement('span'), { className: 'sr-only', textContent: sentence }));
   el.classList.add('split');
 }
 

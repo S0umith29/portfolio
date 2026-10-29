@@ -1,8 +1,16 @@
 {
  "count": 660,
- "width": 1600,
- "height": 900,
- "alpha": true,
+ "crop": [
+  0.0,
+  0.17,
+  0.68,
+  1.0
+ ],
+ "sets": {
+  "h": 1741,
+  "d": 1280,
+  "m": 900
+ },
  "sections": {
   "hero": {
    "start": 0,

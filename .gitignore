@@ -27,3 +27,7 @@ assets/sequence/
 assets/sequence_preview.mp4
 assets/clips/raw/
 assets/clips/[0-9][0-9]_*/
+
+# HD rebuild working files (regenerable with tools/rebuild_hd.sh)
+assets/clips_hd/
+assets/sequence_hd/
