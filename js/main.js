@@ -129,6 +129,7 @@ function initStage() {
   // the hero wave loads straight away; the rest of the story waits until the page has loaded and the
   // browser is idle, and pauses while the tab is in the background
   let next = 0, released = false;
+  const retries = {};
   const release = () => { if (released) return; released = true; for (let k = 0; k < 6; k++) pump(); };
   const pump = () => {
     if (next >= total) return;
@@ -141,6 +142,10 @@ function initStage() {
     // load/error events always fire; decode() can stall indefinitely in background tabs
     img.onload = img.onerror = () => {
       if (img.naturalWidth) frames[i] = img;
+      else if ((retries[i] = (retries[i] || 0) + 1) <= 2) {           // a hiccup (e.g. a 503): quietly try again later
+        setTimeout(() => { img.src = `${src}?retry=${retries[i]}`; }, 1500 * retries[i]);
+        return;
+      }
       loaded++;
       loader.style.setProperty('--loaded', loaded / total);
       if (loaded === total) loader.classList.add('done');
@@ -148,7 +153,8 @@ function initStage() {
       lastDrawn = '';
       pump();
     };
-    img.src = `assets/web/frames/${set}/${String(i + 1).padStart(4, '0')}.webp`;
+    const src = `assets/web/frames/${set}/${String(i + 1).padStart(4, '0')}.webp`;
+    img.src = src;
   };
   for (let k = 0; k < 6; k++) pump();
   const idle = window.requestIdleCallback || (fn => setTimeout(fn, 300));
